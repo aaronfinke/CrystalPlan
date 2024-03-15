@@ -1419,7 +1419,7 @@ class InstrumentInelastic(Instrument):
         last_time = time.time()
 
         #Start with +(Large Number) everywhere
-        coverage = self.make_blank_qspace(np.float) + 1e6
+        coverage = self.make_blank_qspace(float) + 1e6
         
         count = 0
         if self.verbose:

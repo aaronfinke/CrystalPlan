@@ -8,7 +8,7 @@ Genes support the following python operators:
 These genes work via classical Mendelian genetics
 """
 
-import sys, new
+import sys
 from random import randrange, random, uniform
 from math import sqrt
 
@@ -578,7 +578,7 @@ def FloatGeneFactory(name, **kw):
     of FloatGene, with class attributes
     set from keywords
     """
-    return new.classobj(name, (FloatGene,), **kw)
+    return FloatGene(**kw)
 
 
 def IntGeneFactory(name, **kw):
@@ -587,7 +587,7 @@ def IntGeneFactory(name, **kw):
     of IntGene, with class attributes
     set from keywords
     """
-    return new.classobj(name, (IntGene,), **kw)
+    return IntGene(**kw)
 
 
 def CharGeneFactory(name, **kw):
@@ -596,7 +596,7 @@ def CharGeneFactory(name, **kw):
     of CharGene, with class attributes
     set from keywords
     """
-    return new.classobj(name, (CharGene,), **kw)
+    return CharGene(**kw)
 
 
 def AsciiCharGeneFactory(name, **kw):
@@ -605,7 +605,7 @@ def AsciiCharGeneFactory(name, **kw):
     of AsciiCharGene, with class attributes
     set from keywords
     """
-    return new.classobj(name, (AsciiCharGene,), **kw)
+    return AsciiCharGene(**kw)
 
 def PrintableCharGeneFactory(name, **kw):
     """
@@ -613,7 +613,7 @@ def PrintableCharGeneFactory(name, **kw):
     of PrintableGene, with class attributes
     set from keywords
     """
-    return new.classobj(name, (AsciiCharGene,), **kw)
+    return AsciiCharGene(**kw)
 
 def DiscreteGeneFactory(name, **kw):
     """
@@ -621,7 +621,7 @@ def DiscreteGeneFactory(name, **kw):
     of DiscreteGene, with class attributes
     set from keywords
     """
-    return new.classobj(name, (DiscreteGene,), **kw)
+    return DiscreteGene(**kw)
 
 # utility functions
 

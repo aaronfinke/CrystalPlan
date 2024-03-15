@@ -73,7 +73,6 @@ import random
 import logging
 
 from time  import time
-from types import BooleanType
 from sys   import platform as sys_platform
 from sys   import stdout as sys_stdout
 
@@ -213,7 +212,7 @@ class GSimpleGA:
       """ Initializator of GSimpleGA """
       if seed: random.seed(seed)
 
-      if type(interactiveMode) != BooleanType:
+      if not isinstance(interactiveMode, bool):
          Util.raiseException("Interactive Mode option must be True or False", TypeError)
       
       if not isinstance(genome, GenomeBase):
@@ -359,7 +358,7 @@ class GSimpleGA:
          The *setInteractiveMode* method.
       
       """
-      if type(flag) != BooleanType:
+      if not isinstance(flag,bool):
          Util.raiseException("Interactive Mode option must be True or False", TypeError)
       self.interactiveMode = flag
 
@@ -418,10 +417,10 @@ class GSimpleGA:
          The `setMultiProcessing` method.
 
       """
-      if type(flag) != BooleanType:
+      if not isinstance(flag,bool):
          Util.raiseException("Multiprocessing option must be True or False", TypeError)
 
-      if type(full_copy) != BooleanType:
+      if not isinstance(full_copy,bool):
          Util.raiseException("Multiprocessing 'full_copy' option must be True or False", TypeError)
 
       self.internalPop.setMultiProcessing(flag, full_copy, number_of_processes)
@@ -557,7 +556,7 @@ class GSimpleGA:
       :param flag: True or False
 
       """
-      if type(flag) != BooleanType:
+      if not isinstance(flag,bool):
          Util.raiseException("Elitism option must be True or False", TypeError)
       self.elitism = flag
 

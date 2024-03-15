@@ -17,7 +17,6 @@ import copy
 import time
 import warnings
 import string
-from string import replace, strip, find
 import numpy as np
 from numpy import array, sin, cos, pi, dot
 import scipy.optimize
@@ -55,15 +54,15 @@ COORD_Z = 2
 def csv_friendly_string(input):
     """Clean-up the input string to make it acceptable for csv output."""
     #Convert to string and strip of whitespace
-    s = strip(str(input))
+    s = str(input).strip()
     #Newlines are bad
-    s = replace(s, '\n', " ")
-    s = replace(s, '\r', " ")
+    s = s.replace('\n', " ")
+    s = s.replace('\r', " ")
     #Replace double quotes with double-double
-    s = replace(s, '"', '""')
+    s = s.replace('"', '""')
 
     #Add quotes if needed
-    found = [(find(s,x)>0) for x in ' ",']
+    found = [(s.find(x)>0) for x in ' ",']
     if any(found):
         s = '"' + s + '"'
 

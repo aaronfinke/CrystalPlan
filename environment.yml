@@ -6,14 +6,13 @@ channels:
   - defaults
 dependencies:
   - python=3.10
-  - traitsui=5.0.0
-  - mayavi=4.5.0
-  - apptools=4.4.0
-  - wxpython=3.0.0
+  - traitsui
+  - mayavi
+  - apptools
+  - wxpython
   - numpy
   - matplotlib
   - vtk
-  - weave
   - scipy
   - gdk-pixbuf
   - atk-1.0

@@ -7,7 +7,7 @@
 #--- Imports ---
 from setuptools import setup, find_packages
 import sys
-from . import CrystalPlan_version
+import CrystalPlan_version
 
 #Two packages: the GUI and the model code
 packages = find_packages()

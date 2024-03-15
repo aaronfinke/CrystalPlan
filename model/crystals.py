@@ -32,8 +32,8 @@ class Crystal(HasTraits):
     description = Str("description")
 
     # For manually specifying the lattice direction lengths
-    lattice_lengths_arr = Array( shape=(1,3), dtype=np.float)
-    lattice_angles_deg_arr = Array( shape=(1,3), dtype=np.float)
+    lattice_lengths_arr = Array( shape=(1,3), dtype=float)
+    lattice_angles_deg_arr = Array( shape=(1,3), dtype=float)
     #Can the lattice exist given these values?
     valid_parameters_yesno = Str("Yes")
 
@@ -50,26 +50,26 @@ class Crystal(HasTraits):
     reflection_condition_name_list = ['Primitive']
 
     #Resulting or input UB matrix
-    ub_matrix = Array( shape=(3,3), dtype=np.float)
+    ub_matrix = Array( shape=(3,3), dtype=float)
 
     #To show the source of the ub matrix
     ub_matrix_is_from = String("manually generated")
 
     #Sample mounting orientation matrix
-    u_matrix = Array( shape=(3,3), dtype=np.float)
+    u_matrix = Array( shape=(3,3), dtype=float)
 
     #Its reciprocal lattice vectors. Uses the physics definition, including the 2pi factor.
-    recip_a = Array( shape=(3,), dtype=np.float)
-    recip_b = Array( shape=(3,), dtype=np.float)
-    recip_c = Array( shape=(3,), dtype=np.float)
+    recip_a = Array( shape=(3,), dtype=float)
+    recip_b = Array( shape=(3,), dtype=float)
+    recip_c = Array( shape=(3,), dtype=float)
 
     # Real crystal lattice vectors, in XYZ coordinates.
-    a = Array( shape=(1,3), dtype=np.float)
-    b = Array( shape=(1,3), dtype=np.float)
-    c = Array( shape=(1,3), dtype=np.float)
+    a = Array( shape=(1,3), dtype=float)
+    b = Array( shape=(1,3), dtype=float)
+    c = Array( shape=(1,3), dtype=float)
 
     #Same info, as a column-wise a,b,c matrix
-    reciprocal_lattice = Array( shape=(3,3), dtype=np.float)
+    reciprocal_lattice = Array( shape=(3,3), dtype=float)
 
     #For loading the UB matrix
     ub_matrix_last_filename = Str

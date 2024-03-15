@@ -422,8 +422,8 @@ class OptimizerController():
         
         #Add it to the list of selected items
         if len(model.instrument.inst.angles) == 1:
-	    model.instrument.inst.sort_positions_by(0)
-        display_thread.select_position_coverage(model.instrument.inst.positions, update_gui=True)
+            model.instrument.inst.sort_positions_by(0)
+            display_thread.select_position_coverage(model.instrument.inst.positions, update_gui=True)
 
         if not event is None: event.Skip()
 
