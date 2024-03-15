@@ -11,10 +11,10 @@ dependencies:
   - apptools=4.4.0
   - jsoncpp=0.10.6
   - wxpython=3.0.0
-  - numpy
-  - matplotlib
+  - numpy=1.15.4
+  - matplotlib=2.2.5
   - vtk
   - weave
-  - scipy
-  - gdk-pixbuf
-  - atk
+  - scipy=1.2.3
+  - gdk-pixbuf=2.42.10
+  - atk-1.0

@@ -1,0 +1,12 @@
+numpy == 1.15.0
+matplotlib == 2.2.5
+vtk 
+weave
+scipy
+gdk-pixbuf
+atk
+traitsui == 5.0.0
+mayavi == 4.5.0
+apptools == 4.4.0
+jsoncpp == 0.10.6
+wxpython == 3.0.0
