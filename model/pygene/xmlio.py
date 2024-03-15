@@ -5,7 +5,7 @@ Mixin class to support pygene objects in
 loading/saving as xml
 """
 
-import StringIO
+import io
 from xml.dom.minidom import getDOMImplementation, parse, parseString
 
 domimpl = getDOMImplementation()
@@ -39,7 +39,7 @@ class PGXmlMixin(object):
         dumps out to xml, returning a string of the raw
         generated xml
         """
-        s = StringIO.StringIO()
+        s = io.StringIO()
         self.xmlDump(s)
         return s.getvalue()
     

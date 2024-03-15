@@ -10,9 +10,9 @@ a single reflection.
 import wx
 
 #--- GUI Imports ---
-import detector_plot
-import gui_utils
-import reflection_placer
+from . import detector_plot
+from . import gui_utils
+from . import reflection_placer
 
 #--- Model Imports ---
 import model
@@ -101,79 +101,79 @@ class PanelReflectionMeasurement(wx.Panel):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PANELREFLECTIONMEASUREMENT,
-              name=u'PanelReflectionMeasurement', parent=prnt, pos=wx.Point(740,
+              name='PanelReflectionMeasurement', parent=prnt, pos=wx.Point(740,
               351), size=wx.Size(self.DEFAULT_WIDTH, 57), style=wx.TAB_TRAVERSAL | wx.SIMPLE_BORDER)
         self.SetClientSize(wx.Size(self.DEFAULT_WIDTH, 57))
         self.SetMinSize(wx.Size(self.DEFAULT_WIDTH, 57))
 
         self.staticTextAngles = wx.StaticText(id=wxID_PANELREFLECTIONMEASUREMENTSTATICTEXTANGLES,
-              label=u'(  0.0,  0.0,  0.0)', name=u'staticTextAngles',
+              label='(  0.0,  0.0,  0.0)', name='staticTextAngles',
               parent=self, pos=wx.Point(72, 0), style=0)
         self.staticTextAngles.SetFont(wx.Font(10, 76, wx.NORMAL, wx.NORMAL,
-              False, u'Courier New'))
-        self.staticTextAngles.SetToolTipString(u'Sample orientation angles of this measurement, and HKL of the reflection.')
+              False, 'Courier New'))
+        self.staticTextAngles.SetToolTipString('Sample orientation angles of this measurement, and HKL of the reflection.')
 
         self.staticTextMeasurementNumber = wx.StaticText(id=wxID_PANELREFLECTIONMEASUREMENTSTATICTEXTMEASUREMENTNUMBER,
-              label=u'#1:', name=u'staticTextMeasurementNumber', parent=self,
+              label='#1:', name='staticTextMeasurementNumber', parent=self,
               pos=wx.Point(0, 0), style=0)
         self.staticTextMeasurementNumber.SetFont(wx.Font(12, wx.SWISS,
-              wx.NORMAL, wx.BOLD, False, u'Sans'))
-        self.staticTextMeasurementNumber.SetToolTipString(u'Id of the measurement for this HKL reflection - starting at 0.')
+              wx.NORMAL, wx.BOLD, False, 'Sans'))
+        self.staticTextMeasurementNumber.SetToolTipString('Id of the measurement for this HKL reflection - starting at 0.')
 
         self.staticTextXLabel = wx.StaticText(id=wxID_PANELREFLECTIONMEASUREMENTSTATICTEXTXLABEL,
-              label=u'X:', name=u'staticTextXLabel', parent=self,
+              label='X:', name='staticTextXLabel', parent=self,
               pos=wx.Point(165, 19), style=0)
 
         self.staticTextYLabel = wx.StaticText(id=wxID_PANELREFLECTIONMEASUREMENTSTATICTEXTYLABEL,
-              label=u'Y:', name=u'staticTextYLabel', parent=self,
+              label='Y:', name='staticTextYLabel', parent=self,
               pos=wx.Point(165, 39), style=0)
 
         self.staticTextWLLabel = wx.StaticText(id=wxID_PANELREFLECTIONMEASUREMENTSTATICTEXTWLLABEL,
-              label=u'wl:', name=u'staticTextWLLabel', parent=self,
+              label='wl:', name='staticTextWLLabel', parent=self,
               pos=wx.Point(0, 39), style=0)
 
         self.staticTextX = wx.StaticText(id=wxID_PANELREFLECTIONMEASUREMENTSTATICTEXTX,
-              label=u'0.00 mm', name=u'staticTextX', parent=self,
+              label='0.00 mm', name='staticTextX', parent=self,
               pos=wx.Point(217, 19), style=0)
-        self.staticTextX.SetToolTipString(u'Horizontal position of the reflection on the detector (0=center)')
+        self.staticTextX.SetToolTipString('Horizontal position of the reflection on the detector (0=center)')
 
         self.staticTextY = wx.StaticText(id=wxID_PANELREFLECTIONMEASUREMENTSTATICTEXTY,
-              label=u'0.00 mm', name=u'staticTextY', parent=self,
+              label='0.00 mm', name='staticTextY', parent=self,
               pos=wx.Point(217, 39), size=wx.Size(110, 17), style=0)
-        self.staticTextY.SetToolTipString(u'Vertical position of the reflection on the detector (0=center)')
+        self.staticTextY.SetToolTipString('Vertical position of the reflection on the detector (0=center)')
 
-        self.staticTextIntegratedLabel = wx.StaticText(label=u'I:',
+        self.staticTextIntegratedLabel = wx.StaticText(label='I:',
                 parent=self, style=0)
-        self.staticTextIntegrated = wx.StaticText(label=u'0.0 ct', parent=self, style=0)
-        self.staticTextIntegrated.SetToolTipString(u'Integrated counts under peak.')
+        self.staticTextIntegrated = wx.StaticText(label='0.0 ct', parent=self, style=0)
+        self.staticTextIntegrated.SetToolTipString('Integrated counts under peak.')
         self.staticTextIntegratedLabel.Hide()
 
         self.staticTextWL = wx.StaticText(id=wxID_PANELREFLECTIONMEASUREMENTSTATICTEXTWL,
-              label=u'0.00 ang', name=u'staticTextWL', parent=self,
+              label='0.00 ang', name='staticTextWL', parent=self,
               pos=wx.Point(52, 39), style=0)
-        self.staticTextWL.SetToolTipString(u'Wavelength, in angstroms, at which this reflection was detected.')
+        self.staticTextWL.SetToolTipString('Wavelength, in angstroms, at which this reflection was detected.')
 
         self.staticTextDetectorLabel = wx.StaticText(id=wxID_PANELREFLECTIONMEASUREMENTSTATICTEXTDETECTORLABEL,
-              label=u'Det.#:', name=u'staticTextDetectorLabel', parent=self,
+              label='Det.#:', name='staticTextDetectorLabel', parent=self,
               pos=wx.Point(0, 19), style=wx.ST_NO_AUTORESIZE | wx.ALIGN_RIGHT)
 
         self.staticTextDetector = wx.StaticText(id=wxID_PANELREFLECTIONMEASUREMENTSTATICTEXTDETECTOR,
-              label=u'1', name=u'staticTextDetector', parent=self,
+              label='1', name='staticTextDetector', parent=self,
               pos=wx.Point(52, 19), size=wx.Size(110, 17), style=0)
-        self.staticTextDetector.SetToolTipString(u'Detector number that sees this reflection.')
+        self.staticTextDetector.SetToolTipString('Detector number that sees this reflection.')
 
-        self.staticTextWidth = wx.StaticText(label=u'   1.00 mm', name=u'staticTextWidth', parent=self,
+        self.staticTextWidth = wx.StaticText(label='   1.00 mm', name='staticTextWidth', parent=self,
               pos=wx.Point(217, 19), style=0)
 
         #1/2 width unicode symbol
-        self.staticTextWidthLabel = wx.StaticText(label=u'\u00BD-width:', name=u'staticTextWidthLabel', parent=self,
+        self.staticTextWidthLabel = wx.StaticText(label='\u00BD-width:', name='staticTextWidthLabel', parent=self,
               pos=wx.Point(217, 19), style=0)
 
-        self.detectorPlot = detector_plot.DetectorPlot(name=u'detectorPlot', parent=self,
+        self.detectorPlot = detector_plot.DetectorPlot(name='detectorPlot', parent=self,
               pos=wx.Point(52, 19), size=wx.Size(5, 5), style=0,
               center_horizontal=False, center_vertical=False, align_right=True )
 
-        self.buttonPlace = wx.Button(label=u'Place...',
+        self.buttonPlace = wx.Button(label='Place...',
               parent=self, pos=wx.Point(128, 62), size=wx.Size(75, 20), style=0)
         self.buttonPlace.Bind(wx.EVT_BUTTON, self.OnButtonPlace)
         self.buttonPlace.SetToolTipString("Open the reflection placer, to move the spot on the detector by changing sample orientation.")
@@ -192,10 +192,10 @@ class PanelReflectionMeasurement(wx.Panel):
         #Set matching fonts
         for ctl in [self.staticTextX, self.staticTextY, self.staticTextWL,
                     self.staticTextDetector, self.staticTextWidth, self.staticTextIntegrated]:
-            ctl.SetFont(wx.Font(11, 76, wx.NORMAL, wx.NORMAL, False, u'Courier New'))
+            ctl.SetFont(wx.Font(11, 76, wx.NORMAL, wx.NORMAL, False, 'Courier New'))
         for ctl in [self.staticTextXLabel, self.staticTextYLabel, self.staticTextWLLabel,
                     self.staticTextDetectorLabel, self.staticTextWidthLabel, self.staticTextIntegratedLabel]:
-            ctl.SetFont(wx.Font(11, 76, wx.NORMAL, wx.NORMAL, False, u'Courier New'))
+            ctl.SetFont(wx.Font(11, 76, wx.NORMAL, wx.NORMAL, False, 'Courier New'))
 
     #---------------------------------------------------------------------------
     def set_measurement(self, refl, meas):
@@ -226,7 +226,7 @@ class PanelReflectionMeasurement(wx.Panel):
                 pass
 
             self.staticTextDetector.SetLabel(" %s" % (det_name))
-            self.staticTextWL.SetLabel((fmt % meas.wavelength) + u" \u212B") #Angstrom symbol
+            self.staticTextWL.SetLabel((fmt % meas.wavelength) + " \u212B") #Angstrom symbol
             self.staticTextX.SetLabel((fmt % meas.horizontal) + " mm")
             self.staticTextY.SetLabel((fmt % meas.vertical) + " mm")
             self.staticTextMeasurementNumber.SetLabel("#%d:" % meas.measurement_num)
@@ -242,7 +242,7 @@ class PanelReflectionMeasurement(wx.Panel):
                 #Real measurement
                 self.staticTextWidthLabel.SetLabel(" SigI:")
                 self.staticTextWidth.SetLabel((self.fmt_counts % meas.sigI))
-                self.staticTextWidth.SetToolTipString(u'Sigma I of the integrated peak intensity')
+                self.staticTextWidth.SetToolTipString('Sigma I of the integrated peak intensity')
                 self.staticTextIntegrated.SetLabel((self.fmt_counts % meas.integrated))
                 self.flexGridSizer1.InsertWindow(9, self.staticTextIntegrated, 0, border=0, flag=wx.SHRINK)
                 self.staticTextIntegratedLabel.Show()
@@ -252,7 +252,7 @@ class PanelReflectionMeasurement(wx.Panel):
                 # Predicted - normal mode
                 self.staticTextWidthLabel.SetLabel("Width:")
                 self.staticTextWidth.SetLabel((fmt % meas.peak_width) + " mm")
-                self.staticTextWidth.SetToolTipString(u'Half-width of the peak on the detector.')
+                self.staticTextWidth.SetToolTipString('Half-width of the peak on the detector.')
                 self.flexGridSizer1.InsertWindow(9, self.buttonPlace, 0, border=8, flag=wx.EXPAND | wx.RIGHT)
                 # Don't show the place button for 4-circle
                 self.buttonPlace.Show( not gui_utils.fourcircle_mode() )
@@ -267,7 +267,7 @@ class PanelReflectionMeasurement(wx.Panel):
 
 
 if __name__ == "__main__":
-    import gui_utils
+    from . import gui_utils
     model.instrument.inst = model.instrument.InstrumentFourCircle()
     (app, pnl) = gui_utils.test_my_gui(PanelReflectionMeasurement)
     ref = model.reflections.Reflection( (1,2,3), (2., 3., 4.))

@@ -86,23 +86,23 @@ class DialogGoniometerAngles(wx.Dialog):
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Dialog.__init__(self, name=u'DialogEditCrystal',
+        wx.Dialog.__init__(self, name='DialogEditCrystal',
               parent=prnt, pos=wx.Point(202, 235), 
               style= wx.RESIZE_BORDER | wx.DEFAULT_DIALOG_STYLE | wx.MAXIMIZE_BOX | wx.MINIMIZE_BOX,
-              title=u'Advanced Goniometer Settings Editor')
+              title='Advanced Goniometer Settings Editor')
         self.SetClientSize(wx.Size(500, 620))
 
         self.buttonOK = wx.Button(
-              label=u'Ok', name=u'buttonOK', parent=self,
+              label='Ok', name='buttonOK', parent=self,
               pos=wx.Point(16, 563), size=wx.Size(150, 29), style=0)
         self.buttonOK.Bind(wx.EVT_BUTTON, self.OnbuttonOKButton)
 
         self.buttonCancel = wx.Button(
-              label=u'Cancel', name=u'buttonCancel', parent=self, pos=wx.Point(309,
+              label='Cancel', name='buttonCancel', parent=self, pos=wx.Point(309,
               563), size=wx.Size(150, 29), style=0)
         self.buttonCancel.Bind(wx.EVT_BUTTON, self.OnbuttonCancelButton)
 
-        self.notebook = wx.Notebook(name=u'notebook', parent=self, pos=wx.Point(100, 100), size=wx.Size(200,200), style=wx.TAB_TRAVERSAL)
+        self.notebook = wx.Notebook(name='notebook', parent=self, pos=wx.Point(100, 100), size=wx.Size(200,200), style=wx.TAB_TRAVERSAL)
         self.notebook.SetMinSize(wx.Size(-1, -1))
         self.notebook.Show()
 
@@ -212,5 +212,5 @@ if __name__ == "__main__":
     model.goniometer.initialize_goniometers()
 
     g = model.goniometer.TopazInHouseGoniometer()
-    print show_dialog(None, g)
-    print g.name
+    print(show_dialog(None, g))
+    print(g.name)

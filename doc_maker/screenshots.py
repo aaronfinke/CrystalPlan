@@ -22,7 +22,7 @@ def take_screenshot(rect):
     Parameters:
         rect: rectangle definining what to grab, in pixels.
     """
-    print "Taking a screenshot at", rect
+    print("Taking a screenshot at", rect)
     #@type bmp Bitmap
     
     #Create a DC for the whole screen area
@@ -193,7 +193,7 @@ def screenshot_of(window, filename, margin=0, gradient_edge=0, minheight=False):
 def animated_screenshot(scene, filename):
     files = []
     for (i, az) in enumerate(np.arange(0, 360, 10)):
-        print "azimuth", az
+        print("azimuth", az)
         (azim, elev, dist, focalpoint) = scene.mlab.view()
         scene.mlab.view(az, -45, dist, focalpoint)
         fname = "/tmp/frame"+str(i)+".png"

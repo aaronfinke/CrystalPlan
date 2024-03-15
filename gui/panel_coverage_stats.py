@@ -37,36 +37,36 @@ class PanelCoverageStats(wx.Panel):
         self.SetAutoLayout(True)
 
         self.staticTextStats1 = wx.StaticText(id=wx.ID_ANY,
-              label=u'Coverage Statistics:', name=u'staticTextStats1',
+              label='Coverage Statistics:', name='staticTextStats1',
               parent=self, pos=wx.Point(25, 0), style=0)
         self.staticTextStats1.SetFont(wx.Font(11, wx.SWISS, wx.NORMAL, wx.BOLD,
-              False, u'Sans'))
+              False, 'Sans'))
 
-        self.staticTextReflections = wx.StaticText(label=u'111 reflections.', name=u'staticTextReflections',
+        self.staticTextReflections = wx.StaticText(label='111 reflections.', name='staticTextReflections',
               parent=self, pos=wx.Point(0, 26), style=0)
 
         self.staticTextStatsCovered = wx.StaticText(id=wx.ID_ANY,
-              label=u'Coverage %:', name=u'staticTextStatsCovered',
+              label='Coverage %:', name='staticTextStatsCovered',
               parent=self, pos=wx.Point(0, 26), style=0)
 
         self.staticTextStatsRedundant = wx.StaticText(id=wx.ID_ANY,
-              label=u'Redundancy:', name=u'staticTextStatsRedundant',
+              label='Redundancy:', name='staticTextStatsRedundant',
               parent=self, pos=wx.Point(0, 79), style=0)
 
         self.gaugeCoverage = wx.Gauge(id=wx.ID_ANY,
-              name=u'gaugeCoverage', parent=self, pos=wx.Point(0,
+              name='gaugeCoverage', parent=self, pos=wx.Point(0,
               43), range=100, style=wx.GA_HORIZONTAL)
         self.gaugeCoverage.SetValue(0)
-        self.gaugeCoverage.SetLabel(u'')
+        self.gaugeCoverage.SetLabel('')
         self.gaugeCoverage.SetForegroundColour(wx.Colour(0, 0, 0))
         self.gaugeCoverage.SetBezelFace(1)
         self.gaugeCoverage.SetShadowWidth(1)
 
         self.gaugeRedundancy = wx.Gauge(id=wx.ID_ANY,
-              name=u'gaugeRedundancy', parent=self, pos=wx.Point(0,
+              name='gaugeRedundancy', parent=self, pos=wx.Point(0,
               96), range=100, style=wx.GA_HORIZONTAL)
         self.gaugeRedundancy.SetValue(0)
-        self.gaugeRedundancy.SetLabel(u'')
+        self.gaugeRedundancy.SetLabel('')
         self.gaugeRedundancy.SetForegroundColour(wx.Colour(0, 0, 0))
         self.gaugeRedundancy.SetBezelFace(1)
         self.gaugeRedundancy.SetShadowWidth(1)
@@ -92,9 +92,9 @@ class PanelCoverageStats(wx.Panel):
         self.staticTextStatsCovered.SetLabel("Coverage of %5.1f%%:" % coverage_pct)
         self.staticTextStatsRedundant.SetLabel("%5.1f%% measured > once:" % redundant_pct)
         self.gaugeCoverage.SetValue(coverage_pct)
-        self.gaugeCoverage.SetToolTipString(u'Gauge showing the % covered.')
+        self.gaugeCoverage.SetToolTipString('Gauge showing the % covered.')
         self.gaugeRedundancy.SetValue(redundant_pct)
-        self.gaugeRedundancy.SetToolTipString(u'Gauge showing the % measured more than once (redundancy).')
+        self.gaugeRedundancy.SetToolTipString('Gauge showing the % measured more than once (redundancy).')
 
         #Do we see the count of reflections?
         self.staticTextReflections.Hide()
@@ -127,9 +127,9 @@ class PanelCoverageStats(wx.Panel):
         self.staticTextStatsCovered.SetLabel("Coverage of %5.1f%%:" % coverage_pct)
         self.staticTextStatsRedundant.SetLabel("%5.1f%% measured > once:" % redundant_pct)
         self.gaugeCoverage.SetValue(coverage_pct)
-        self.gaugeCoverage.SetToolTipString(u'%d reflections were measured, out of %d' % (stats.measured, stats.total))
+        self.gaugeCoverage.SetToolTipString('%d reflections were measured, out of %d' % (stats.measured, stats.total))
         self.gaugeRedundancy.SetValue(redundant_pct)
-        self.gaugeRedundancy.SetToolTipString(u'%d reflections were measured more than once, out of %d' % (stats.redundant, stats.total))
+        self.gaugeRedundancy.SetToolTipString('%d reflections were measured more than once, out of %d' % (stats.redundant, stats.total))
         #Do we see the count of reflections?
         self.staticTextReflections.Show()
         self.boxSizerStats.Layout()

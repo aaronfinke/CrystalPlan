@@ -24,9 +24,9 @@ import scipy.optimize
 import weave
 
 #--- Model Imports ---
-import numpy_utils
-from numpy_utils import column, vector_length, rotation_matrix, get_translated_vectors, nearest_index
-import utils
+from . import numpy_utils
+from .numpy_utils import column, vector_length, rotation_matrix, get_translated_vectors, nearest_index
+from . import utils
 
 #--- Traits Imports ---
 from traits.api import HasTraits,Int,Float,Str,String,Property,Bool, List, Tuple, Array, Enum
@@ -517,7 +517,7 @@ class Goniometer(HasTraits):
         #Calculate if its allowed
         (allowed, reason) = self.are_angles_allowed(angle_values, return_reason=True)
         #Convert from internal to DAS units.
-        das_angles = [self.angles[i].internal_to_das(angle_values[i]) for i in xrange(len(self.angles))]
+        das_angles = [self.angles[i].internal_to_das(angle_values[i]) for i in range(len(self.angles))]
         stopping_criterion = count_for
         if stopping_criterion == "runtime":
             stopping_criterion = "seconds"
@@ -569,7 +569,7 @@ class LimitedGoniometer(Goniometer):
         reason = ""
         all_angle_infos = self.get_angles() 
 
-        for i in xrange(len(angles)):
+        for i in range(len(angles)):
             #@type AngleInfo ai
             ai = all_angle_infos[i]
             angle = angles[i]
@@ -592,8 +592,8 @@ class LimitedGoniometer(Goniometer):
         # This sample fitness value makes phi less important (since it normally has full freedom)
 
         args = []
-        for i in xrange(3):
-            for j in xrange(2):
+        for i in range(3):
+            for j in range(2):
                 args.append(self.gonio_angles[i].random_range[j])
         args = tuple(args)
 
@@ -878,7 +878,7 @@ class LimitedGoniometer(Goniometer):
 
         #Test that the resulting matrix is still OK
         if False:
-            for index in xrange(len(fitnesses)):
+            for index in range(len(fitnesses)):
                 chi = chi_list[index]
                 phi = phi_list[index]
                 omega = omega_list[index]
@@ -990,7 +990,7 @@ class LimitedGoniometer(Goniometer):
             step = np.deg2rad(2)
             # (best_rot_angle, best_angles) = optimize_c_code(-0.2*pi, pi*2.2, step)
             (best_rot_angle, best_angles) = optimize_c_code(-1.2*pi, pi*1.2, step)
-            for x in xrange(4):
+            for x in range(4):
                 newstep = step/10
                 (best_rot_angle, best_angles) = optimize_c_code(best_rot_angle-step, best_rot_angle+step, newstep)
                 step = newstep
@@ -1071,9 +1071,9 @@ class TOPAZCryoGoniometer(LimitedGoniometer):
     def get_fitness_function_c_code(self):
         #C code for the fitness of phi,chi, omega.
         args = []
-        for i in xrange(1):
+        for i in range(1):
             # Each angle
-            for j in xrange(2):
+            for j in range(2):
                 args.append(self.gonio_angles[i].random_range[j])
         # Last argument is the fixed chi value.
         args.append( np.deg2rad(self.chi) )
@@ -1212,9 +1212,9 @@ class SNAPLimitedGoniometer(LimitedGoniometer):
     def get_fitness_function_c_code(self):
         #C code for the fitness of phi,chi, omega.
         args = []
-        for i in xrange(1):
+        for i in range(1):
             # Each angle
-            for j in xrange(2):
+            for j in range(2):
                 args.append(self.gonio_angles[i].random_range[j])
         # Last argument is the fixed chi value.
         args.append( np.deg2rad(self.chi) )
@@ -1484,8 +1484,8 @@ class MandiVaryOmegaGoniometer(LimitedGoniometer):
     def get_fitness_function_c_code(self):
         #C code for the fitness of phi,chi, omega.
         args = []
-        for i in xrange(2):
-            for j in xrange(2):
+        for i in range(2):
+            for j in range(2):
                 args.append(self.gonio_angles[i].random_range[j])
         # Last argument is the fixed chi value.
         args.append( np.deg2rad(self.chi) )
@@ -1757,8 +1757,8 @@ class ImagineMiniKappaGoniometer(LimitedGoniometer):
     def get_fitness_function_c_code(self):
         #C code for the fitness of phi, kappa, omega.
         args = []
-        for i in xrange(3):
-            for j in xrange(2):
+        for i in range(3):
+            for j in range(2):
                 args.append(self.gonio_angles[i].random_range[j])
         args = tuple(args)
             
@@ -1894,7 +1894,7 @@ class ImagineMiniKappaGoniometer(LimitedGoniometer):
         phi, alpha, kappa, omega = numpy_utils.kappa_from_euler(phi, chi, omega, alpha=alpha)
         angles = [phi, kappa, omega]
         
-        das_angles = [self.angles[i].internal_to_das(angles[i]) for i in xrange(len(self.angles))]
+        das_angles = [self.angles[i].internal_to_das(angles[i]) for i in range(len(self.angles))]
         stopping_criterion = count_for
         if stopping_criterion == "runtime":
             stopping_criterion = "seconds"
@@ -1949,8 +1949,8 @@ class TopazAmbientGoniometer(LimitedGoniometer):
     def get_fitness_function_c_code(self):
         #C code for the fitness of phi,chi, omega.
         args = []
-        for i in xrange(2):
-            for j in xrange(2):
+        for i in range(2):
+            for j in range(2):
                 args.append(self.gonio_angles[i].random_range[j])
         # Last argument is the fixed chi value.
         args.append( np.deg2rad(self.chi) )
@@ -2080,7 +2080,7 @@ class TopazAmbientGoniometer(LimitedGoniometer):
         #Calculate if its allowed
         (allowed, reason) = self.are_angles_allowed(angle_values, return_reason=True)
         #Convert from internal to DAS units.
-        das_angles = [self.angles[i].internal_to_das(angle_values[i]) for i in xrange(len(self.angles))]
+        das_angles = [self.angles[i].internal_to_das(angle_values[i]) for i in range(len(self.angles))]
         stopping_criterion = count_for
         if stopping_criterion == "runtime":
             stopping_criterion = "seconds"
@@ -2495,7 +2495,7 @@ class TopazInHouseGoniometer(LimitedGoniometer):
         
         if visualize:
             pylab.ion() #Turns interaction on (?)
-            print "Calculation started"
+            print("Calculation started")
 
         if angular_resolution < self.ANGULAR_RESOLUTION_MIN:
             warnings.warn("Requested too small angular resolution. Using %s" % self.ANGULAR_RESOLUTION_MIN)
@@ -2524,7 +2524,7 @@ class TopazInHouseGoniometer(LimitedGoniometer):
         #Loop through all the angles
         for i_phi in range(self.phi_list.size):
             phi = self.phi_list[i_phi]
-            print 'Calculating phi = %s' % phi
+            print('Calculating phi = %s' % phi)
             was_anything_in_line = False
             for i_chi in range(self.chi_list.size):
                 chi = self.chi_list[i_chi]
@@ -2556,7 +2556,7 @@ class TopazInHouseGoniometer(LimitedGoniometer):
                 #(end of chi loop)
             #(end of phi loop)
 
-        print "Done!"
+        print("Done!")
                     
         if visualize==1:
             #2D Animated plot
@@ -2756,7 +2756,7 @@ class TopazInHouseGoniometer(LimitedGoniometer):
         #fixed_plate_offset
         fixed_plate_offset = self.fixed_plate - self.fixed_plate_zero
         #Mounts A B C
-        for mount in xrange(3):
+        for mount in range(3):
             output.append(fixed_plate_offset[COORD_X, mount])
             #This is the Y value
             output.append(fixed_plate_offset[COORD_Z, mount])
@@ -2916,8 +2916,8 @@ class CorelliGoniometer(LimitedGoniometer):
     def get_fitness_function_c_code(self):
         #C code for the fitness of phi,chi, omega.
         args = []
-        for i in xrange(2):
-            for j in xrange(2):
+        for i in range(2):
+            for j in range(2):
                 args.append(self.gonio_angles[i].random_range[j])
         # Last argument is the fixed chi value.
         args.append( np.deg2rad(self.omega) )
@@ -3095,7 +3095,7 @@ def sample_pin_position_range():
     positions = np.linspace(-8, 8, n) #Range calculated in mm
     allowed = np.zeros( (n,n,n) )
     for (ix, x) in enumerate(positions):
-        print "Calculating x", x
+        print("Calculating x", x)
         for (iy, y) in enumerate(positions):
             for (iz, z) in enumerate(positions):
                 #Set up
@@ -3107,7 +3107,7 @@ def sample_pin_position_range():
     pylab.figure(1, figsize=[15,15])
     pylab.title("Allowable XZ sample positions")
     for (iy, y) in enumerate(positions):
-        print "At y of", y, ", # of points = ", np.sum( allowed[:, iy,:])
+        print("At y of", y, ", # of points = ", np.sum( allowed[:, iy,:]))
         if iy < 16:
             pylab.subplot(4,4,iy+1)
             pylab.pcolor(positions, positions, allowed[:, iy, :].transpose(), norm=pylab.Normalize(0, 1))

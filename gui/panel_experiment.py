@@ -10,9 +10,9 @@ import wx
 import wx.grid
 
 #--- GUI Imports ---
-import gui_utils
-import display_thread
-import frame_optimizer
+from . import gui_utils
+from . import display_thread
+from . import frame_optimizer
 
 #--- Model Imports ---
 import model
@@ -130,11 +130,11 @@ class ExperimentGridController():
             grid.AppendRows(num_rows-grid.GetNumberRows())
             #Set the editors for the new rows
             choices = model.experiment.get_stopping_criteria_names()
-            for row in xrange(old_num_rows, num_rows):
+            for row in range(old_num_rows, num_rows):
                 grid.SetCellEditor(row, self.criterion_col, wx.grid.GridCellChoiceEditor(choices))
 
         #Font for angles
-        angle_font = wx.Font(10, 76, wx.NORMAL, wx.NORMAL, False, u'Monospace')
+        angle_font = wx.Font(10, 76, wx.NORMAL, wx.NORMAL, False, 'Monospace')
         for (i, poscov) in enumerate(model.instrument.inst.positions):
             row = i
             #The checkbox
@@ -157,7 +157,7 @@ class ExperimentGridController():
                 x = poscov.angles[j] if not ImagineKappa else conv_angles[j]
                 col = j+1
                                 
-                grid.SetCellValue(row, col, u"%8.2f" % angleinfo.internal_to_friendly(x))
+                grid.SetCellValue(row, col, "%8.2f" % angleinfo.internal_to_friendly(x))
                 grid.SetReadOnly(row, col, True) #Do set it read-only
                 grid.SetCellAlignment(row, col, wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
                 grid.SetCellFont(row, col, angle_font)
@@ -366,7 +366,7 @@ class ExperimentGridController():
         for index in row_list:
             #Remove from the selection list too
             poscov = model.instrument.inst.positions[index]
-            if poscov_dict.has_key(id(poscov)):
+            if id(poscov) in poscov_dict:
                 del poscov_dict[id(poscov)]
             #And from the data
             del model.instrument.inst.positions[index]
@@ -486,13 +486,13 @@ class PanelExperiment(wx.Panel):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PANELEXPERIMENT,
-              name=u'PanelExperiment', parent=prnt, pos=wx.Point(633, 252),
+              name='PanelExperiment', parent=prnt, pos=wx.Point(633, 252),
               size=wx.Size(600, 849), style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(600, 849))
         self.SetAutoLayout(True)
 
         self.gridExp = wx.grid.Grid(id=wxID_PANELEXPERIMENTGRIDEXP,
-              name=u'gridExp', parent=self, pos=wx.Point(0, 70),
+              name='gridExp', parent=self, pos=wx.Point(0, 70),
               size=wx.Size(1, 1), style=0)
         self.gridExp.Bind(wx.grid.EVT_GRID_CELL_LEFT_CLICK, self.OnGridExpGridCellLeftClick)
         self.gridExp.Bind(wx.grid.EVT_GRID_CELL_LEFT_DCLICK, self.OnGridExpGridCellLeftDoubleClick)
@@ -504,85 +504,85 @@ class PanelExperiment(wx.Panel):
         self.gridExp.SetToolTipString("Double-click on an angle column header to sort the list by that angle.")
 
         self.staticTextHelp = wx.StaticText(id=wxID_PANELEXPERIMENTSTATICTEXTHELP,
-              label=u'Select the sample orientations you wish to use in the experiment, and the criterion for data acquisition at each orientation.',
-              name=u'staticTextHelp', parent=self, pos=wx.Point(0, 8),
+              label='Select the sample orientations you wish to use in the experiment, and the criterion for data acquisition at each orientation.',
+              name='staticTextHelp', parent=self, pos=wx.Point(0, 8),
               style=0)
         self.staticTextHelp.SetAutoLayout(True)
         if gui_utils.is_mac():
             self.staticTextHelp.Wrap(self.GetSize()[0]-50)
 
         self.staticTextEstimatedTime = wx.StaticText(id=wxID_PANELEXPERIMENTSTATICTEXTESTIMATEDTIME,
-              label=u'Estimated Time:', name=u'staticTextEstimatedTime',
+              label='Estimated Time:', name='staticTextEstimatedTime',
               parent=self, size=wx.Size(100, 35), style=0) #wx.ST_NO_AUTORESIZE)
         self.staticTextEstimatedTime.SetAutoLayout(True)
 
         self.checkUseAll = wx.CheckBox(id=wxID_PANELEXPERIMENTcheckUseAll,
-              label=u'Use All', name=u'checkUseAll', parent=self,
+              label='Use All', name='checkUseAll', parent=self,
               pos=wx.Point(8, 36), size=wx.Size(95, 22), style=0)
         self.checkUseAll.SetValue(True)
         self.checkUseAll.Bind(wx.EVT_CHECKBOX, self.OncheckUseAllCheckbox,
               id=wxID_PANELEXPERIMENTcheckUseAll)
         self.checkUseAll.SetToolTipString("Check the box to use all the sample orientations in the list; uncheck it to clear the list.")
 
-        self.staticTextHighlighted = wx.StaticText(label=u'Highlighted Rows:',
-              name=u'staticTextHighlighted', parent=self, pos=wx.Point(0, 8),
+        self.staticTextHighlighted = wx.StaticText(label='Highlighted Rows:',
+              name='staticTextHighlighted', parent=self, pos=wx.Point(0, 8),
               style=0)
         self.staticTextHighlighted.SetAutoLayout(True)
 
-        self.buttonUseHighlighted = wx.Button(label=u'Use', name=u'buttonUseHighlighted', parent=self,
+        self.buttonUseHighlighted = wx.Button(label='Use', name='buttonUseHighlighted', parent=self,
               pos=wx.Point(4, 734), size=wx.Size(65, 29), style=0)
-        self.buttonUseHighlighted.SetToolTipString(u'Select to use all the highlighted rows in the grid below.')
+        self.buttonUseHighlighted.SetToolTipString('Select to use all the highlighted rows in the grid below.')
         self.buttonUseHighlighted.Bind(wx.EVT_BUTTON, self.OnButtonUseHighlighted)
 
-        self.buttonDontUseHighlighted = wx.Button(label=u" Don't Use ", name=u'buttonDontUseHighlighted', parent=self,
+        self.buttonDontUseHighlighted = wx.Button(label=" Don't Use ", name='buttonDontUseHighlighted', parent=self,
               pos=wx.Point(4, 734), size=wx.Size(95, 29), style=0)
-        self.buttonDontUseHighlighted.SetToolTipString(u'Select not to use all the highlighted rows in the grid below.')
+        self.buttonDontUseHighlighted.SetToolTipString('Select not to use all the highlighted rows in the grid below.')
         self.buttonDontUseHighlighted.Bind(wx.EVT_BUTTON, self.OnButtonDontUseHighlighted)
 
         self.buttonDeleteAll = wx.Button(id=wxID_PANELEXPERIMENTBUTTONDELETEALL,
-              label=u'  Delete All  ', name=u'buttonDeleteAll', parent=self,
+              label='  Delete All  ', name='buttonDeleteAll', parent=self,
               pos=wx.Point(4, 734), style=0)
-        self.buttonDeleteAll.SetToolTipString(u'Delete all the orientations in the list.')
+        self.buttonDeleteAll.SetToolTipString('Delete all the orientations in the list.')
         self.buttonDeleteAll.Bind(wx.EVT_BUTTON, self.OnButtonDeleteAllButton,
               id=wxID_PANELEXPERIMENTBUTTONDELETEALL)
 
         self.buttonDeleteHighlighted = wx.Button(id=wxID_PANELEXPERIMENTBUTTONDELETEHIGHLIGHTED,
-              label=u'  Delete Highlighted  ', name=u'buttonDeleteHighlighted',
+              label='  Delete Highlighted  ', name='buttonDeleteHighlighted',
               parent=self, pos=wx.Point(97, 734), style=0)
-        self.buttonDeleteHighlighted.SetToolTipString(u'Delete the orientations in rows above that are highlighted.')
+        self.buttonDeleteHighlighted.SetToolTipString('Delete the orientations in rows above that are highlighted.')
         self.buttonDeleteHighlighted.Bind(wx.EVT_BUTTON,
               self.OnButtonDeleteHighlightedButton,
               id=wxID_PANELEXPERIMENTBUTTONDELETEHIGHLIGHTED)
 
         self.buttonDeleteUnused = wx.Button(id=wxID_PANELEXPERIMENTBUTTONDELETEUNUSED,
-              label=u'  Delete Unused  ', name=u'buttonDeleteUnused', parent=self,
+              label='  Delete Unused  ', name='buttonDeleteUnused', parent=self,
               pos=wx.Point(249, 734), style=0)
-        self.buttonDeleteUnused.SetToolTipString(u'Delete all the orientations in the list that are unused (unchecked).')
+        self.buttonDeleteUnused.SetToolTipString('Delete all the orientations in the list that are unused (unchecked).')
         self.buttonDeleteUnused.Bind(wx.EVT_BUTTON,
               self.OnButtonDeleteUnusedButton,
               id=wxID_PANELEXPERIMENTBUTTONDELETEUNUSED)
 
         self.buttonSaveToCSV = wx.Button(id=wxID_PANELEXPERIMENTBUTTONSAVETOCSV,
-              label=u'  Save to .CSV file  ', name=u'buttonSaveToCSV', parent=self,
+              label='  Save to .CSV file  ', name='buttonSaveToCSV', parent=self,
               pos=wx.Point(0, 804), style=0)
         self.buttonSaveToCSV.Bind(wx.EVT_BUTTON, self.OnButtonSaveToCSVButton,
               id=wxID_PANELEXPERIMENTBUTTONSAVETOCSV)
         self.buttonSaveToCSV.SetToolTipString("Choose a path to save the list of sample orientations to a .CSV file compatible with PyDas (SNS data acquisition system python scripting).")
 
-        self.buttonOptimizer = wx.Button(id=wx.NewId(), label=u'  Automatic Coverage Optimizer...  ', name=u'buttonOptimizer', parent=self,
+        self.buttonOptimizer = wx.Button(id=wx.NewId(), label='  Automatic Coverage Optimizer...  ', name='buttonOptimizer', parent=self,
               pos=wx.Point(0, 804), style=0)
         self.buttonOptimizer.Bind(wx.EVT_BUTTON, self.OnButtonOptimizer)
         self.buttonOptimizer.SetToolTipString("Open the Experiment Plan Automatic Optimizer window.")
 
         self.buttonRefreshList = wx.Button(id=wxID_PANELEXPERIMENTBUTTONREFRESHLIST,
-              label=u' Refresh List ', name=u'buttonRefreshList', parent=self,
+              label=' Refresh List ', name='buttonRefreshList', parent=self,
               pos=wx.Point(240, 33), style=0)
         self.buttonRefreshList.Bind(wx.EVT_BUTTON,
               self.OnButtonRefreshListButton,
               id=wxID_PANELEXPERIMENTBUTTONREFRESHLIST)
 
         self.buttonChangeStopping = wx.Button(id=wx.NewId(),
-              label=u'  Change Stopping Criteria  ', name=u'buttonChangeStopping', parent=self,
+              label='  Change Stopping Criteria  ', name='buttonChangeStopping', parent=self,
               pos=wx.Point(240, 33), style=0)
         self.buttonChangeStopping.Bind(wx.EVT_BUTTON, self.OnButtonChangeStopping)
         self.buttonChangeStopping.SetToolTipString("Change the stopping criteria and value for all selected rows.")
@@ -636,7 +636,7 @@ class PanelExperiment(wx.Panel):
             if grid.GetSelectionBlockTopLeft()[0][1] == 0  \
                 and grid.GetSelectionBlockBottomRight()[0][1] == grid.GetNumberCols()-1:
                     #Add a list of the selected rows (inclusively)
-                    selection += range(grid.GetSelectionBlockTopLeft()[0][0], grid.GetSelectionBlockBottomRight()[0][0]+1)
+                    selection += list(range(grid.GetSelectionBlockTopLeft()[0][0], grid.GetSelectionBlockBottomRight()[0][0]+1))
         return selection
 
     def OnButtonUseHighlighted(self, event):
@@ -736,7 +736,7 @@ if __name__ == "__main__":
 #    for pos in model.instrument.inst.positions:
 #        pd[ id(pos) ] = True
 #    display_thread.NextParams[model.experiment.PARAM_POSITIONS] = model.experiment.ParamPositions(pd)
-    import gui_utils
+    from . import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelExperiment)
     app.frame.SetClientSize(wx.Size(700,500))
     app.MainLoop()

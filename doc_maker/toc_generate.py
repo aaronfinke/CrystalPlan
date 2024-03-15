@@ -1,6 +1,6 @@
 """Generates TOC from example.html"""
 
-import toc
+from . import toc
 import re
 
 #HEADING_LEVELS = '3-5'
@@ -11,7 +11,7 @@ import re
 def generate_example():
 
     #Do the latex conversion
-    import eqhtml
+    from . import eqhtml
     eqhtml.embed_latex_in_html("../docs/user_guide_source.html", "../docs/user_guide.html")
 
     #---- Put today's date ----
@@ -23,9 +23,9 @@ def generate_example():
     f.close()
 
     #---- Make table of contents ----
-    import toc
+    from . import toc
     toc_inst = toc.Toc()
-    print "converting html of length", len(html)
+    print("converting html of length", len(html))
     file_output = open("../docs/user_guide.html", 'w')
     file_output.write(
         toc_inst.toc_template( '{{toc}}', html, prefix_li=False )

@@ -14,7 +14,7 @@ theta = arange(0, 2*pi, 0.01)
 
 i1 = 100
 i2 = 150
-det = range(i1,i2)
+det = list(range(i1,i2))
 
 cx = cos(theta)
 cy = sin(theta)
@@ -73,7 +73,7 @@ annotate('$1/\lambda_{min}$ sphere  ', (2*L1,0), ha='right' )
 
 x = (mean( cx1[det]) + mean(cx2[det] ))/2
 y = (mean( cy1[det]) + mean(cy2[det] ))/2
-print x, y
+print(x, y)
 annotate('volume\nmeasured', (x,y), ha='center', va='center' )
 
 ylim( (-0.4, 1.2) )

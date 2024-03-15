@@ -12,7 +12,7 @@ from math import *
 import optparse
 
 #--- Model Imports ---
-import crystal_calc
+from . import crystal_calc
 
 
 #-----------------------------------------------------------------
@@ -31,13 +31,13 @@ def read_ISAW_ubmatrix_file(filename, verbose):
     """
 
     if not (os.path.exists(filename)):
-        raise IOError, ("The file %s cannot be found" % filename)
+        raise IOError("The file %s cannot be found" % filename)
         return None
 
     # Read the file.
     #try:
     if True:
-        if verbose: print 'Opening file', filename
+        if verbose: print('Opening file', filename)
         f = open(filename)
 
         #Read the transposed UB matrix. 3x3, first 3 lines
@@ -48,14 +48,14 @@ def read_ISAW_ubmatrix_file(filename, verbose):
             temp = np.fromstring(s, float, 3, ' ')
             UBtransposed = np.vstack((UBtransposed, temp))
 
-        if verbose: print "Transposed UB matrix is:\n", UBtransposed
+        if verbose: print("Transposed UB matrix is:\n", UBtransposed)
 
         #Fourth line: is the unit cell which describes the smallest repeatable unit that can build up
         #the sample in three dimensions:  the first three numbers are a, b, c in Angstroms (10^-8cm)
         # followed by the three angles (in degrees) followed by the volume in Angstroms cubed.
         s = f.readline()
         temp = np.fromstring(s, float, 7, ' ')
-        if verbose: print "Lattice parameters in file are (a,b,c, alpha,beta,gamma, volume):\n", temp
+        if verbose: print("Lattice parameters in file are (a,b,c, alpha,beta,gamma, volume):\n", temp)
 
         #Unit cell sizes in angstroms
         a = temp[0]
@@ -95,7 +95,7 @@ def read_ISAW_ubmatrix_file(filename, verbose):
 
     #Error checking here
     #except:
-        print "Error reading UB matrix file:", sys.exc_info()[0]
+        print("Error reading UB matrix file:", sys.exc_info()[0])
     #finally:
         #Clean up in case of error.
         f.close()
@@ -117,7 +117,7 @@ def read_HFIR_ubmatrix_file(filename):
     """
 
     if not (os.path.exists(filename)):
-        raise IOError, ("The file %s cannot be found" % filename)
+        raise IOError("The file %s cannot be found" % filename)
         return None
 
     f = open(filename)
@@ -169,7 +169,7 @@ def read_HFIR_lattice_parameters_file(filename):
         lattice_angles: tuple of 3 lattice angles in degrees.
     """
     if not (os.path.exists(filename)):
-        raise IOError, ("The file %s cannot be found" % filename)
+        raise IOError("The file %s cannot be found" % filename)
         return None
 
     f = open(filename)
@@ -221,7 +221,7 @@ if __name__ == "__main__":
     (lattice_lengths, lattice_angles, ub_matrix) = read_ISAW_ubmatrix_file(filename, options.verbose)
 
     #Perhaps format ouptput differently.
-    print "Resulting ub_matrix Matrix is:\n", ub_matrix
+    print("Resulting ub_matrix Matrix is:\n", ub_matrix)
 
    
 

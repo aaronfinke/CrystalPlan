@@ -12,9 +12,9 @@ import os.path
 from ctypes import ArgumentError
 import sys
 import os
-from cPickle import loads, dumps
+from pickle import loads, dumps
 import warnings
-import messages
+from . import messages
 import numpy as np
 from numpy import array, sin, cos, pi
 #import scipy.optimize
@@ -24,22 +24,22 @@ import time
 import csv
 
 #--- Model Imports ---
-import numpy_utils
-from numpy_utils import column, rotation_matrix, vector_length, normalize_vector, index_evenly_spaced, az_elev_direction
-import crystal_calc
-from crystal_calc import getq, getq_python
-import goniometer
-from goniometer import Goniometer, TopazInHouseGoniometer
-from detectors import Detector, FlatDetector, CylindricalDetector
-import config
-import utils
+from . import numpy_utils
+from .numpy_utils import column, rotation_matrix, vector_length, normalize_vector, index_evenly_spaced, az_elev_direction
+from . import crystal_calc
+from .crystal_calc import getq, getq_python
+from . import goniometer
+from .goniometer import Goniometer, TopazInHouseGoniometer
+from .detectors import Detector, FlatDetector, CylindricalDetector
+from . import config
+from . import utils
 
 #--- Multiprocessing check ---
 try:
     import multiprocessing
     from multiprocessing import Process, Pool, Queue
     multiprocessing_installed = True
-except ImportError, e:
+except ImportError as e:
     #Python version is likely < 2.6, therefore multiprocessing is not available
     multiprocessing_installed = False
 
@@ -57,7 +57,7 @@ def detector_coverage_process_3D( args):
     #Statusbar update
     #TODO: This notification does nothing in multiprocessing because this function runs in a separate process!
     messages.send_message(messages.MSG_UPDATE_MAIN_STATUSBAR, message)
-    print message
+    print(message)
     #This does the calculation
     coverage = inst.detector_coverage_3D_by_lines(det, set_value)
     #We have the coverage map, return it
@@ -120,7 +120,7 @@ class PositionCoverage:
     #========================================================================================================
     def __setstate__(self, d):
         """Set the state of experiment, using d as the settings dictionary."""
-        for (key, value) in d.items():
+        for (key, value) in list(d.items()):
             setattr(self, key, value)
         self.coverage = None #You need to calculate this later.
 
@@ -252,7 +252,7 @@ class Instrument:
         #Things to NOT load; fix old files.
         exclude_list = ['qlim']
         
-        for (key, value) in d.items():
+        for (key, value) in list(d.items()):
             if not (key in exclude_list):
                 setattr(self, key, value)
 
@@ -297,7 +297,7 @@ class Instrument:
     def load_detectors_file(self, filename):
         """Load the detector geometry from a file; picks the method based on the file extension."""
         if not os.path.exists(filename):
-            print "Error! The supplied detector filename '%s' does not exist. No detectors were loaded." % filename
+            print("Error! The supplied detector filename '%s' does not exist. No detectors were loaded." % filename)
             return
 
         #Save it, for reloading later.
@@ -320,14 +320,14 @@ class Instrument:
 
         try:
             reader = csv.reader( open(filename) )
-            row = reader.next()
+            row = next(reader)
             cylindrical = False
             if row[0].startswith("#Cyl"):
                 cylindrical = True
                 
             # Skip other comment rows
             while True:
-                row = reader.next()
+                row = next(reader)
                 if len(row) > 0:
                     if len(row[0]) > 0:
                         if row[0][0] != '#': break
@@ -457,7 +457,7 @@ class Instrument:
         Calculations of spatial coverage will still need to be redone."""
         #Set these parameters
         self.set_parameters(params)
-        print "change_qspace_size", params
+        print("change_qspace_size", params)
         
         #Start by recalculating the q-space array here.
         self.make_qspace()
@@ -468,7 +468,7 @@ class Instrument:
 
         Parameters:
             params: a dictionary with the key as the name of the attribute."""
-        for (param, value) in params.items():
+        for (param, value) in list(params.items()):
             #Only set an attribute if the name exists already.
             if hasattr(self, param):
                 setattr(self, param, value)
@@ -947,7 +947,7 @@ class Instrument:
                                 if number_of_ints == 2:
                                     coverage[iqx, iqy, iqz, 1] |= set_value2
 
-        if self.verbose:  print " done!"
+        if self.verbose:  print(" done!")
 
         return coverage
 
@@ -1024,7 +1024,7 @@ class Instrument:
         t1 = time.time()
         coverage = self.calculate_coverage(self.detectors, angles, sample_U_matrix=sample_U_matrix)
         if self.verbose:
-            print "instrument.simulate_position done in %s sec." % (time.time()-t1)
+            print("instrument.simulate_position done in %s sec." % (time.time()-t1))
 
         #Create a PositionCoverage object that holds both the position and the coverage
         pos = PositionCoverage(angles, coverage, sample_U_matrix=sample_U_matrix)
@@ -1079,7 +1079,7 @@ class Instrument:
                         else:
                             mask2 = mask2 + 2**(i-31)
                     else:
-                        print "cannot compute total_coverage for detector #%d as it exceed the max of 62 detectors." % i
+                        print("cannot compute total_coverage for detector #%d as it exceed the max of 62 detectors." % i)
 
         #Make sure the list of positions makes sense
         if orientations_used is None:
@@ -1163,7 +1163,7 @@ class Instrument:
             weave.inline(code, varlist, compiler='gcc', support_code = support)
 
 
-        if self.verbose: print "instrument.total_coverage done in %s sec." % (time.time()-t1)
+        if self.verbose: print("instrument.total_coverage done in %s sec." % (time.time()-t1))
 
         return coverage
 
@@ -1490,7 +1490,7 @@ class InstrumentInelastic(Instrument):
                 #Run the C code (see between function declarations for the actual code).
                 weave.inline(self._code_calculate_coverage, varlist, compiler='gcc', support_code=support) # , libraries = ['m'])
 
-                print "C-code: neutron energy gain min", np.min(coverage), "; max", np.max(coverage[coverage <1e6])
+                print("C-code: neutron energy gain min", np.min(coverage), "; max", np.max(coverage[coverage <1e6]))
 
             else:
 #            if True:
@@ -1517,7 +1517,7 @@ class InstrumentInelastic(Instrument):
                         numfrac = int(1.25 * vector_length(q_diff) / self.q_resolution)
                         if numfrac > 0:
                             #If we get numfrac==0, that means nothing can be detected.
-                            for i in xrange(numfrac):
+                            for i in range(numfrac):
                                 #This is the intermediate q
                                 q = q_min + i*q_diff/numfrac
                                 q_unrot = q_min_unrot + i*q_diff_unrot/numfrac
@@ -1545,9 +1545,9 @@ class InstrumentInelastic(Instrument):
 
                                 #Set that energy in the array
                                 coverage[iqx, iqy, iqz] = E
-                print "Python-code: neutron energy gain min", np.min(coverage), "; max", np.max(coverage[coverage <1e6])
+                print("Python-code: neutron energy gain min", np.min(coverage), "; max", np.max(coverage[coverage <1e6]))
 
-        if self.verbose: print " done!"
+        if self.verbose: print(" done!")
 
         return coverage
 
@@ -1638,7 +1638,7 @@ class InstrumentInelastic(Instrument):
             weave.inline(code, varlist, compiler='gcc', support_code = support)
 
 
-        if self.verbose: print "instrument.total_coverage done in %s sec." % (time.time()-t1)
+        if self.verbose: print("instrument.total_coverage done in %s sec." % (time.time()-t1))
 
         return coverage
 
@@ -1688,13 +1688,13 @@ class InstrumentFourCircle(Instrument):
         self.detectors.append(det)
 
     def total_coverage(self, *args, **kwargs):
-        print "total_coverage not implemented for the Four-Circle instrument"
+        print("total_coverage not implemented for the Four-Circle instrument")
 
 #    def simulate_position(self, *args, **kwargs):
 #        print "simulate_position not implemented for the Four-Circle instrument"
 
     def calculate_coverage(self, *args, **kwargs):
-        print "calculate_coverage not implemented for the Four-Circle instrument"
+        print("calculate_coverage not implemented for the Four-Circle instrument")
         return np.array([])
 
 
@@ -1741,9 +1741,9 @@ class TestInelasticInstrument(unittest.TestCase):
         tot_C = np.sum( cov_C < 2e6)
         assert tot_python==tot_C, "Same # covered found with C and python. %d vs %d" % (tot_C, tot_python)
         diff =  cov_C - cov_python
-        print "sum of diff",np.sum(diff)
-        print "# diff",np.sum(abs(diff) > 1e-10)
-        print diff[abs(diff) > 1e-10]
+        print("sum of diff",np.sum(diff))
+        print("# diff",np.sum(abs(diff) > 1e-10))
+        print(diff[abs(diff) > 1e-10])
 #        assert np.allclose(cov_C, cov_python), "Energy values found with C and python are close within float error."
 #        old_min = np.min(cov_C)
 #
@@ -1764,7 +1764,7 @@ class TestInelasticInstrument(unittest.TestCase):
         cov = ti.positions[0].coverage
         total_measured = np.sum( total > 0)
         total_coverage = np.sum( cov < 1e6)
-        print cov.size
+        print(cov.size)
         assert total_measured==total_coverage, "Measured the same # of voxels. We found %d in total_coverage, vs %d in the individual coverage" % (total_measured, total_coverage)
 
 
@@ -1791,7 +1791,7 @@ class TestInstrumentWithDetectors(unittest.TestCase):
         #-- Check q-space creation --
         tst_inst.make_qspace()
         assert not hasattr(tst_inst, 'qspace'), "Instrument should not have a qspace field."
-        self.assertAlmostEquals(tst_inst.qlim, 2*np.pi/0.7, 10, "Correct qlim")
+        self.assertAlmostEqual(tst_inst.qlim, 2*np.pi/0.7, 10, "Correct qlim")
         #-- Check the radius array --
         assert tst_inst.qspace_radius.shape == (120, 120, 120), "Correct qspace_radius shape."
         assert np.allclose(tst_inst.qspace_radius[0,0,0], np.sqrt(3 * tst_inst.qlim**2)) , "qspace_radius value tested"
@@ -1825,7 +1825,7 @@ class TestInstrumentWithDetectors(unittest.TestCase):
         ret = tst_inst.calculate_coverage([None], angles)
         assert not np.any(ret), "calculate_coverage returns 0-initialized array for no detectors."
         #Make a mostly empty list
-        det_list = [None for x in xrange(48)]
+        det_list = [None for x in range(48)]
         my_nums = [0,1]
         if more_det: my_nums += [30, 31, 32, 45]
         for x in my_nums:
@@ -1865,7 +1865,7 @@ class TestInstrumentWithDetectors(unittest.TestCase):
         assert len(redundant) == 0, "evaluate_position_list redundant entries."
         assert len(invalid) == 0, "evaluate_position_list invalid entries."
         for angles in valid:
-            print "test: simulating angles", angles
+            print("test: simulating angles", angles)
             tst_inst.simulate_position(angles, use_multiprocessing=False)
         assert len(tst_inst.positions)==4, "There should be 4 positions saved. There are %d" % len(tst_inst.positions)
         total = 0
@@ -1875,20 +1875,20 @@ class TestInstrumentWithDetectors(unittest.TestCase):
             total += np.sum(poscov.coverage != 0)
             assert isinstance(poscov, PositionCoverage), "PositionCoverage object instance"
         #Do the total coverage
-        print "Total coverage test 1"
+        print("Total coverage test 1")
         cov = tst_inst.total_coverage([False], tst_inst.positions)
         assert np.sum(cov)==0, "total_coverage() should return an empty array when no detectors are used."
-        print "Total coverage test 2"
+        print("Total coverage test 2")
         cov = tst_inst.total_coverage(None, [])
         assert np.sum(cov)==0, "total_coverage() should return an empty array when no positions are used."
-        print "Total coverage test 3"
+        print("Total coverage test 3")
         cov = tst_inst.total_coverage(None, tst_inst.positions)
         cov_sum = np.sum(cov)
         expected = 223107
         assert cov_sum==expected, "total_coverage() total should be %d for these settings, but we got %s." % (expected, cov_sum)
         assert np.sum(cov)==total, "total_coverage() total (%s) should match the total those of each individual position (%s)." % (cov_sum, total)
         #Compare without inline_c
-        print "Total coverage test 4"
+        print("Total coverage test 4")
         cov_python = tst_inst.total_coverage(None, tst_inst.positions, use_inline_c=False)
         assert np.all(cov == cov_python), "total_coverage() gives the same using pure Python as with inline C. There are %d differences." % (np.nonzero(cov == cov_python)[0].size)
 
@@ -1926,7 +1926,7 @@ class TestInstrumentWithDetectors(unittest.TestCase):
         tst_inst.simulate_position([1,2,3], use_multiprocessing=False)
         tst_inst.simulate_position([4,5,6], use_multiprocessing=False)
         datas = dumps(tst_inst)
-        print "Length of dumped is ", len(datas)
+        print("Length of dumped is ", len(datas))
         tst_inst2 = loads(datas)
         assert tst_inst==tst_inst2, "Matching instruments before and after file load."
 

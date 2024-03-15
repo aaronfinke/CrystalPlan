@@ -9,8 +9,8 @@ Created: 2008-08-28
 
 import re
 
-import smallwords
-import odict
+from . import smallwords
+from . import odict
 
 BeautifulSoup = None
 
@@ -116,8 +116,8 @@ class Toc:
         self.last_prefix = str(prefix)
         
         if DEBUG:
-            print "PREFIX: %s" % prefix
-            print "-------------------------"
+            print("PREFIX: %s" % prefix)
+            print("-------------------------")
         
         return str(prefix) + "."
     

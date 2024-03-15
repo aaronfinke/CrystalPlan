@@ -12,20 +12,20 @@ import time
 import threading
 import weave
 import scipy.ndimage
-from cPickle import loads, dumps
+from pickle import loads, dumps
 import os
 
 #--- Model Imports ---
-import instrument
-import goniometer
-import crystals
-import config
-import numpy_utils
-from crystals import Crystal
-from reflections import Reflection, ReflectionRealMeasurement
-import crystal_calc
-from numpy_utils import *
-import utils
+from . import instrument
+from . import goniometer
+from . import crystals
+from . import config
+from . import numpy_utils
+from .crystals import Crystal
+from .reflections import Reflection, ReflectionRealMeasurement
+from . import crystal_calc
+from .numpy_utils import *
+from . import utils
 
 
 #======================================================================================
@@ -163,7 +163,7 @@ class ParamPositions(Params):
     
     def __init__(self, pos_dict):
         if pos_dict is None:
-            raise StandardError("ParamPositions constructor called with a None argument.")
+            raise Exception("ParamPositions constructor called with a None argument.")
         self.positions = pos_dict.copy()
         
     def __eq__(self, other):
@@ -549,7 +549,7 @@ class Experiment:
     def __setstate__(self, d):
         """Set the state of experiment, using d as the settings dictionary."""
         self.initialize()
-        for (key, value) in d.items():
+        for (key, value) in list(d.items()):
             setattr(self, key, value)
         #Ok, now fix everything
         # self.inst should be good though, its own setstate does it.
@@ -621,9 +621,9 @@ class Experiment:
         refls_dict = {}
 
         #Lists of h,k and l
-        h_list = range(int(self.range_h[0]), int(self.range_h[1]+1))
-        k_list = range(int(self.range_k[0]), int(self.range_k[1]+1))
-        l_list = range(int(self.range_l[0]), int(self.range_l[1]+1))
+        h_list = list(range(int(self.range_h[0]), int(self.range_h[1]+1)))
+        k_list = list(range(int(self.range_k[0]), int(self.range_k[1]+1)))
+        l_list = list(range(int(self.range_l[0]), int(self.range_l[1]+1)))
 
         #Overall number of reflections
         num_h, num_k, num_l = (len(h_list), len(k_list), len(l_list))
@@ -664,7 +664,7 @@ class Experiment:
 
         #Create each object, and add to the list
         refls = list()
-        for i in xrange(reflections_hkl.shape[1]):
+        for i in range(reflections_hkl.shape[1]):
             hkl = tuple(reflections_hkl[:, i])
             new_refl = Reflection( hkl, all_q_vectors[:, i] )
             refls.append( new_refl )
@@ -879,7 +879,7 @@ class Experiment:
                 #List of all equivalent reflections
                 equivalent_list = self.get_equivalent_reflections(first_refl)
 
-                if verbose: print "hkl is ", first_refl.hkl
+                if verbose: print("hkl is ", first_refl.hkl)
 
                 #Sort using the criterion
                 sort_me = [(sorting_value(refl), refl) for refl in equivalent_list]
@@ -887,7 +887,7 @@ class Experiment:
 
                 #Mark the primary ones
                 primary_refl = sort_me[0][1]
-                for i in xrange(len(sort_me)):
+                for i in range(len(sort_me)):
                     # @type refl Reflection
                     refl = sort_me[i][1]
                     refl.is_primary = (i==0)
@@ -900,14 +900,14 @@ class Experiment:
                 #Make sure the primary one is primary
                 primary_refl.is_primary = True
 
-                if verbose: print [refl.hkl for (val, refl) in sort_me]
+                if verbose: print([refl.hkl for (val, refl) in sort_me])
 
         #Set the primary mask array
         for (peak_num, refl) in enumerate(self.reflections):
             if refl.is_primary:
                 primary[peak_num] = True
-        print "Primary peaks: ", sum(primary), "out of", len(self.reflections), "peaks. Found in %.3f sec." % (time.time()-t1)
-        if verbose: print [refl.hkl for refl in self.reflections if refl.primary]
+        print("Primary peaks: ", sum(primary), "out of", len(self.reflections), "peaks. Found in %.3f sec." % (time.time()-t1))
+        if verbose: print([refl.hkl for refl in self.reflections if refl.primary])
 
         self.primary_reflections_mask = primary
 
@@ -932,7 +932,7 @@ class Experiment:
         from scipy.stats import norm
 
         #Create 3 normal distribution functions
-        norm_funcs = [norm(loc=hkl[i], scale=delta_hkl[i]) for i in xrange(3)]
+        norm_funcs = [norm(loc=hkl[i], scale=delta_hkl[i]) for i in range(3)]
 
         #Create a 3xN array with the points
         hkl_array = np.vstack( (norm_funcs[0].rvs(num_points), norm_funcs[1].rvs(num_points), norm_funcs[2].rvs(num_points)) )
@@ -990,7 +990,7 @@ class Experiment:
                 poscov_id = id(poscov)
 
                 #Report progress
-                if self.verbose: print "Calculating hkl reflections for angles at ", poscov.angles
+                if self.verbose: print("Calculating hkl reflections for angles at ", poscov.angles)
                 if not calculation_callback is None:
                     if callable(calculation_callback):
                         calculation_callback(poscov)
@@ -1324,8 +1324,8 @@ class Experiment:
             count += 1
             # Report progress
             if progress_dialog is None:
-                print ".",
-                if count % 50 == 0 : print
+                print(".", end=' ')
+                if count % 50 == 0 : print()
                 pass
                 #print "Looking for HKL %d %d %d" % (ref.h, ref.k, ref.l)
             else:
@@ -1360,7 +1360,7 @@ class Experiment:
         #And get some statistics
         self.calculate_reflection_coverage_stats()
         
-        if progress_dialog is None: print "Done!"
+        if progress_dialog is None: print("Done!")
 
 
     #========================================================================================================
@@ -1553,11 +1553,11 @@ class Experiment:
             slice = self.params[PARAM_ENERGY_SLICE] #@type slice ParamSlice
             if slice is None:
                 #Use default slice amounts
-                print "Warning for exp.calculate_coverage(): Energy slice parameter not set. Using defaults."
+                print("Warning for exp.calculate_coverage(): Energy slice parameter not set. Using defaults.")
                 self.qspace = self.inst.total_coverage(detectors, positions_used)
             else:
                 #Use the set parameter
-                print "Doing energy slice of", slice.slice_min, " to ", slice.slice_max
+                print("Doing energy slice of", slice.slice_min, " to ", slice.slice_max)
                 self.qspace = self.inst.total_coverage(detectors, positions_used, slice_min=slice.slice_min, slice_max=slice.slice_max)
         elif isinstance(self.inst, instrument.InstrumentFourCircle):
 
@@ -1580,7 +1580,7 @@ class Experiment:
         #@type pg PointGroup
         pg = self.crystal.get_point_group()
         if pg is None:
-            print "ERROR!"
+            print("ERROR!")
             return
 
         t1 = time.time()
@@ -1594,7 +1594,7 @@ class Experiment:
         numpix = n**3
         symm = np.zeros( (numpix, order) , dtype=int)
 
-        if self.verbose: print "Starting volume symmetry calculation. Order is %d. Matrix is %d voxels (%d to a side)." % (order, n**3, n)
+        if self.verbose: print("Starting volume symmetry calculation. Order is %d. Matrix is %d voxels (%d to a side)." % (order, n**3, n))
 
         #--- From get_hkl_from_q functions: (moved here for speed) --
         #Get the inverse the B matrix to do the reverse conversion
@@ -1622,7 +1622,7 @@ class Experiment:
             #Now get ORDER equivalent HKLs, as a long list.
             #(as equivalent q)
             q_equiv = np.zeros( (3, numpix, order) )
-            for ord in xrange(order):
+            for ord in range(order):
                 #Ok, we go TABLE . hkl to get the equivalent hkl
                 #Them, B . hkl gives you the Q vector
                 q_equiv[:,:, ord] =  np.dot(B,   np.dot(pg.table[ord], hkl) )
@@ -1712,7 +1712,7 @@ class Experiment:
         #Done with either version
         self.volume_symmetry = symm
 
-        if self.verbose: print "Volume symmetry map done in %.3f sec." % (time.time()-t1)
+        if self.verbose: print("Volume symmetry map done in %.3f sec." % (time.time()-t1))
 
 
         
@@ -1792,8 +1792,8 @@ class Experiment:
             #Clear the starting space
             old_q = self.qspace
             new_q = self.qspace * 0
-            for pix in xrange(numpix):
-                for ord in xrange(order):
+            for pix in range(numpix):
+                for ord in range(order):
                     eq_index = symm[pix, ord]
                     if eq_index >= 0:
                         #Add up to this pixel, the equivalent one.
@@ -1802,7 +1802,7 @@ class Experiment:
             self.qspace = new_q
 
         #Done.
-        if self.verbose: print "Volume symmetry computed in %.3f sec." % (time.time()-t1)
+        if self.verbose: print("Volume symmetry computed in %.3f sec." % (time.time()-t1))
 
 
 
@@ -1905,7 +1905,7 @@ class Experiment:
             #Try to create an empty array for 
             if self.qspace is None:
                 if self.inst is None:
-                    raise StandardError("Experiment.get_qspace_displayed() called before experiment.inst was initialised.")
+                    raise Exception("Experiment.get_qspace_displayed() called before experiment.inst was initialised.")
                 else:
                     #Make sure the q-space limits and stuff are initialized
                     self.inst.make_qspace()
@@ -2078,7 +2078,7 @@ class Experiment:
             redundant = 100.0 * redundant_in_sphere/covered_in_sphere
         else:
             redundant = 0
-        if self.verbose: print "overall_coverage_stats took %s sec." % (time.time()-t1)
+        if self.verbose: print("overall_coverage_stats took %s sec." % (time.time()-t1))
         return (coverage, redundant)
 
 
@@ -2214,7 +2214,7 @@ class Experiment:
         if not os.path.exists(filename):
             raise IOError("The file %s does not exist!" % filename)
 
-        print "Loading ISAW peaks/integrate file %s." % filename
+        print("Loading ISAW peaks/integrate file %s." % filename)
 
         errors = []
         angles = [0,0,0]
@@ -2240,12 +2240,12 @@ class Experiment:
                         if detnum>=0 and detnum < len(self.inst.detectors):
                             det = self.inst.detectors[detnum] 
                         else:
-                            print "Warning: Detector number", detnum, "was not found!"
+                            print("Warning: Detector number", detnum, "was not found!")
                     else:
                         det = None
                         detname = "%d" % detnum
                         # Use the detector number as the name
-                        for i in xrange(len(self.inst.detectors)):
+                        for i in range(len(self.inst.detectors)):
                             if self.inst.detectors[i].name == detname:
                                 # Point to the detector
                                 det = self.inst.detectors[i]
@@ -2253,18 +2253,18 @@ class Experiment:
                                 detnum = i
                                 break
                         if det is None:
-                            print "Warning: Detector number", detnum, "was not found!"
+                            print("Warning: Detector number", detnum, "was not found!")
                     
 
                     #Find the angles, convert to radians
-                    (chi, phi, omega) =  [np.deg2rad(float(arr[i])) for i in xrange(3,6)]
+                    (chi, phi, omega) =  [np.deg2rad(float(arr[i])) for i in range(3,6)]
                     angles = np.array( [phi, chi, omega] )
 
 
                 #Marker that this is a peak line
                 if line.startswith("3"):
                     arr = line.split()
-                    (h,k,l) = [int(arr[i]) for i in xrange(2,5)]
+                    (h,k,l) = [int(arr[i]) for i in range(2,5)]
 
                     #Was the peak indexed (hkl is not 0,0,0)?
                     if not ((h,k,l) == (0,0,0)):
@@ -2314,7 +2314,7 @@ class Experiment:
         if not os.path.exists(filename):
             raise IOError("The file %s does not exist!" % filename)
 
-        print "Loading HFIR .int file %s." % filename
+        print("Loading HFIR .int file %s." % filename)
 
         errors = []
         angles = [0,0,0]
@@ -2333,7 +2333,7 @@ class Experiment:
         line = f.readline()
         arr = line.split()
         wavelength = float(arr[0])
-        print "Wavelength was %f Angstroms." % wavelength
+        print("Wavelength was %f Angstroms." % wavelength)
 
         count = 0
 
@@ -2341,7 +2341,7 @@ class Experiment:
         for line in f:
             try:
                 arr = line.split()
-                (h,k,l) = [int(arr[i]) for i in xrange(0,3)]
+                (h,k,l) = [int(arr[i]) for i in range(0,3)]
 
                 #Was the peak indexed (hkl is not 0,0,0)?
                 if not ((h,k,l) == (0,0,0)):
@@ -2394,7 +2394,7 @@ class Experiment:
         #Reload each one
         for filename in self.real_measurement_filenames:
             if not os.path.exists(filename):
-                print "Error loading peaks file: %s. File does not exist!" % filename
+                print("Error loading peaks file: %s. File does not exist!" % filename)
             else:
                 self.load_peaks_file(filename, append=True)
 
@@ -2424,7 +2424,7 @@ class Experiment:
             #Marker that this is a peak line
             if line.startswith("3"):
                 arr = line.split()
-                (h,k,l) = [int(arr[i]) for i in xrange(2,5)]
+                (h,k,l) = [int(arr[i]) for i in range(2,5)]
 
                 #Was the peak indexed (hkl is not 0,0,0)?
                 if not ((h,k,l) == (0,0,0)):
@@ -2739,7 +2739,7 @@ class TestExperiment(unittest.TestCase):
             e.range_l = (-n,n)
             t1 = time.time()
             e.initialize_reflections()
-            print time.time()-t1, " seconds to initialize_reflections for ", (2*n+1)**3
+            print(time.time()-t1, " seconds to initialize_reflections for ", (2*n+1)**3)
 
     def profile_recalculate_reflections(self):
         """Not a test, a profiler example."""
@@ -2756,17 +2756,17 @@ class TestExperiment(unittest.TestCase):
             e.initialize_reflections()
             t1 = time.time()
             e.recalculate_reflections(pos_param)
-            print time.time()-t1, " seconds to recalculate_reflections for ", (2*n+1)**3
+            print(time.time()-t1, " seconds to recalculate_reflections for ", (2*n+1)**3)
             t1 = time.time()
             e.get_reflections_times_measured(pos_param)
-            print time.time()-t1, " seconds to get_reflections_times_measured for ", (2*n+1)**3
+            print(time.time()-t1, " seconds to get_reflections_times_measured for ", (2*n+1)**3)
 
     def _check_get_equivalent_reflections(self, hkl, hkl_list):
         e = self.exp
         message = "point group %s and hkl %s" % (e.crystal.point_group_name, hkl)
         refl_list = e.get_equivalent_reflections(e.get_reflection(hkl[0], hkl[1], hkl[2]))
         found = [tuple([int(x) for x in refl.hkl]) for refl in refl_list]
-        print message, "; found ", found
+        print(message, "; found ", found)
         assert len(found)==len(hkl_list)+1, "correct # of results for %s. We wanted %d results but got %d" % (message, len(hkl_list), len(found))
         for hkl_wanted in hkl_list:
             assert hkl_wanted in found, "hkl %s was found in the list of results for %s" % (hkl_wanted, message)
@@ -2785,8 +2785,8 @@ class TestExperiment(unittest.TestCase):
         #@type e Experiment
         e = self.exp
         e.calculate_reflection_coverage_stats_adjusted(edge_x=5, edge_y=5)
-        print e.reflection_stats
-        print e.reflection_stats_adjusted
+        print(e.reflection_stats)
+        print(e.reflection_stats_adjusted)
 
 
     def test_find_primary_reflections(self):
@@ -2818,11 +2818,11 @@ class TestExperiment(unittest.TestCase):
         e.crystal.point_group_name = crystals.get_point_group_from_name("mmm").long_name
 
         #Compare speed and results
-        print "--- C-code "
+        print("--- C-code ")
         e.initialize_volume_symmetry_map()
         c_map = e.volume_symmetry
         
-        print "--- Python-code "
+        print("--- Python-code ")
         config.cfg.force_pure_python = True
         e.initialize_volume_symmetry_map()
         python_map = e.volume_symmetry
@@ -2832,11 +2832,11 @@ class TestExperiment(unittest.TestCase):
         
         #Do use symmetry
         e.params[PARAM_SYMMETRY] = ParamSymmetry(True)
-        print "--- C-code "
+        print("--- C-code ")
         e.calculate_coverage(None, None)
         qspace_c = e.qspace
         #Now compare the speed with pure python
-        print "--- Python-code "
+        print("--- Python-code ")
         config.cfg.force_pure_python = True
         e.calculate_coverage(None, None)
         qspace_python = e.qspace
@@ -2868,7 +2868,7 @@ class TestExperiment(unittest.TestCase):
         #Now save to a file.
         test_filename = os.path.expanduser("~") + "/test_save.exp"
         save_to_file(e, test_filename)
-        print "Pickled size is", os.path.getsize("test_save.exp")
+        print("Pickled size is", os.path.getsize("test_save.exp"))
         #Load it out
         e2 = load_from_file(test_filename)
         os.remove(test_filename)
@@ -2927,7 +2927,7 @@ class TestExperimentFourCircle(unittest.TestCase):
 
     def test_get_angles_to_measure_hkl(self):
         e = self.exp #@type e Experiment
-        print e.get_angles_to_measure_hkl(1,2,3, 0.01)
+        print(e.get_angles_to_measure_hkl(1,2,3, 0.01))
         e.fourcircle_measure_all_reflections()
 
     def test_ub_matrix(self):
@@ -2948,7 +2948,7 @@ class TestExperimentFourCircle(unittest.TestCase):
                 if len(ref.measurements) > 0:
                     poscovid = ref.measurements[0][0]
                     poscov = e.inst.get_position_by_id(poscovid)
-                    print "HKL", h,k,l, " : ", np.array(poscov.angles)*57.3
+                    print("HKL", h,k,l, " : ", np.array(poscov.angles)*57.3)
 
 if __name__ == "__main__":
 #    unittest.main()

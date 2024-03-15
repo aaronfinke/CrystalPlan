@@ -6,8 +6,8 @@ import wx
 import sys
 import os
 import warnings
-import screenshots
-from screenshots import *
+from . import screenshots
+from .screenshots import *
 
 import time
 from time import sleep
@@ -49,7 +49,7 @@ def waitfor( expression, timeout_sec=10, check_interval_sec=0.01, post_wait_sec=
             return True
         #Delay before checking
         time.sleep(check_interval_sec)
-    print "Warning! waitfor('%s') timed out!" % expression
+    print("Warning! waitfor('%s') timed out!" % expression)
     return False
 
 #-------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ def waitfor_change(timeout_sec=10, check_interval_sec=0.01, post_wait_sec=0.05):
             return True
         #Delay before checking
         time.sleep(check_interval_sec)
-    print "Warning! waitfor_change of %s() timed out!" % _waitfor_function.__name__
+    print("Warning! waitfor_change of %s() timed out!" % _waitfor_function.__name__)
     return False
 
 
@@ -138,7 +138,7 @@ def select_name(widget, entry):
             raise NotImplementedError("Can't send_event on " + widget.Name)
 
     if isinstance(widget, wx.ItemContainer):
-        for i in xrange(widget.GetCount()):
+        for i in range(widget.GetCount()):
             if widget.GetString(i) == entry:
                 widget.SetSelection(i)
                 send_event()
@@ -175,7 +175,7 @@ class UserGuideThread(Thread):
         self._want_abort = True
 
     def run(self):
-        print "-> User guide generation thread starting. Please don't touch anything!"
+        print("-> User guide generation thread starting. Please don't touch anything!")
         fm = self.fm
         fv = self.fv
 
@@ -201,7 +201,7 @@ class UserGuideThread(Thread):
 
         #Now run the script
         for line in self.code:
-            print "-> SCRIPT: " + line
+            print("-> SCRIPT: " + line)
             #Don't process comment lines
             if len(line) > 0 and line[0] != "#":
                 #Execute that line of code
@@ -214,7 +214,7 @@ class UserGuideThread(Thread):
                     wait(50)
 
         #Ok we are done.
-        print "-> Script Complete!"
+        print("-> Script Complete!")
         #Close the main frame to exit the program
         #fm.Destroy()
 
@@ -234,12 +234,12 @@ def make_animated_tab_click(fm):
 #
     rect = fm.notebook.GetScreenRect()
     rect.Height = 45 #This will depend on platform!
-    for i in xrange(fm.notebook.GetPageCount()):
+    for i in range(fm.notebook.GetPageCount()):
         ca(fm.notebook.SetSelection, i)
         wait(50)
         ca(screenshot_of, rect, 'frame_main-tab'+str(i), margin=[10, 10, 20, 50], gradient_edge=5)
 
-    files = ['../docs/screenshots/frame_main-tab'+str(i)+".png" for i in xrange(fm.notebook.GetPageCount())]
+    files = ['../docs/screenshots/frame_main-tab'+str(i)+".png" for i in range(fm.notebook.GetPageCount())]
     #Assemble into animated png
     os.system("../doc_maker/apngasm ../docs/animations/frame_main-tab_anim.png " + " ".join(files) + " 5 10")
     for fname in files:
@@ -263,7 +263,7 @@ def make_animated_phi_rotation(slid, fv, filename):
         
     #Assemble into animated png
     command = "../doc_maker/apngasm ../docs/animations/" + filename + " " + " ".join(files) + " 1 15"
-    print command
+    print(command)
     os.system(command)
 #    for fname in files:
 #        os.remove(fname)
@@ -275,7 +275,7 @@ def pick_a_reflection():
     refl = model.experiment.exp.reflections[np.random.random_integers(0, len(model.experiment.exp.reflections))]
     while (refl.times_measured(add_equivalent_ones=True) < 4) or (not refl.is_primary):
         refl = model.experiment.exp.reflections[np.random.random_integers(0, len(model.experiment.exp.reflections))]
-    print "I picked", refl
+    print("I picked", refl)
 
 
 ##-----------------------------------------------------------------
@@ -715,7 +715,7 @@ def generate_user_guide(fm, fv):
     #Make sure we don't load the .pyc file
     filename = os.path.splitext(__file__)[0] + ".py"
 #    filename = "/home/janik/Code/GenUtils/trunk/python/CrystalPlan/doc_maker/user_guide.py"
-    print "Reading script from", filename
+    print("Reading script from", filename)
     #Read the code
     code = []
     f = open(filename, "rU")
@@ -729,7 +729,7 @@ def generate_user_guide(fm, fv):
             break
         code.append(line.strip()) #remove indent
     f.close()
-    print "... found", len(code), "lines of code."
+    print("... found", len(code), "lines of code.")
 
     #Create the thread and start it
     thread = UserGuideThread(code, fm, fv)

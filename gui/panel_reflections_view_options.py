@@ -10,8 +10,8 @@ in the 3D reciprocal space viewer.
 import wx
 
 #--- GUI Imports ---
-import display_thread
-from slice_control import SliceControl
+from . import display_thread
+from .slice_control import SliceControl
 
 #--- Model Imports ---
 import model
@@ -263,52 +263,52 @@ class PanelReflectionsViewOptions(wx.Panel):
     #-------------------------------------------------------------------------------
     def _init_ctrls(self, prnt):
         wx.Panel.__init__(self, id=wxID_PANELREFLECTIONSVIEWOPTIONS,
-              name=u'PanelReflectionsViewOptions', parent=prnt,
+              name='PanelReflectionsViewOptions', parent=prnt,
               pos=wx.Point(439, 500), size=wx.Size(606, 269),
               style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(606, 269))
 
         self.panel_to_hold_slice_control = wx.Panel(id=wxID_PANELREFLECTIONSVIEWOPTIONSPANEL_TO_HOLD_SLICE_CONTROL,
-              name=u'panel_to_hold_slice_control', parent=self, pos=wx.Point(4,
+              name='panel_to_hold_slice_control', parent=self, pos=wx.Point(4,
               89), size=wx.Size(598, 176),
               style=wx.RAISED_BORDER | wx.THICK_FRAME | wx.TAB_TRAVERSAL)
         self.panel_to_hold_slice_control.SetBackgroundColour(wx.Colour(229, 246,
               245))
 
         self.checkShowSlice = wx.CheckBox(id=wxID_PANELREFLECTIONSVIEWOPTIONSCHECKSHOWSLICE,
-              label=u'Show Slice', name=u'checkShowSlice', parent=self,
+              label='Show Slice', name='checkShowSlice', parent=self,
               pos=wx.Point(4, 67), size=wx.Size(116, 22), style=0)
         self.checkShowSlice.SetValue(True)
         self.checkShowSlice.Bind(wx.EVT_CHECKBOX, self.OnCheckShowSliceCheckbox,
               id=wxID_PANELREFLECTIONSVIEWOPTIONSCHECKSHOWSLICE)
 
         self.choiceView = wx.Choice(choices=ReflectionsViewChoices,
-              id=wxID_PANELREFLECTIONSVIEWOPTIONSCHOICEVIEW, name=u'choiceView',
+              id=wxID_PANELREFLECTIONSVIEWOPTIONSCHOICEVIEW, name='choiceView',
               parent=self, pos=wx.Point(141, 4), size=wx.Size(260, 29),
               style=0)
         self.choiceView.Bind(wx.EVT_CHOICE, self.OnChangeMaskingSettings)
 
         self.staticTextViewOption = wx.StaticText(id=wxID_PANELREFLECTIONSVIEWOPTIONSSTATICTEXTVIEWOPTION,
-              label=u'Show which peaks:', name=u'staticTextViewOption',
+              label='Show which peaks:', name='staticTextViewOption',
               parent=self, pos=wx.Point(8, 10), size=wx.Size(125, 17), style=0)
 
         self.checkHighlightImportant = wx.CheckBox(id=wxID_PANELREFLECTIONSVIEWOPTIONSCHECKHIGHLIGHTIMPORTANT,
-              label=u'Highlight Important Peaks?',
-              name=u'checkHighlightImportant', parent=self, pos=wx.Point(413,
+              label='Highlight Important Peaks?',
+              name='checkHighlightImportant', parent=self, pos=wx.Point(413,
               7), size=wx.Size(215, 22), style=0)
         self.checkHighlightImportant.SetValue(True)
         self.checkHighlightImportant.Hide()
 
         
-        self.checkUseSymmetry = wx.CheckBox(label=u'Use Symmetry?',
-              name=u'checkUseSymmetry', parent=self, style=0)
+        self.checkUseSymmetry = wx.CheckBox(label='Use Symmetry?',
+              name='checkUseSymmetry', parent=self, style=0)
         self.checkUseSymmetry.SetValue(False)
         self.checkUseSymmetry.Bind(wx.EVT_CHECKBOX, self.OnChangeMaskingSettings)
         self.checkUseSymmetry.SetToolTipString("Use the crystal's symmetry to display fewer peaks.")
 
 
         self.checkRealtimeSlice = wx.CheckBox(id=wxID_PANELREFLECTIONSVIEWOPTIONSCHECKREALTIMESLICE,
-              label=u'Real-time update', name=u'checkRealtimeSlice',
+              label='Real-time update', name='checkRealtimeSlice',
               parent=self, pos=wx.Point(128, 67), size=wx.Size(144, 22),
               style=0)
         self.checkRealtimeSlice.SetValue(False)
@@ -317,33 +317,33 @@ class PanelReflectionsViewOptions(wx.Panel):
               id=wxID_PANELREFLECTIONSVIEWOPTIONSCHECKREALTIMESLICE)
 
         self.staticTextDisplayAs = wx.StaticText(id=wxID_PANELREFLECTIONSVIEWOPTIONSSTATICTEXTDISPLAYAS,
-              label=u'Display as:', name=u'staticTextDisplayAs', parent=self,
+              label='Display as:', name='staticTextDisplayAs', parent=self,
               pos=wx.Point(8, 39), size=wx.Size(72, 17), style=0)
 
         self.radioPixels = wx.RadioButton(id=wxID_PANELREFLECTIONSVIEWOPTIONSRADIOPIXELS,
-              label=u'Pixels', name=u'radioPixels', parent=self,
+              label='Pixels', name='radioPixels', parent=self,
               pos=wx.Point(88, 37), size=wx.Size(85, 22), style=wx.RB_GROUP)
         self.radioPixels.SetValue(True)
         self.radioPixels.Bind(wx.EVT_RADIOBUTTON, self.OnChangeDisplaySettings)
 
         self.radioSpheres = wx.RadioButton(id=wxID_PANELREFLECTIONSVIEWOPTIONSRADIOSPHERES,
-              label=u'Spheres', name=u'radioSpheres', parent=self,
+              label='Spheres', name='radioSpheres', parent=self,
               pos=wx.Point(173, 37), size=wx.Size(85, 22), style=0)
         self.radioSpheres.SetValue(True)
         self.radioSpheres.Bind(wx.EVT_RADIOBUTTON, self.OnChangeDisplaySettings)
 
         self.staticTextSize = wx.StaticText(id=wxID_PANELREFLECTIONSVIEWOPTIONSSTATICTEXTSIZE,
-              label=u'Relative Size: ', name=u'staticTextSize', parent=self,
+              label='Relative Size: ', name='staticTextSize', parent=self,
               pos=wx.Point(266, 39), size=wx.Size(93, 17), style=0)
 
         self.sliderSize = wx.Slider(id=wxID_PANELREFLECTIONSVIEWOPTIONSSLIDERSIZE,
-              maxValue=100, minValue=1, name=u'sliderSize', parent=self,
+              maxValue=100, minValue=1, name='sliderSize', parent=self,
               pos=wx.Point(359, 37), size=wx.Size(133, 19),
               style=wx.SL_HORIZONTAL, value=0)
         self.sliderSize.Bind(wx.EVT_COMMAND_SCROLL, self.OnChangeDisplaySettings)
 
         self.checkAutoSize = wx.CheckBox(id=wxID_PANELREFLECTIONSVIEWOPTIONSCHECKAUTOSIZE,
-              label=u'Automatic Size', name=u'checkAutoSize',
+              label='Automatic Size', name='checkAutoSize',
               parent=self, pos=wx.Point(0, 0),
               size=wx.Size(95, 22), style=0)
         self.checkAutoSize.SetValue(False)
@@ -351,17 +351,17 @@ class PanelReflectionsViewOptions(wx.Panel):
 
 
 
-        self.staticTextColor = wx.StaticText(label=u'Color by:', parent=self, style=0)
+        self.staticTextColor = wx.StaticText(label='Color by:', parent=self, style=0)
 
-        self.radioPredicted = wx.RadioButton(label=u'Predicted', parent=self, style=wx.RB_GROUP)
+        self.radioPredicted = wx.RadioButton(label='Predicted', parent=self, style=wx.RB_GROUP)
         self.radioPredicted.Bind(wx.EVT_RADIOBUTTON, self.OnChangeDisplaySettings)
 
-        self.radioMeasured = wx.RadioButton(label=u'Measured', parent=self, style=0)
+        self.radioMeasured = wx.RadioButton(label='Measured', parent=self, style=0)
         self.radioMeasured.Bind(wx.EVT_RADIOBUTTON, self.OnChangeDisplaySettings)
         self.radioPredicted.SetValue(True)
 
-        self.staticTextThreshold = wx.StaticText(label=u'I/sigI threshold', parent=self, style=0)
-        self.textThreshold = wx.TextCtrl(value=u'2.0', parent=self, style=wx.TE_PROCESS_ENTER)
+        self.staticTextThreshold = wx.StaticText(label='I/sigI threshold', parent=self, style=0)
+        self.textThreshold = wx.TextCtrl(value='2.0', parent=self, style=wx.TE_PROCESS_ENTER)
         self.textThreshold.Bind(wx.EVT_TEXT_ENTER, self.OntextThreshold)
         self.textThreshold.Bind(wx.EVT_KILL_FOCUS, self.OnChangeMaskingSettings)
 
@@ -377,7 +377,7 @@ class PanelReflectionsViewOptions(wx.Panel):
         #Continue by adding the custom slicer control
         self.sliceControl = SliceControl(parent=self.panel_to_hold_slice_control,
                 use_slice=False, apply_slice_method=self.controller.apply_slice,
-                id=wx.NewId(), name=u'panel_to_hold_slice_control', pos=wx.Point(8, 16),
+                id=wx.NewId(), name='panel_to_hold_slice_control', pos=wx.Point(8, 16),
                 size=wx.Size(664, 100))
         #Add a sizer that holds only the sliceControl, put in in the panel_to_hold_slice_control, and expand it
         sizer = wx.BoxSizer()
@@ -430,7 +430,7 @@ if __name__ == '__main__':
     model.instrument.inst.make_qspace()
     #Initialize the instrument and experiment
     model.experiment.exp = model.experiment.Experiment(model.instrument.inst)
-    import gui_utils
+    from . import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelReflectionsViewOptions)
     app.frame.SetClientSize(wx.Size(700,500))
     app.MainLoop()

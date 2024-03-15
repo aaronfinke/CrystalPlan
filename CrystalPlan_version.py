@@ -34,4 +34,4 @@ icon_file_3d = "icons/CrystalPlan_icon_3d.png"
 icon_file_optimizer = "icons/CrystalPlan_icon_optimizer.png"
 
 if __name__ == "__main__":
-    print package_name, version
+    print(package_name, version)

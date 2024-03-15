@@ -8,7 +8,7 @@
 import numpy as np
 
 #--- Model Imports ---
-from numpy_utils import column, vector_length
+from .numpy_utils import column, vector_length
 
 #==================================================================
 #==================================================================
@@ -217,7 +217,7 @@ class ReflectionMeasurement():
     #-------------------------------------------------------------------------------
     def make_sample_orientation_string(self):
         """Return a friendly string of the sample orientation angles."""
-        import instrument
+        from . import instrument
         # @type poscov: PositionCoverage
         for poscov in instrument.inst.positions:
             if id(poscov)==self.poscov_id:

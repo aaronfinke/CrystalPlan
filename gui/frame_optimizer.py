@@ -16,8 +16,8 @@ matplotlib.interactive( True )
 matplotlib.use( 'WXAgg' )
 
 #--- GUI Imports ----
-import display_thread
-import gui_utils
+from . import display_thread
+from . import gui_utils
 
 #--- Model Imports ----
 import model
@@ -59,9 +59,9 @@ flag, and the actual resizing of the figure is triggered by an Idle event."""
         from matplotlib.figure import Figure
 
         # initialize Panel
-        if 'id' not in kwargs.keys():
+        if 'id' not in list(kwargs.keys()):
             kwargs['id'] = wx.ID_ANY
-        if 'style' not in kwargs.keys():
+        if 'style' not in list(kwargs.keys()):
             kwargs['style'] = wx.NO_FULL_REPAINT_ON_RESIZE
         wx.Panel.__init__( self, parent, **kwargs )
 
@@ -165,8 +165,8 @@ class OptimizationThread(threading.Thread):
             #Call the completion function.
             self.controller.complete( ga, aborted, converged )
         except Exception as inst:
-            print "Error while running optimization"
-            print inst
+            print("Error while running optimization")
+            print(inst)
             self.controller.restore_buttons()
         finally:
             self.controller.params.optimization_running = False
@@ -355,13 +355,13 @@ class OptimizerController():
         self.last_population = ga.getPopulation()
 
         if self.params.auto_increment and not aborted and not converged:
-            print "AUTO INCREMENTING !!!"
+            print("AUTO INCREMENTING !!!")
             #Try again with 1 more orientation
             self.params.number_of_orientations += 1
             wx.CallAfter(self.keep_going, None)
         else:
             #Done!
-            print "Optimization finished in %.3f seconds." % (time.time() - self.start_time)
+            print("Optimization finished in %.3f seconds." % (time.time() - self.start_time))
 
         
     #--------------------------------------------------------------------
@@ -406,7 +406,7 @@ class OptimizerController():
         # Get the angles of the best one
         positions += model.optimization.get_angles(self.best)
             
-        print "Applying best individual", self.best
+        print("Applying best individual", self.best)
 
         #This deletes everything in the list in the instrument
         if not self.params.fixed_orientations:
@@ -526,9 +526,9 @@ class FrameOptimizer(wx.Frame):
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Frame.__init__(self, id=wxID_FRAMEOPTIMIZER, name=u'FrameOptimizer',
+        wx.Frame.__init__(self, id=wxID_FRAMEOPTIMIZER, name='FrameOptimizer',
               parent=prnt, pos=wx.Point(976, 171), size=wx.Size(715, 599),
-              style=wx.DEFAULT_FRAME_STYLE, title=u'Automatic Coverage Optimizer')
+              style=wx.DEFAULT_FRAME_STYLE, title='Automatic Coverage Optimizer')
         self.SetClientSize(wx.Size(900, 800))
         self.Bind(wx.EVT_CLOSE, self.controller.close_form)
 
@@ -538,29 +538,29 @@ class FrameOptimizer(wx.Frame):
         self.SetIcon( wx.Icon(icon_file, wx.BITMAP_TYPE_PNG) )
 
         self.splitterMain = wx.SplitterWindow(id=wxID_FRAMEOPTIMIZERSPLITTERMAIN,
-              name=u'splitterMain', parent=self, pos=wx.Point(8, 8),
+              name='splitterMain', parent=self, pos=wx.Point(8, 8),
               size=wx.Size(699, 575), style=wx.SP_3D)
         self.splitterMain.SetSashSize(8)
         self.splitterMain.SetSashGravity(0.4)
 
         self.panelParams = wx.Panel(id=wxID_FRAMEOPTIMIZERPANELPARAMS,
-              name=u'panelParams', parent=self.splitterMain, pos=wx.Point(0, 0),
+              name='panelParams', parent=self.splitterMain, pos=wx.Point(0, 0),
               size=wx.Size(10, 575), style=wx.TAB_TRAVERSAL)
         self.panelParams.SetBackgroundColour(wx.Colour(246, 246, 235))
 
         self.panelStatus = wx.Panel(id=wxID_FRAMEOPTIMIZERPANELSTATUS,
-              name=u'panelStatus', parent=self.splitterMain, pos=wx.Point(18,
+              name='panelStatus', parent=self.splitterMain, pos=wx.Point(18,
               0), size=wx.Size(681, 575), style=wx.TAB_TRAVERSAL)
         self.panelStatus.SetBackgroundColour(wx.Colour(235, 246, 245))
         self.splitterMain.SplitVertically(self.panelParams, self.panelStatus)
 
         self.staticText1 = wx.StaticText(id=wxID_FRAMEOPTIMIZERSTATICTEXT1,
-              label=u'Optimization Parameters:', name='staticText1',
+              label='Optimization Parameters:', name='staticText1',
               parent=self.panelParams, pos=wx.Point(0, 8), style=0)
-        self.staticText1.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL, wx.BOLD, False, u'Sans'))
+        self.staticText1.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL, wx.BOLD, False, 'Sans'))
 
         self.staticTextHelp = wx.StaticText(id=wx.NewId(), name='staticText1',
-              label=u"""The genetic algorithm attempts to maximize the percentage of measured reflections. Enter the goals and GA parameters above.
+              label="""The genetic algorithm attempts to maximize the percentage of measured reflections. Enter the goals and GA parameters above.
 DO NOT modify settings in the main window (such as goniometer choice, sample parameters, etc.) while optimization is running, as that will cause problems!!!
 Click Apply Results while optimizing to see the current best solution.""",
               parent=self.panelParams, pos=wx.Point(0, 8), style=0)
@@ -570,64 +570,64 @@ Click Apply Results while optimizing to see the current best solution.""",
               size=wx.Size(419, 2), style=0)
 
         self.staticTextResults = wx.StaticText(id=wxID_FRAMEOPTIMIZERSTATICTEXTRESULTS,
-              label=u'Current Status:', name=u'staticTextResults',
+              label='Current Status:', name='staticTextResults',
               parent=self.panelStatus, pos=wx.Point(0, 8), size=wx.Size(98, 17),
               style=0)
 
         self.textStatus = wx.TextCtrl(id=wxID_FRAMEOPTIMIZERTEXTSTATUS,
-              name=u'textStatus', parent=self.panelStatus, pos=wx.Point(0, 33),
-              style=wx.TE_MULTILINE + wx.TE_READONLY, value=u' ')
+              name='textStatus', parent=self.panelStatus, pos=wx.Point(0, 33),
+              style=wx.TE_MULTILINE + wx.TE_READONLY, value=' ')
 
         self.gaugeGeneration = wx.Gauge(id=wxID_FRAMEOPTIMIZERGAUGEGENERATION,
-              name=u'gaugeGeneration', parent=self.panelStatus, pos=wx.Point(0,
+              name='gaugeGeneration', parent=self.panelStatus, pos=wx.Point(0,
               424), range=100,  style=wx.GA_HORIZONTAL)
 
         self.staticTextGeneration = wx.StaticText(id=wxID_FRAMEOPTIMIZERSTATICTEXTGENERATION,
-              label=u'Generation Progress:', name=u'staticTextGeneration',
+              label='Generation Progress:', name='staticTextGeneration',
               parent=self.panelStatus, pos=wx.Point(0, 407), style=0)
 
         self.gaugeCoverage = wx.Gauge(id=wxID_FRAMEOPTIMIZERGAUGECOVERAGE,
-              name=u'gaugeCoverage', parent=self.panelStatus, pos=wx.Point(0,
+              name='gaugeCoverage', parent=self.panelStatus, pos=wx.Point(0,
               477), range=100,  style=wx.GA_HORIZONTAL)
 
         self.staticTextCoverage = wx.StaticText(id=wxID_FRAMEOPTIMIZERSTATICTEXTCOVERAGE,
-              label=u'Best Coverage:', name=u'staticTextCoverage',
+              label='Best Coverage:', name='staticTextCoverage',
               parent=self.panelStatus, pos=wx.Point(0, 460), style=0)
 
         self.gaugeAverage = wx.Gauge(id=wxID_FRAMEOPTIMIZERGAUGECOVERAGE,
-              name=u'gaugeAverage', parent=self.panelStatus, pos=wx.Point(0,
+              name='gaugeAverage', parent=self.panelStatus, pos=wx.Point(0,
               477), range=100,  style=wx.GA_HORIZONTAL)
 
         self.staticTextAverage = wx.StaticText(id=wxID_FRAMEOPTIMIZERSTATICTEXTCOVERAGE,
-              label=u'Average Coverage:', name=u'staticTextAverage',
+              label='Average Coverage:', name='staticTextAverage',
               parent=self.panelStatus, pos=wx.Point(0, 460), style=0)
 
         self.staticTextComplete = wx.StaticText(id=wx.NewId(),
-              label=u'...', name=u'staticTextComplete',
+              label='...', name='staticTextComplete',
               parent=self.panelStatus, pos=wx.Point(0, 460), style=0)
 
         self.buttonKeepGoing = wx.Button(id=wxID_FRAMEOPTIMIZERbuttonKeepGoing,
-              label=u'Keep Going...',
-              name=u'buttonKeepGoing', parent=self.panelStatus,
+              label='Keep Going...',
+              name='buttonKeepGoing', parent=self.panelStatus,
               pos=wx.Point(380, 513), size=wx.Size(152, 29), style=0)
         self.buttonKeepGoing.Bind(wx.EVT_BUTTON, self.controller.keep_going)
         self.buttonKeepGoing.SetToolTipString("Keep optimizing using ~ the last saved population as the starting point.")
 
         self.buttonStart = wx.Button(id=wxID_FRAMEOPTIMIZERBUTTONSTART,
-              label=u'Start Optimization', name=u'buttonStart',
+              label='Start Optimization', name='buttonStart',
               parent=self.panelStatus, pos=wx.Point(93, 513), size=wx.Size(152,
               29), style=0)
-        self.buttonStart.SetToolTipString(u'Begin the optimization process in a background thread.')
+        self.buttonStart.SetToolTipString('Begin the optimization process in a background thread.')
         self.buttonStart.Bind(wx.EVT_BUTTON, self.controller.start)
 
         self.buttonStop = wx.Button(id=wxID_FRAMEOPTIMIZERBUTTONSTOP,
-              label=u'Stop!', name=u'buttonStop', parent=self.panelStatus,
+              label='Stop!', name='buttonStop', parent=self.panelStatus,
               pos=wx.Point(126, 546), size=wx.Size(85, 29), style=0)
         self.buttonStop.SetToolTipString("Abort the Genetic Algorithm search.")
         self.buttonStop.Bind(wx.EVT_BUTTON, self.controller.stop)
 
         self.buttonApply = wx.Button(id=wxID_FRAMEOPTIMIZERBUTTONAPPLY,
-              label=u'Apply Results', name=u'buttonApply',
+              label='Apply Results', name='buttonApply',
               parent=self.panelStatus, pos=wx.Point(441, 546), size=wx.Size(142,
               29), style=0)
         self.buttonApply.SetToolTipString("Set the experiment plan to be the best solution found by the genetic algorithm.")
@@ -660,7 +660,7 @@ Click Apply Results while optimizing to see the current best solution.""",
 
 
 if __name__ == "__main__":
-    import gui_utils
+    from . import gui_utils
     (app, frm) = gui_utils.test_my_gui(FrameOptimizer)
     frm.Raise()
     app.MainLoop()

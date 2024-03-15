@@ -10,9 +10,9 @@ import random
 import copy
 
 #--- Model Imports ----
-import instrument
-import experiment
-import goniometer
+from . import instrument
+from . import experiment
+from . import goniometer
 
 import pyevolve
 from pyevolve import G1DList
@@ -137,7 +137,7 @@ class GeneAngles(object):
     def nudge(self, percent):
         """Randomly nudge the position by the provided amount (in % of the allowable range)"""
         if percent <= 0: return
-        for i in xrange(len(self.angles)):
+        for i in range(len(self.angles)):
             angle_info = instrument.inst.angles[i] #@type angle_info AngleInfo
             max = angle_info.random_range[1]
             min = angle_info.random_range[0]
@@ -165,7 +165,7 @@ class ChromosomeAngles(G1DList.G1DList):
     #---------------------------------------------------------------
     def randomize(self):
         """Make a random genome for this chromosome."""
-        self.genomeList = [GeneAngles() for x in xrange(self.listSize)]
+        self.genomeList = [GeneAngles() for x in range(self.listSize)]
 
     #---------------------------------------------------------------
     def copy(self, g, keep_list_size=False):
@@ -193,7 +193,7 @@ class ChromosomeAngles(G1DList.G1DList):
             diff = g.listSize - self.listSize
             if diff > 0:
                 #Need to add diff random elements
-                g.genomeList += [GeneAngles() for x in xrange(diff)]
+                g.genomeList += [GeneAngles() for x in range(diff)]
             elif diff < 0:
                 #Remove -diff elements at random
                 while diff < 0:
@@ -218,7 +218,7 @@ def ChromosomeInitializatorRandom(genome, **args):
     """
     #   print "ChromosomeInitializatorRandom"
     #Make a list of new chromosome objects, which are randomized by default
-    genome.genomeList = [GeneAngles() for i in xrange(genome.getListSize())]
+    genome.genomeList = [GeneAngles() for i in range(genome.getListSize())]
 
 
 # ===========================================================================================
@@ -231,7 +231,7 @@ def ChromosomeInitializatorUseOldPopulation(genome, **args):
     old_pop_ID = genome.getParam("old_population_ID")
     old_individual = Selectors.GRouletteWheel(old_pop, popID=old_pop_ID)
     if len(old_individual[0].angles) != len(instrument.inst.angles):
-        print "The number of angles in the goniometer has changed, so copying the population is impossible. Re-starting from scratch."
+        print("The number of angles in the goniometer has changed, so copying the population is impossible. Re-starting from scratch.")
         #We create a random one
         genome.randomize()
     else:
@@ -249,7 +249,7 @@ def ChromosomeMutatorRandomize(genome, **args):
 
     if mutations < 1.0:
         mutations = 0
-        for it in xrange(listSize):
+        for it in range(listSize):
             if pyevolve.Util.randomFlipCoin(args["pmut"]):
                 if op.mutate_by_nudging:
                     genome[it].nudge(op.nudge_amount)
@@ -258,7 +258,7 @@ def ChromosomeMutatorRandomize(genome, **args):
 
                 mutations += 1
     else:
-        for it in xrange(int(round(mutations))):
+        for it in range(int(round(mutations))):
             which_gene = random.randint(0, listSize-1)
             if op.mutate_by_nudging:
                 genome[which_gene].nudge(op.nudge_amount)
@@ -275,7 +275,7 @@ def ChromosomeMutatorRandomizeAll(genome, **args):
     if pmut <= 0.0: return 0 #No mutants ever
     #Completely mutate only this % of the population
     if pyevolve.Util.randomFlipCoin(pmut):
-        for i in xrange(len(genome)):
+        for i in range(len(genome)):
             genome[i].mutate()
         return 1
     return 0
@@ -346,14 +346,14 @@ def ChromosomeCrossoverSinglePoint(genome, **args):
       sister = gMom.clone()
       sister.resetStats()
       #Make copies of each gene! Otherwise you are just copying references
-      for x in xrange(cut, len(sister)):
+      for x in range(cut, len(sister)):
         sister[x] = copy.deepcopy(gDad[x])
 
     if args["count"] == 2:
       brother = gDad.clone()
       brother.resetStats()
       #Make copies of each gene! Otherwise you are just copying references
-      for x in xrange(cut, len(brother)):
+      for x in range(cut, len(brother)):
         brother[x] = copy.deepcopy(gMom[x])
 
     return (sister, brother)
@@ -373,7 +373,7 @@ def get_angles(genome):
     #Create a new of positions
     positions = []
 
-    for i in xrange(num_positions):
+    for i in range(num_positions):
         #angles = chromosome[i*num_angles:(i+1)*num_angles]
         angles = genome[i].angles
         #Only add it if the angles are allowed.
@@ -454,7 +454,7 @@ def eval_func(genome, verbose=False):
                     unique_measurements[poscovid_map[poscovid]] += 1
 
     #Sort them by the # of unique measurements
-    decorated = zip(unique_measurements, range(len(positions_id)))
+    decorated = list(zip(unique_measurements, list(range(len(positions_id)))))
     decorated.sort()
 
     #Save the sorted list of (unique_measurements, index into the list of genes)
@@ -463,7 +463,7 @@ def eval_func(genome, verbose=False):
     genome.coverage = coverage
 
     if verbose:
-        print  "Fitness: had %3d positions, score was %7.3f" % (len(positions), coverage)
+        print("Fitness: had %3d positions, score was %7.3f" % (len(positions), coverage))
 
     #Score is equal to the coverage
     score = coverage
@@ -532,7 +532,7 @@ def eval_func_volume(genome, verbose=False):
     genome.coverage = coverage
 
     if verbose:
-        print  "Fitness: had %3d positions, score was %7.3f" % (len(positions), coverage)
+        print("Fitness: had %3d positions, score was %7.3f" % (len(positions), coverage))
 
     #Score is equal to the coverage
     score = coverage
@@ -613,9 +613,9 @@ def run_optimization(optim_params, step_callback=None):
     if op.use_old_population:
         if op.population == len(op.old_population) and (op.old_population[0].listSize != op.number_of_orientations):
             skip_initializer = True;
-            print "Population size and number of orientations are identical. Using the old population as starting point."
+            print("Population size and number of orientations are identical. Using the old population as starting point.")
         else:
-            print "Population size and/or number of orientations are different. Will generate new population, picked randomly from the old one."
+            print("Population size and/or number of orientations are different. Will generate new population, picked randomly from the old one.")
             #Save the population and a random ID as parameters
             genome.setParams( old_population=op.old_population, old_population_ID=random.randint(0, 10000000) )
             genome.initializator.set(ChromosomeInitializatorUseOldPopulation)
@@ -678,7 +678,7 @@ def run_optimization(optim_params, step_callback=None):
 def print_pop(ga_engine, *args):
     return
     for x in ga_engine.getPopulation():
-        print  "score %7.3f; coverage %7.3f, %s" % (x.score, x.coverage, x.genomeList)
+        print("score %7.3f; coverage %7.3f, %s" % (x.score, x.coverage, x.genomeList))
 
 
 if __name__ == "__main__":
@@ -742,7 +742,7 @@ if __name__ == "__main__":
                     (ga, a1, a2) = run_optimization( op, print_pop)
     
    
-                print "----------best-----------", ga.bestIndividual()
-                print "best coverage = ", ga.bestIndividual().coverage
+                print("----------best-----------", ga.bestIndividual())
+                print("best coverage = ", ga.bestIndividual().coverage)
 
     

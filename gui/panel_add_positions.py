@@ -1,7 +1,7 @@
 #Boa:FramePanel:PanelAddPositions
 """PanelAddPositions: GUI component to add positions to the calculated list, and run their coverage
 calculation."""
-import gui_utils
+from . import gui_utils
 
 # Author: Janik Zikovsky, zikovskyjl@ornl.gov
 # Version: $Id$
@@ -15,7 +15,7 @@ import numpy
 from numpy import arange, linspace, pi
 
 #--- GUI Imports ---
-import display_thread
+from . import display_thread
 
 #--- Model Imports ---
 import model
@@ -24,7 +24,7 @@ import model
 try:
     import multiprocessing
     multiprocessing_installed = True
-except ImportError, e:
+except ImportError as e:
     #Python version is likely < 2.6, therefore multiprocessing is not available
     multiprocessing_installed = False
 
@@ -175,17 +175,17 @@ class AddPositionsController():
             #Go through each angleinfo object
             if not ang is None:
                 #Do the static text
-                static = wx.StaticText(id=wx.NewId(), label=u"List of " + ang.name + ": ",
-                    name=u'staticTextAngles'+str(i),
+                static = wx.StaticText(id=wx.NewId(), label="List of " + ang.name + ": ",
+                    name='staticTextAngles'+str(i),
                     parent=self.panel, pos=wx.Point(0, 0), size=wx.Size(151, 14), style=0)
-                static_unit = wx.StaticText(id=wx.NewId(), label=u" " + ang.friendly_units,
-                    name=u'staticTextAnglesUnits'+str(i),
+                static_unit = wx.StaticText(id=wx.NewId(), label=" " + ang.friendly_units,
+                    name='staticTextAnglesUnits'+str(i),
                     parent=self.panel, pos=wx.Point(0, 0), size=wx.Size(50, 14), style=0)
 
                 #Now the editable textbox
                 id = wx.NewId()
-                text = wx.TextCtrl(id=id, name=u'textAngles'+str(i), parent=self.panel, pos=wx.Point(0, 0),
-                      size=wx.Size(100, 30), style=0, value=u'0')
+                text = wx.TextCtrl(id=id, name='textAngles'+str(i), parent=self.panel, pos=wx.Point(0, 0),
+                      size=wx.Size(100, 30), style=0, value='0')
                 text.Bind(wx.EVT_TEXT, self.OnTextbox_Text, id=id)
 
                 #Make a sizer
@@ -235,7 +235,7 @@ class AddPositionsController():
             if len(array)==0: array = numpy.array([0])
             #Convert to radians or whatever the internal unit is
             array = anginfo.friendly_to_internal(array)
-        except Exception, e:
+        except Exception as e:
             return ("Error reading '" + input + "': " + str(e) + "\n", None)
         else:
             return ("", array)      
@@ -399,57 +399,57 @@ class PanelAddPositions(wx.Panel):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PANELADDPOSITIONS,
-              name=u'PanelAddPositions', parent=prnt, pos=wx.Point(1783, 182),
+              name='PanelAddPositions', parent=prnt, pos=wx.Point(1783, 182),
               size=wx.Size(546, 456), style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(546, 456))
         self.SetAutoLayout(True)
 
         self.staticTextHelp = wx.StaticText(id=wxID_PANELADDPOSITIONSSTATICTEXTHELP,
-              label=u'A list can be entered as [0, 10, 20] or arange(0, 60, 10), meaning step from 0 to 60 in steps of 10; or linspace(0, 60, 6), meaning go from 0 to 60 in 6 steps.',
-              name=u'staticTextHelp', parent=self, pos=wx.Point(0, 25),
+              label='A list can be entered as [0, 10, 20] or arange(0, 60, 10), meaning step from 0 to 60 in steps of 10; or linspace(0, 60, 6), meaning go from 0 to 60 in 6 steps.',
+              name='staticTextHelp', parent=self, pos=wx.Point(0, 25),
               style=0)
 
         self.staticTextTitle = wx.StaticText(id=wxID_PANELADDPOSITIONSSTATICTEXTTITLE,
-              label=u'Enter Angles in Degrees:', name=u'staticTextTitle',
+              label='Enter Angles in Degrees:', name='staticTextTitle',
               parent=self, pos=wx.Point(193, 0), size=wx.Size(160, 17),
               style=0)
 
         self.buttonCalculate = wx.Button(id=wxID_PANELADDPOSITIONSBUTTONCALCULATE,
-              label=u'  Begin Calculation  ', name=u'buttonCalculate', parent=self,
+              label='  Begin Calculation  ', name='buttonCalculate', parent=self,
               pos=wx.Point(65, 419), style=0)
         self.buttonCalculate.Enable(False)
         self.buttonCalculate.Bind(wx.EVT_BUTTON, self.OnButtonCalculateButton,
               id=wxID_PANELADDPOSITIONSBUTTONCALCULATE)
 
         self.staticTextWarnings = wx.StaticText(id=wxID_PANELADDPOSITIONSSTATICTEXTWARNINGS,
-              label=u'Warnings or Errors:', name=u'staticTextWarnings',
+              label='Warnings or Errors:', name='staticTextWarnings',
               parent=self, pos=wx.Point(237, 108), size=wx.Size(71, 17),
               style=0)
 
         self.textWarnings = wx.TextCtrl(id=wxID_PANELADDPOSITIONSTEXTWARNINGS,
-              name=u'textWarnings', parent=self, pos=wx.Point(0, 125),
-              size=wx.Size(546, 211), style=wx.TE_MULTILINE, value=u'...')
+              name='textWarnings', parent=self, pos=wx.Point(0, 125),
+              size=wx.Size(546, 211), style=wx.TE_MULTILINE, value='...')
         self.textWarnings.SetEditable(False)
         self.textWarnings.SetMinSize(wx.Size(-1, -1))
 
         self.buttonCancel = wx.Button(id=wxID_PANELADDPOSITIONSBUTTONCANCEL,
-              label=u'  Cancel Calculation  ', name=u'buttonCancel', parent=self,
+              label='  Cancel Calculation  ', name='buttonCancel', parent=self,
               pos=wx.Point(281, 419), style=0)
         self.buttonCancel.Enable(False)
         self.buttonCancel.Bind(wx.EVT_BUTTON, self.OnButtonCancelButton,
               id=wxID_PANELADDPOSITIONSBUTTONCANCEL)
 
         self.gaugeProgress = wx.Gauge(id=wxID_PANELADDPOSITIONSGAUGEPROGRESS,
-              name=u'gaugeProgress', parent=self, pos=wx.Point(0, 361),
+              name='gaugeProgress', parent=self, pos=wx.Point(0, 361),
               range=100, style=wx.GA_HORIZONTAL)
 
         self.staticTextProgress = wx.StaticText(id=wxID_PANELADDPOSITIONSSTATICTEXTPROGRESS,
-              label=u'Progress:', name=u'staticTextProgress', parent=self,
+              label='Progress:', name='staticTextProgress', parent=self,
               pos=wx.Point(0, 344), size=wx.Size(60, 17), style=0)
 
         self.checkMultiprocessing = wx.CheckBox(id=wxID_PANELADDPOSITIONSCHECKMULTIPROCESSING,
-              label=u'Use Multiple CPU Processing',
-              name=u'checkMultiprocessing', parent=self, pos=wx.Point(0, 397),
+              label='Use Multiple CPU Processing',
+              name='checkMultiprocessing', parent=self, pos=wx.Point(0, 397),
               size=wx.Size(222, 22), style=0)
         self.checkMultiprocessing.SetValue(False)
         self.checkMultiprocessing.Bind(wx.EVT_CHECKBOX,
@@ -457,8 +457,8 @@ class PanelAddPositions(wx.Panel):
               id=wxID_PANELADDPOSITIONSCHECKMULTIPROCESSING)
 
         self.checkIgnoreGonio = wx.CheckBox(id=wxID_PANELADDPOSITIONSCHECKIGNOREGONIO,
-              label=u'Ignore goniometer limits (allow all angles)',
-              name=u'checkIgnoreGonio', parent=self, pos=wx.Point(0, 78),
+              label='Ignore goniometer limits (allow all angles)',
+              name='checkIgnoreGonio', parent=self, pos=wx.Point(0, 78),
               size=wx.Size(320, 22), style=0)
         self.checkIgnoreGonio.SetValue(False)
         self.checkIgnoreGonio.Bind(wx.EVT_CHECKBOX,
@@ -519,7 +519,7 @@ class PanelAddPositions(wx.Panel):
 
 if __name__ == '__main__':
     #Test routine
-    import gui_utils
+    from . import gui_utils
     model.instrument.inst = model.instrument.Instrument()
     model.goniometer.initialize_goniometers()
     (app, pnl) = gui_utils.test_my_gui(PanelAddPositions)

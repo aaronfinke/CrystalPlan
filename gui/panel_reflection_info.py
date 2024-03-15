@@ -10,9 +10,9 @@ import wx
 import numpy as np
 
 #--- GUI Imports ---
-from panel_reflection_measurement import PanelReflectionMeasurement
-import gui_utils
-import reflection_placer
+from .panel_reflection_measurement import PanelReflectionMeasurement
+from . import gui_utils
+from . import reflection_placer
 
 #--- Model Imports ---
 import model
@@ -105,7 +105,7 @@ class PanelReflectionInfo(wx.Panel):
 
     def _init_ctrls(self, prnt):
         wx.Panel.__init__(self, id=wxID_PANELREFLECTIONINFO,
-              name=u'PanelReflectionInfo', parent=prnt, pos=wx.Point(1874, 552),
+              name='PanelReflectionInfo', parent=prnt, pos=wx.Point(1874, 552),
               size=wx.Size(250, 394), style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(250, 394))
         self.SetAutoLayout(True)
@@ -119,7 +119,7 @@ class PanelReflectionInfo(wx.Panel):
         self.windowPredicted.SetAutoLayout(False)
 
         self.scrolledWindowMeasurements = wx.ScrolledWindow(id=wxID_PANELREFLECTIONINFOSCROLLEDWINDOWMEASUREMENTS,
-              name=u'scrolledWindowMeasurements', parent=self.windowPredicted, pos=wx.Point(0,
+              name='scrolledWindowMeasurements', parent=self.windowPredicted, pos=wx.Point(0,
               118), size=wx.Size(PanelReflectionMeasurement.DEFAULT_WIDTH, 50), style=wx.VSCROLL | wx.HSCROLL)
 
 #        self.staticTextTimesMeasured = wx.StaticText(id=wxID_PANELREFLECTIONINFOSTATICTEXTTIMESMEASURED,
@@ -147,66 +147,66 @@ class PanelReflectionInfo(wx.Panel):
 
 
         self.staticTextHKLLabel = wx.StaticText(id=wxID_PANELREFLECTIONINFOSTATICTEXTHKLLABEL,
-              label=u'Enter HKL:', name=u'staticTextHKLLabel', parent=self,
+              label='Enter HKL:', name='staticTextHKLLabel', parent=self,
               pos=wx.Point(6, 11), size=wx.Size(72, 17), style=0)
 
         self.staticTextQLabel = wx.StaticText(id=wxID_PANELREFLECTIONINFOSTATICTEXTQLABEL,
-              label=u'Q-vector:', name=u'staticTextQLabel', parent=self,
+              label='Q-vector:', name='staticTextQLabel', parent=self,
               pos=wx.Point(6, 41), size=wx.Size(72, 17), style=0)
         self.staticTextQLabel.SetAutoLayout(True)
 
         self.staticTextDlabel = wx.StaticText(id=wxID_PANELREFLECTIONINFOSTATICTEXTDLABEL,
-              label=u'd-spacing:', name=u'staticTextDlabel', parent=self,
+              label='d-spacing:', name='staticTextDlabel', parent=self,
               pos=wx.Point(6, 71), size=wx.Size(72, 17), style=0)
 
         self.textCtrlH = wx.TextCtrl(id=wxID_PANELREFLECTIONINFOTEXTCTRLH,
-              name=u'textCtrlH', parent=self, pos=wx.Point(80, 6),
-              size=wx.Size(30, 27), style=0, value=u'0')
+              name='textCtrlH', parent=self, pos=wx.Point(80, 6),
+              size=wx.Size(30, 27), style=0, value='0')
 
         self.textCtrlK = wx.TextCtrl(id=wxID_PANELREFLECTIONINFOTEXTCTRLK,
-              name=u'textCtrlK', parent=self, pos=wx.Point(162, 6),
-              size=wx.Size(30, 27), style=0, value=u'0')
+              name='textCtrlK', parent=self, pos=wx.Point(162, 6),
+              size=wx.Size(30, 27), style=0, value='0')
 
         self.textCtrlL = wx.TextCtrl(id=wxID_PANELREFLECTIONINFOTEXTCTRLL,
-              name=u'textCtrlL', parent=self, pos=wx.Point(244, 6),
-              size=wx.Size(30, 27), style=0, value=u'0')
+              name='textCtrlL', parent=self, pos=wx.Point(244, 6),
+              size=wx.Size(30, 27), style=0, value='0')
 
         self.textCtrlQ = wx.TextCtrl(id=wxID_PANELREFLECTIONINFOTEXTCTRLQ,
-              name=u'textCtrlQ', parent=self, pos=wx.Point(80, 36),
-              size=wx.Size(100, 27), style=wx.TE_READONLY, value=u'0 ,0, 0')
+              name='textCtrlQ', parent=self, pos=wx.Point(80, 36),
+              size=wx.Size(100, 27), style=wx.TE_READONLY, value='0 ,0, 0')
         self.textCtrlQ.Enable(True)
         self.textCtrlQ.SetEditable(False)
-        self.textCtrlQ.SetFont(wx.Font(11, 76, wx.NORMAL, wx.NORMAL, False, u'Courier'))
-        self.textCtrlQ.SetToolTipString(u'q-vector coordinates (x,y,z) corresponding to this reflection.')
+        self.textCtrlQ.SetFont(wx.Font(11, 76, wx.NORMAL, wx.NORMAL, False, 'Courier'))
+        self.textCtrlQ.SetToolTipString('q-vector coordinates (x,y,z) corresponding to this reflection.')
 
         self.textCtrlDspacing = wx.TextCtrl(id=wxID_PANELREFLECTIONINFOTEXTCTRLDSPACING,
-              name=u'textCtrlDspacing', parent=self, pos=wx.Point(80, 66),
-              size=wx.Size(100, 27), style=0, value=u'0')
+              name='textCtrlDspacing', parent=self, pos=wx.Point(80, 66),
+              size=wx.Size(100, 27), style=0, value='0')
         self.textCtrlDspacing.SetEditable(False)
         self.textCtrlDspacing.SetBackgroundStyle(wx.BG_STYLE_SYSTEM)
-        self.textCtrlDspacing.SetToolTipString(u'd-spacing corresponding to this reflection.')
+        self.textCtrlDspacing.SetToolTipString('d-spacing corresponding to this reflection.')
         self.textCtrlDspacing.SetWindowVariant(wx.WINDOW_VARIANT_NORMAL)
-        self.textCtrlDspacing.SetFont(wx.Font(11, 76, wx.NORMAL, wx.NORMAL, False, u'Courier'))
+        self.textCtrlDspacing.SetFont(wx.Font(11, 76, wx.NORMAL, wx.NORMAL, False, 'Courier'))
 
 
-        self.staticDivergenceLabel = wx.StaticText(label=u'Divergence:', name=u'staticDivergenceLabel', parent=self,
+        self.staticDivergenceLabel = wx.StaticText(label='Divergence:', name='staticDivergenceLabel', parent=self,
               pos=wx.Point(6, 41),  style=0)
-        self.textCtrlDivergence = wx.TextCtrl(name=u'textCtrlDivergence', parent=self, pos=wx.Point(80, 36),
-              size=wx.Size(100, 27), value=u'0.00')
+        self.textCtrlDivergence = wx.TextCtrl(name='textCtrlDivergence', parent=self, pos=wx.Point(80, 36),
+              size=wx.Size(100, 27), value='0.00')
         self.textCtrlDivergence.Enable(True)
         self.textCtrlDivergence.Bind(wx.EVT_TEXT, self.OnTextCtrlDivergence)
-        self.textCtrlDivergence.SetToolTipString(u'Half-width of the divergence of the scattered beam, in degrees.')
+        self.textCtrlDivergence.SetToolTipString('Half-width of the divergence of the scattered beam, in degrees.')
 
-        self.staticDivergenceLabel2 = wx.StaticText(label=u' deg. half-width ', name=u'staticDivergenceLabel2', parent=self,
+        self.staticDivergenceLabel2 = wx.StaticText(label=' deg. half-width ', name='staticDivergenceLabel2', parent=self,
               pos=wx.Point(6, 41),  style=0)
 
-        self.buttonPlace = wx.Button(label=u' Try to place reflection on a detector... ',
+        self.buttonPlace = wx.Button(label=' Try to place reflection on a detector... ',
               parent=self.scrolledWindowMeasurements, pos=wx.Point(128, 62), size=wx.Size(200, 30), style=0)
         self.buttonPlace.Bind(wx.EVT_BUTTON, self.OnButtonPlace)
         self.buttonPlace.SetToolTipString("Open the reflection placer, to try to put the reflection on a detector by changing sample orientation.")
         self.buttonPlace.Show()
 
-        self.checkUseEquivalent = wx.CheckBox(label=u'Show equivalent HKL also',
+        self.checkUseEquivalent = wx.CheckBox(label='Show equivalent HKL also',
               parent=self, pos=wx.Point(128, 62), size=wx.Size(200, 30), style=0)
         self.checkUseEquivalent.SetToolTipString("Include HKL peaks that are equivalent to the main HKL, based on crystal symmetry, in the list of measurements")
         self.checkUseEquivalent.Bind(wx.EVT_CHECKBOX, self.OnCheckUseEquivalent)
@@ -244,7 +244,7 @@ class PanelReflectionInfo(wx.Panel):
         self.hkl_textCtls = [self.textCtrlH, self.textCtrlK, self.textCtrlL]
         for (i, ctl) in enumerate(self.hkl_textCtls):
             ctl.Bind(wx.EVT_TEXT, self.OnTextHKLEvent)
-            ctl.SetToolTipString(u'Enter the %s index of the reflection you are looking for.' % ('H','K','L')[i])
+            ctl.SetToolTipString('Enter the %s index of the reflection you are looking for.' % ('H','K','L')[i])
 
         #For calling observers
         self.observers = []
@@ -368,7 +368,7 @@ class PanelReflectionInfo(wx.Panel):
                 sizer.InsertWindow(i+reflection_number+[1,0][real_mode], txt, 0, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
 
                 #Now do all the measurements
-                for refl_measurement_number in xrange(num_measurements):
+                for refl_measurement_number in range(num_measurements):
                     if i >= len(self.measure_panels[real_mode]):
                         #Need to create a new one
                         new_panel = PanelReflectionMeasurement(scrollwin)
@@ -394,7 +394,7 @@ class PanelReflectionInfo(wx.Panel):
                     i += 1
 
             #Now hide any excess ones
-            for i in xrange( num_total_measurements, len(self.measure_panels[real_mode])):
+            for i in range( num_total_measurements, len(self.measure_panels[real_mode])):
                 self.measure_panels[real_mode][i].Show(False)
 
             #The button.
@@ -438,7 +438,7 @@ class PanelReflectionInfo(wx.Panel):
         self.refl = refl
         #Put the text in the boxes
         if update_textboxes:
-            for i in xrange(3):
+            for i in range(3):
                 if refl is None:
                     self.hkl_textCtls[i].SetValue( "None" )
                 else:
@@ -473,7 +473,7 @@ class PanelReflectionInfo(wx.Panel):
         
         #Extract the hkl values, use a crazy number to signal a bad input
         hkl = [-10000000]*3
-        for i in xrange(3):
+        for i in range(3):
             try:
                 hkl[i] = int(round(float(self.hkl_textCtls[i].GetValue())))
             except ValueError:
@@ -517,14 +517,14 @@ if __name__ == "__main__":
     model.instrument.inst = model.instrument.Instrument()
     model.experiment.exp = model.experiment.Experiment(model.instrument.inst)
     model.experiment.exp.initialize_reflections()
-    import gui_utils
+    from . import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelReflectionInfo)
     app.frame.SetClientSize(wx.Size(300, 500))
     #@type refl Reflection
     refl = model.reflections.Reflection( (1,2,3), np.array([1,2,3]))
-    for i in xrange(7):
+    for i in range(7):
         refl.measurements.append( (1,2,3,4,5,6) )
-    for i in xrange(4):
+    for i in range(4):
         rrm = ReflectionRealMeasurement()
         rrm.detector_num = i
         rrm.integrated = i*11.0

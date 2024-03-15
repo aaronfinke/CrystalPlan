@@ -12,9 +12,9 @@ import time
 import numpy as np
 
 #--- GUI Imports ---
-import dialog_edit_crystal
-import gui_utils
-import display_thread
+from . import dialog_edit_crystal
+from . import gui_utils
+from . import display_thread
 
 #--- Traits imports ---
 from traits.api import HasTraits,Int,Float,Str,String,Property,Bool, List, Tuple, Array
@@ -142,38 +142,38 @@ class PanelSample(wx.Panel):
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Panel.__init__(self, id=wxID_PANELSAMPLE, name=u'PanelSample',
+        wx.Panel.__init__(self, id=wxID_PANELSAMPLE, name='PanelSample',
               parent=prnt, pos=wx.Point(647, 243), size=wx.Size(419, 467),
               style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(419, 467))
 
         self.buttonEditCrystal = wx.Button(id=wxID_PANELSAMPLEBUTTONEDITCRYSTAL,
-              label=u'  Edit Crystal Parameters  ', name=u'buttonEditCrystal',
+              label='  Edit Crystal Parameters  ', name='buttonEditCrystal',
               parent=self, pos=wx.Point(117, 8), style=0)
         self.buttonEditCrystal.Bind(wx.EVT_BUTTON,
               self.OnButtonEditCrystalButton,
               id=wxID_PANELSAMPLEBUTTONEDITCRYSTAL)
 
         self.staticTextRangeHeader = wx.StaticText(id=wxID_PANELSAMPLESTATICTEXTRANGEHEADER,
-              label=u'Enter the range of h, k, and l values to calculate:',
-              name=u'staticTextRangeHeader', parent=self, pos=wx.Point(0, 45),
+              label='Enter the range of h, k, and l values to calculate:',
+              name='staticTextRangeHeader', parent=self, pos=wx.Point(0, 45),
               size=wx.Size(371, 17), style=0)
         self.staticTextRangeHeader.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL,
-              wx.BOLD, False, u'Sans'))
+              wx.BOLD, False, 'Sans'))
 
         self.staticTextRangeHeader2 = wx.StaticText(
-              label=u'Values are inclusive',
-              name=u'staticTextRangeHeader2', parent=self, pos=wx.Point(0, 45),
+              label='Values are inclusive',
+              name='staticTextRangeHeader2', parent=self, pos=wx.Point(0, 45),
               size=wx.Size(371, 17), style=0)
 
         self.buttonApplyRange = wx.Button(id=wxID_PANELSAMPLEBUTTONAPPLYRANGE,
-              label=u'  Apply New Range  ', name=u'buttonApplyRange', parent=self,
+              label='  Apply New Range  ', name='buttonApplyRange', parent=self,
               pos=wx.Point(0, 78), style=0)
         self.buttonApplyRange.Bind(wx.EVT_BUTTON, self.OnButtonApplyRangeButton,
               id=wxID_PANELSAMPLEBUTTONAPPLYRANGE)
 
         self.buttonRevertRange = wx.Button(id=wxID_PANELSAMPLEBUTTONREVERTRANGE,
-              label=u'  Revert  ', name=u'buttonRevertRange', parent=self,
+              label='  Revert  ', name='buttonRevertRange', parent=self,
               pos=wx.Point(193, 78), style=0)
         self.buttonRevertRange.Bind(wx.EVT_BUTTON,
               self.OnButtonRevertRangeButton,
@@ -375,7 +375,7 @@ if __name__=="__main__":
     #Test routine
     model.instrument.inst = model.instrument.Instrument()
     model.experiment.exp = model.experiment.Experiment(model.instrument.inst)
-    import gui_utils
+    from . import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelSample)
     app.MainLoop()
 

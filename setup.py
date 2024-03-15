@@ -7,7 +7,7 @@
 #--- Imports ---
 from setuptools import setup, find_packages
 import sys
-import CrystalPlan_version
+from . import CrystalPlan_version
 
 #Two packages: the GUI and the model code
 packages = find_packages()
@@ -31,8 +31,8 @@ def pythonVersionCheck():
     PYTHON_MINOR = 5
 
     if sys.version_info < (PYTHON_MAJOR, PYTHON_MINOR):
-        print >> sys.stderr, 'You need at least Python %d.%d for %s %s' \
-              % (PYTHON_MAJOR, PYTHON_MINOR, CrystalPlan_version.package_name, CrystalPlan_version.version)
+        print('You need at least Python %d.%d for %s %s' \
+              % (PYTHON_MAJOR, PYTHON_MINOR, CrystalPlan_version.package_name, CrystalPlan_version.version), file=sys.stderr)
         sys.exit(-3)
 
 if __name__ == "__main__":

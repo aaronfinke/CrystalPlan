@@ -5,7 +5,7 @@
 #print "CrystalPlan module being imported from", __file__
 #print "CrystalPlan module, __name__ is", __name__
 
-from CrystalPlan_version import version as __version__
+from .CrystalPlan_version import version as __version__
 
 #Manipulate the PYTHONPATH to put model directly in view of it
 #   This way, "import model" works.
@@ -15,9 +15,9 @@ import os
 sys.path.insert(0, head)
 
 #Import the sub-modules: needed when running the installed script version.
-import model
-import gui
-import pyevolve
+from . import model
+from . import gui
+from . import pyevolve
 
 #And the stuff in here
-import CrystalPlan_version
+from . import CrystalPlan_version

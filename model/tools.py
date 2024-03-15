@@ -11,11 +11,11 @@ import weave
 import os
 
 #--- Model Imports ---
-import experiment
-import instrument
-from reflections import ReflectionMeasurement
-import numpy_utils
-from numpy_utils import column, rotation_matrix, vector_length, normalize_vector, vector, \
+from . import experiment
+from . import instrument
+from .reflections import ReflectionMeasurement
+from . import numpy_utils
+from .numpy_utils import column, rotation_matrix, vector_length, normalize_vector, vector, \
                     vectors_to_matrix, az_elev_direction, within
 
 #================================================================================
@@ -42,7 +42,7 @@ def calculate_peak_offsets():
     #@type gon Goniometer
     gon = inst.goniometer
 
-    print len(inst.positions)
+    print(len(inst.positions))
     
     offsets = []
     count = 0
@@ -51,7 +51,7 @@ def calculate_peak_offsets():
         ref.measurements
         #@type rrm ReflectionRealMeasurement
         for rrm in ref.real_measurements:
-            for i in xrange(len(ref.measurements)):
+            for i in range(len(ref.measurements)):
                 #@type rm ReflectionMeasurement
                 rm = ReflectionMeasurement(ref, 0)
                 if rm.detector_num == rrm.detector_num:
@@ -66,7 +66,7 @@ def calculate_peak_offsets():
                                 offsets.append(po)
                                 #print po
 
-    print "%d peaks found." % (len(offsets))
+    print("%d peaks found." % (len(offsets)))
     return offsets
 
 
@@ -91,8 +91,8 @@ def plot_peak_offsets(offsets, filebase, doshow=False):
     # Now do the root-mean
     rms = (rms/ len(offsets))**0.5
     rms_wl = (rms_wl/ len(offsets))**0.5
-    print "Peak offsets RMS error is ", rms
-    print "Peak offsets RMS wavelength error is ", rms_wl
+    print("Peak offsets RMS error is ", rms)
+    print("Peak offsets RMS wavelength error is ", rms_wl)
 
     #@type det FlatDetector
     for (det_num, det) in enumerate(inst.detectors):
@@ -117,7 +117,7 @@ def plot_peak_offsets(offsets, filebase, doshow=False):
         #axis('equal')
         title('Detector %s' % det.name)
     #-- Save to files --
-    for i in xrange((len(inst.detectors) + numperpage-1) / numperpage):
+    for i in range((len(inst.detectors) + numperpage-1) / numperpage):
         figure(i)
         savefig( filebase + "_%d.pdf" % i, papertype="letter")
     #-- combine --

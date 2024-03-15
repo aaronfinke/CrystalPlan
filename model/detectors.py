@@ -10,9 +10,9 @@ import numpy as np
 import weave
 
 #--- Model Imports ---
-import numpy_utils
-import utils
-from numpy_utils import rotation_matrix, x_rotation_matrix, column, vector_length
+from . import numpy_utils
+from . import utils
+from .numpy_utils import rotation_matrix, x_rotation_matrix, column, vector_length
 
 
 #========================================================================================================
@@ -176,7 +176,7 @@ class FlatDetector(Detector):
         #Now we look for the intersection between the plane of normal nx,ny,nz and the given angle.
         n_dot_base = nx*x0 + ny*y0 + nz*z0
 
-        print "bz is zero?", np.sum(bz<1e-10)
+        print("bz is zero?", np.sum(bz<1e-10))
 
         if type(bx) == np.ndarray:
             #Vectorized way
@@ -814,7 +814,7 @@ class TestFlatDetector(unittest.TestCase):
         assert np.allclose(elev_x, self.det.elevation_angle[0, :]), "elevation angles match along x."
         assert np.allclose(elev_y, self.det.elevation_angle[:, 0]), "elevation angles match along y."
         #All azimuthal angle with same x index match
-        for iy in xrange(1, self.det.ypixels):
+        for iy in range(1, self.det.ypixels):
             assert np.allclose(az, self.det.azimuthal_angle[iy, :]), "Azimuthal angles match in all y values."
         #But there is a difference in elev. angles
         assert np.all( abs(self.det.elevation_angle[:, 0] - self.det.elevation_angle[:, 1]) > 0), "Some small difference in elevation angles as you change x."
@@ -1008,8 +1008,8 @@ class TestCylindricalDetector(unittest.TestCase):
         #Check some shapes
         assert self.det.pixels.shape == (3, 10, 16)
         assert self.det.azimuthal_angle.shape == (10, 16)
-        print self.det.azimuthal_angle
-        print self.det.elevation_angle
+        print(self.det.azimuthal_angle)
+        print(self.det.elevation_angle)
 
 
     def test_detector_coord(self):

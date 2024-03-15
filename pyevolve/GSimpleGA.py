@@ -60,14 +60,14 @@ Class
 """
 import copy
 
-from GPopulation  import GPopulation
-from FunctionSlot import FunctionSlot
-from Migration    import MigrationScheme
-from GenomeBase   import GenomeBase
-from DBAdapters   import DBBaseAdapter
+from .GPopulation  import GPopulation
+from .FunctionSlot import FunctionSlot
+from .Migration    import MigrationScheme
+from .GenomeBase   import GenomeBase
+from .DBAdapters   import DBBaseAdapter
 
-import Consts
-import Util
+from . import Consts
+from . import Util
 
 import random
 import logging
@@ -373,7 +373,7 @@ class GSimpleGA:
       ret += "\tCurrent Generation:\t %d\n" % (self.currentGeneration,)
       ret += "\tMutation Rate:\t\t %.2f\n" % (self.pMutation,)
       ret += "\tCrossover Rate:\t\t %.2f\n" % (self.pCrossover,)
-      ret += "\tMinimax Type:\t\t %s\n" % (Consts.minimaxType.keys()[Consts.minimaxType.values().index(self.minimax)].capitalize(),)
+      ret += "\tMinimax Type:\t\t %s\n" % (list(Consts.minimaxType.keys())[list(Consts.minimaxType.values()).index(self.minimax)].capitalize(),)
       ret += "\tElitism:\t\t %s\n" % (self.elitism,)
       ret += "\tElitism Replacement:\t %d\n" % (self.nElitismReplacement,)
       ret += "\tDB Adapter:\t\t %s\n" % (self.dbAdapter,)
@@ -472,7 +472,7 @@ class GSimpleGA:
       :param sort_type: the Sort Type
 
       """
-      if sort_type not in Consts.sortType.values():
+      if sort_type not in list(Consts.sortType.values()):
          Util.raiseException("sort type must be a Consts.sortType type", TypeError)
       self.internalPop.sortType = sort_type
 
@@ -539,7 +539,7 @@ class GSimpleGA:
       :param mtype: the minimax mode, from Consts.minimaxType
 
       """
-      if mtype not in Consts.minimaxType.values():
+      if mtype not in list(Consts.minimaxType.values()):
          Util.raiseException("Minimax must be maximize or minimize", TypeError)
       self.minimax = mtype
 
@@ -585,10 +585,10 @@ class GSimpleGA:
       function_set = {}
 
       main_dict = mod_main.__dict__
-      for obj, addr in main_dict.items():
+      for obj, addr in list(main_dict.items()):
          if obj[0:len(prefix)] == prefix:
             try:
-               op_len = addr.func_code.co_argcount
+               op_len = addr.__code__.co_argcount
             except:
                continue
             function_set[obj] = op_len
@@ -641,7 +641,7 @@ class GSimpleGA:
       #Check on the crossover function by picking a random individual - is it empty?
       crossover_empty = self.select(popID=self.currentGeneration).crossover.isEmpty()
       
-      for i in xrange(0, size_iterate, 2):
+      for i in range(0, size_iterate, 2):
          #Ok, we select 2 parents using the selector (RouletteWheel, etc.)
          genomeMom = self.select(popID=self.currentGeneration)
          genomeDad = self.select(popID=self.currentGeneration)
@@ -701,11 +701,11 @@ class GSimpleGA:
          logging.debug("Doing elitism.")
          if self.getMinimax() == Consts.minimaxType["maximize"]:
             #Replace the n-th worst new ones with the nth best old ones
-            for i in xrange(self.nElitismReplacement):
+            for i in range(self.nElitismReplacement):
                if self.internalPop.bestRaw(i).score > newPop.bestRaw(i).score:
                   newPop[len(newPop)-1-i] = self.internalPop.bestRaw(i)
          elif self.getMinimax() == Consts.minimaxType["minimize"]:
-            for i in xrange(self.nElitismReplacement):
+            for i in range(self.nElitismReplacement):
                if self.internalPop.bestRaw(i).score < newPop.bestRaw(i).score:
                   newPop[len(newPop)-1-i] = self.internalPop.bestRaw(i)
 
@@ -729,7 +729,7 @@ class GSimpleGA:
       percent = self.currentGeneration * 100 / float(self.nGenerations)
       message = "Gen. %d (%.2f%%):" % (self.currentGeneration, percent)
       logging.info(message)
-      print message,
+      print(message, end=' ')
       sys_stdout.flush()
       self.internalPop.statistics()
       stat_ret = self.internalPop.printStats()
@@ -738,7 +738,7 @@ class GSimpleGA:
    def printTimeElapsed(self):
       """ Shows the time elapsed since the begin of evolution """
       total_time = time()-self.time_init
-      print "Total time elapsed: %.3f seconds." % total_time
+      print("Total time elapsed: %.3f seconds." % total_time)
       return total_time
    
    def dumpStatsDB(self):
@@ -821,13 +821,13 @@ class GSimpleGA:
             if stopFlagTerminationCriteria:
                logging.debug("Evolution stopped by the Termination Criteria !")
                if freq_stats:
-                  print "\n\tEvolution stopped by Termination Criteria function !\n"
+                  print("\n\tEvolution stopped by Termination Criteria function !\n")
                break
 
             if stopFlagCallback:
                logging.debug("Evolution stopped by Step Callback function !")
                if freq_stats:
-                  print "\n\tEvolution stopped by Step Callback function !\n"
+                  print("\n\tEvolution stopped by Step Callback function !\n")
                break
 
             #(Here was interactive mode code, removed)
@@ -838,7 +838,7 @@ class GSimpleGA:
 
       except KeyboardInterrupt:
          logging.debug("CTRL-C detected, finishing evolution.")
-         if freq_stats: print "\n\tA break was detected, you have interrupted the evolution !\n"
+         if freq_stats: print("\n\tA break was detected, you have interrupted the evolution !\n")
 
       #Finished. Clean up the multiprocessing pool
       self.getPopulation().cleanupMultiProcessing()
@@ -855,9 +855,9 @@ class GSimpleGA:
    
       if self.migrationAdapter:
          logging.debug("Closing the Migration Adapter")
-         if freq_stats: print "Stopping the migration adapter... ",
+         if freq_stats: print("Stopping the migration adapter... ", end=' ')
          self.migrationAdapter.stop()
-         if freq_stats: print "done !"
+         if freq_stats: print("done !")
 
       return (self.bestIndividual(), stopFlagCallback, stopFlagTerminationCriteria)
 

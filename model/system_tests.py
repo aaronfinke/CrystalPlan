@@ -7,12 +7,12 @@
 #--- General Imports ---
 import numpy as np
 
-import crystals
-from crystals import Crystal
-import instrument
-import goniometer
-import experiment
-from experiment import Experiment, ParamPositions
+from . import crystals
+from .crystals import Crystal
+from . import instrument
+from . import goniometer
+from . import experiment
+from .experiment import Experiment, ParamPositions
 
 
 #================================================================================
@@ -119,9 +119,9 @@ class TestSystem(unittest.TestCase):
         c2.read_ISAW_ubmatrix_file("data/TOPAZ_1204_ev.mat", angles=[0, 0, 0])
         assert np.allclose(c.reciprocal_lattice, c2.reciprocal_lattice, atol=0.05), "B matrices match, roughly. %s vs %s" % (c.reciprocal_lattice, c2.reciprocal_lattice)
         assert np.allclose(c.u_matrix, c2.u_matrix, atol=0.02), "U matrices match, roughly. %s vs %s" % (c.u_matrix, c2.u_matrix)
-        print "\n\n\n"
-        print c.u_matrix
-        print c2.u_matrix
+        print("\n\n\n")
+        print(c.u_matrix)
+        print(c2.u_matrix)
         
     #----------------------------------------------------
     #----------------------------------------------------
@@ -153,7 +153,7 @@ class TestSystem(unittest.TestCase):
         #Now compare!
         (numbad, numgood, out) = e.compare_to_peaks_file(measurement_file + ".peaks")
 #        print out, "\n\nsvi%d were bad; %d were good" % (numbad, numgood)
-        print "%s: %d were bad; %d were good" % (filebase, numbad, numgood)
+        print("%s: %d were bad; %d were good" % (filebase, numbad, numgood))
         assert numbad==expect_bad, "%s: expected %d bad peaks, but got %d bad peaks.\n%s" % (filebase, expect_bad, numbad, out)
         assert numgood==expect_good, "%s: expected %d good peaks, but got %d god peaks.\n%s" % (filebase, expect_good, numgood, out)
 

@@ -486,7 +486,7 @@ def vectors_to_matrix(*args):
             raise ValueError("vectors_to_matrix needs numpy arrays as inputs.")
         height = args[0].size
         M = np.zeros( (height, n) )
-        for i in xrange(len(args)):
+        for i in range(len(args)):
             M[:, i] = args[i].flatten()
         return M
 
@@ -582,7 +582,7 @@ class TestNumpyUtils(unittest.TestCase):
         assert np.allclose(rot, r), "No rotation one"
 
         r = np.zeros( (3,3) )
-        for x in xrange(3): r[x,x] = [-1, 1, -1][x]
+        for x in range(3): r[x,x] = [-1, 1, -1][x]
         rot = rotation_matrix(np.pi,0,0)
         assert np.allclose(rot, r), "Phi = pi"
         assert np.allclose(np.dot(rot, rot.transpose()), np.eye(3)), "Rotation matrix is orthonormal: M*M.transpose() == Identity."

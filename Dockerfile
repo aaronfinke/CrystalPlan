@@ -1,11 +1,14 @@
-ARG UBUNTU_VERSION=16.04
+ARG UBUNTU_VERSION=18.04
 FROM --platform=linux/amd64 ubuntu:$UBUNTU_VERSION
 
+ENV TZ=Europe/Stockholm
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Install dependencies
-RUN apt-get update \
+RUN apt-get update --yes \
   && apt-get install -y wget gcc make openssl libffi-dev libgdbm-dev libsqlite3-dev libssl-dev \
   zlib1g-dev git command-not-found less gzip vim x11-apps bzip2 libbz2-dev libfreetype6-dev \
-  pkg-config libpng12-dev \
+  pkg-config python3.10 \
   && apt autoremove --yes \
   && apt-get clean
 

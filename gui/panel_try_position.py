@@ -13,9 +13,9 @@ import numpy as np
 import copy
 
 #--- GUI Imports ---
-import display_thread
-from  value_slider import ValueSlider, EVT_VALUE_SLIDER_CHANGED, EVT_VALUE_SLIDER_CHANGING
-import gui_utils
+from . import display_thread
+from  .value_slider import ValueSlider, EVT_VALUE_SLIDER_CHANGED, EVT_VALUE_SLIDER_CHANGING
+from . import gui_utils
 
 #--- Model Imports ---
 import model
@@ -225,45 +225,45 @@ class PanelTryPosition(wx.Panel):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PANELTRYPOSITION,
-              name=u'PanelTryPosition', parent=prnt, pos=wx.Point(679, 241),
+              name='PanelTryPosition', parent=prnt, pos=wx.Point(679, 241),
               size=wx.Size(367, 523), style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(367, 523))
 
         self.staticTextHelp = wx.StaticText(id=wxID_PANELTRYPOSITIONSTATICTEXTHELP,
-              label=u'This window allows you to try out a new sample orientation and see the change in coverage. Push the button at the bottom when you are happy with the result.',
-              name=u'staticTextHelp', parent=self, pos=wx.Point(0, 0),
+              label='This window allows you to try out a new sample orientation and see the change in coverage. Push the button at the bottom when you are happy with the result.',
+              name='staticTextHelp', parent=self, pos=wx.Point(0, 0),
               style=0)
         #Mac fix for too-wide text.
         if gui_utils.is_mac():
             self.staticTextHelp.Wrap(self.GetSize()[0] - 50)
 
         self.staticLineTop = wx.StaticLine(id=wxID_PANELTRYPOSITIONSTATICLINETOP,
-              name=u'staticLineTop', parent=self, pos=wx.Point(0, 68), style=0)
+              name='staticLineTop', parent=self, pos=wx.Point(0, 68), style=0)
 
         self.checkAdd = wx.CheckBox(id=wxID_PANELTRYPOSITIONCHECKADD,
-              label=u'Add this position (temporarily)', name=u'checkAdd',
+              label='Add this position (temporarily)', name='checkAdd',
               parent=self, pos=wx.Point(0, 78), style=0)
         self.checkAdd.SetValue(False)
         self.checkAdd.Bind(wx.EVT_CHECKBOX, self.OnCheckAddCheckbox,
               id=wxID_PANELTRYPOSITIONCHECKADD)
 
         self.buttonSave = wx.Button(id=wxID_PANELTRYPOSITIONBUTTONSAVE,
-              label=u'Save this orientation in the list', name=u'buttonSave',
+              label='Save this orientation in the list', name='buttonSave',
               parent=self, pos=wx.Point(0, 99), size=wx.Size(367, 29), style=0)
         self.buttonSave.Bind(wx.EVT_BUTTON, self.OnButtonSaveButton,
               id=wxID_PANELTRYPOSITIONBUTTONSAVE)
 
         self.staticTextWarning = wx.StaticText(id=wxID_PANELTRYPOSITIONSTATICTEXTWARNING,
-              label=u'Warning! The angles cannot be achieved by the goniometer!',
-              name=u'staticTextWarning', parent=self, pos=wx.Point(4, 100), style=0)
+              label='Warning! The angles cannot be achieved by the goniometer!',
+              name='staticTextWarning', parent=self, pos=wx.Point(4, 100), style=0)
         self.staticTextWarning.SetForegroundColour(wx.Colour(255, 0, 0))
         self.staticTextWarning.Hide()
 
         self.staticTextWarningReason = wx.StaticText(id=wxID_PANELTRYPOSITIONSTATICTEXTWARNINGREASON,
-              label=u'Reason: ', name=u'staticTextWarningReason', parent=self,
+              label='Reason: ', name='staticTextWarningReason', parent=self,
               pos=wx.Point(16, 134), style=0)
         self.staticTextWarningReason.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL,
-              wx.BOLD, False, u'Sans'))
+              wx.BOLD, False, 'Sans'))
         self.staticTextWarningReason.SetForegroundColour(wx.Colour(255, 0, 0))
         self.staticTextWarningReason.Hide()
 
@@ -296,6 +296,6 @@ class PanelTryPosition(wx.Panel):
 
 
 if __name__ == '__main__':
-    import gui_utils
+    from . import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelTryPosition)
     app.MainLoop()

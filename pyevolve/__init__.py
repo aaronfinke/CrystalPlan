@@ -19,7 +19,7 @@ __all__ = ["Consts", "Crossovers", "DBAdapters", "FunctionSlot",
 __version__ =  '0.6rc1'
 __author__ =  'Christian S. Perone'
 
-import Consts
+from . import Consts
 import sys
 
 if sys.version_info[:2] < Consts.CDefPythonRequire:
@@ -43,4 +43,4 @@ def logEnable(filename=Consts.CDefLogFile, level=Consts.CDefLogLevel):
                     filename=filename,
                     filemode='w')
    logging.info("Pyevolve v.%s, the log was enabled by user.", __version__)
-   print("Pyevolve v.%s, logging to %s." % (__version__, filename))
+   print(("Pyevolve v.%s, logging to %s." % (__version__, filename)))

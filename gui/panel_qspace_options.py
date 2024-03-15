@@ -10,10 +10,10 @@ import wx
 import numpy as np
 
 #--- GUI Imports ---
-from slice_control import SliceControl
-import display_thread
-import config_gui
-import gui_utils
+from .slice_control import SliceControl
+from . import display_thread
+from . import config_gui
+from . import gui_utils
 
 #--- Model Imports ---
 import model
@@ -89,7 +89,7 @@ class QspaceOptionsController:
             data_x = np.arange(-50, 20, 1)
             #data_y = [(1.0, 0., 0., 0., 0.) for x in data_x]
             data_y = []
-            for i in xrange(4):
+            for i in range(4):
                 data_y.append( data_x*0 )
             self.panel.sliceEnergy.SetData(data_x, data_y)
             self.panel.sliceEnergy.Refresh()
@@ -151,25 +151,25 @@ class PanelQspaceOptions(wx.Panel):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PanelQspaceOptions,
-              name=u'PanelQspaceOptions', parent=prnt, pos=wx.Point(676, 622),
+              name='PanelQspaceOptions', parent=prnt, pos=wx.Point(676, 622),
               size=wx.Size(726, 208), style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(726, 208))
         self.SetAutoLayout(True)
 
         self.panel_to_hold_slice_control = wx.Panel(id=wxID_PanelQspaceOptionsPANEL_TO_HOLD_SLICE_CONTROL,
-              name=u'panel_to_hold_slice_control', parent=self, pos=wx.Point(4,
+              name='panel_to_hold_slice_control', parent=self, pos=wx.Point(4,
               53), size=wx.Size(718, 151),
               style=wx.RAISED_BORDER | wx.THICK_FRAME | wx.TAB_TRAVERSAL)
 
         self.checkShowSlice = wx.CheckBox(id=wxID_PanelQspaceOptionsCHECKSHOWSLICE,
-              label=u'Show a slice in q', name=u'checkShowSlice', parent=self,
+              label='Show a slice in q', name='checkShowSlice', parent=self,
               pos=wx.Point(4, 27),  style=0)
         self.checkShowSlice.SetValue(False)
         self.checkShowSlice.Bind(wx.EVT_CHECKBOX, self.OnCheckShowSliceCheckbox,
               id=wxID_PanelQspaceOptionsCHECKSHOWSLICE)
 
         self.checkRealtimeSlice = wx.CheckBox(id=wxID_PanelQspaceOptionsCHECKREALTIMESLICE,
-              label=u'Real-time slice', name=u'checkRealtimeSlice',
+              label='Real-time slice', name='checkRealtimeSlice',
               parent=self, pos=wx.Point(124, 27), style=0)
         self.checkRealtimeSlice.SetValue(False)
         self.checkRealtimeSlice.SetMinSize(wx.Size(-1, -1))
@@ -178,7 +178,7 @@ class PanelQspaceOptions(wx.Panel):
               id=wxID_PanelQspaceOptionsCHECKREALTIMESLICE)
 
         self.checkInvert = wx.CheckBox(id=wxID_PanelQspaceOptionsCHECKINVERT,
-              label=u'Invert (to show areas NOT covered)', name=u'checkInvert',
+              label='Invert (to show areas NOT covered)', name='checkInvert',
               parent=self, pos=wx.Point(270, 27), size=wx.Size(272, 22),
               style=0)
         self.checkInvert.SetValue(False)
@@ -186,15 +186,15 @@ class PanelQspaceOptions(wx.Panel):
               id=wxID_PanelQspaceOptionsCHECKINVERT)
 
         self.checkSymmetry = wx.CheckBox(id=wxID_PanelQspaceOptionsCHECKSYMMETRY,
-              label=u'Use crystal symmetry?   ',
-              name=u'checkSymmetry', parent=self, pos=wx.Point(4, 0), style=0)
+              label='Use crystal symmetry?   ',
+              name='checkSymmetry', parent=self, pos=wx.Point(4, 0), style=0)
         self.checkSymmetry.SetValue(False)
         self.checkSymmetry.Bind(wx.EVT_CHECKBOX,
               self.OnCheckSymmetryCheckbox,
               id=wxID_PanelQspaceOptionsCHECKSYMMETRY)
 
         self.checkShowRedundancy = wx.CheckBox(id=wxID_PanelQspaceOptionsCHECKSHOWREDUNDANCY,
-              label=u'Show Redundancy', name=u'checkShowRedundancy',
+              label='Show Redundancy', name='checkShowRedundancy',
               parent=self, pos=wx.Point(312, 0), size=wx.Size(160, 22),
               style=0)
         self.checkShowRedundancy.SetValue(False)
@@ -213,7 +213,7 @@ class PanelQspaceOptions(wx.Panel):
         #Continue by adding the custom slicer control
         self.sliceControl = SliceControl(parent=self.panel_to_hold_slice_control,
                 use_slice=False, apply_slice_method=self.controller.apply_slice,
-                id=wx.NewId(), name=u'panel_to_hold_slice_control', pos=wx.Point(8, 16),
+                id=wx.NewId(), name='panel_to_hold_slice_control', pos=wx.Point(8, 16),
                 size=wx.Size(664, 100))
 
         self.sizerSlices = wx.BoxSizer(orient=wx.VERTICAL)
@@ -284,7 +284,7 @@ if __name__ == '__main__':
     model.instrument.inst.make_qspace()
     #Initialize the instrument and experiment
     model.experiment.exp = model.experiment.Experiment(model.instrument.inst)
-    import gui_utils
+    from . import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelQspaceOptions)
     app.frame.SetClientSize(wx.Size(700,500))
     app.MainLoop()

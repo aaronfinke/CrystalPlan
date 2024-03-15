@@ -13,13 +13,13 @@ import os
 import numpy as np
 
 #--- GUI Imports ---
-import display_thread
-import gui_utils
+from . import display_thread
+from . import gui_utils
 from traits.api import HasTraits, Range, Instance, on_trait_change
 from traitsui.api import View, Item, HGroup
 #try:
 if 1:
-    from mlab_utils import *
+    from .mlab_utils import *
     from tvtk.pyface.scene_editor import SceneEditor
     from mayavi.tools.mlab_scene_model import MlabSceneModel
     from mayavi.core.ui.mayavi_scene import MayaviScene
@@ -79,10 +79,10 @@ class DetectorVisualization(HasTraits):
         else:
             # Cylindrical
             # Bottom circle
-            points = [tuple(det.pixels[:, 0, x]) for x in xrange(det.xpixels)]
+            points = [tuple(det.pixels[:, 0, x]) for x in range(det.xpixels)]
             lines(points, color=col, tube_radius=rad, mlab=self.scene.mlab)
             # Top circle
-            points = [tuple(det.pixels[:, -1, x]) for x in xrange(det.xpixels)]
+            points = [tuple(det.pixels[:, -1, x]) for x in range(det.xpixels)]
             lines(points, color=col, tube_radius=rad, mlab=self.scene.mlab)
             # Vertical lines
             points = [det.pixels[:, -1, 0], det.pixels[:, 0, 0]]
@@ -204,7 +204,7 @@ class DetectorListController:
         filters = 'CSV or detcal files|*.csv;*.detcal;*.DetCal|CSV files (*.csv)|*.csv|detcal files (*.detcal)|*.detcal;*.DetCal|All files (*)|*'
         if gui_utils.is_mac():
             filters = '' #This is needed on Mac, for some reason the filters crashes otherwise.
-        print 'opening dialog for path', path, filename
+        print('opening dialog for path', path, filename)
         dialog = wx.FileDialog ( None, defaultFile=filename, defaultDir=path, message='Choose a .csv or .detcal file describing the detector geometry', wildcard=filters, style=wx.OPEN )
         dialog.SetFilterIndex(0)
         if dialog.ShowModal() == wx.ID_OK:
@@ -311,7 +311,7 @@ class DetectorListController:
             #And calculate the % coverage.
             (coverage_percent, redundant_percent) = model.experiment.exp.overall_coverage_stats(qspace)
             self.detector_coverage[x] = coverage_percent
-            print "Detector #%s has %s coverage." % (x, coverage_percent)
+            print("Detector #%s has %s coverage." % (x, coverage_percent))
         #And redo the list
         self.update()
 
@@ -352,16 +352,16 @@ class DetectorListController:
         worst_coverage = temp[num-1]
 
         #Select the items that are as good or better
-        print "Selecting the best", num, "detectors:",
+        print("Selecting the best", num, "detectors:", end=' ')
         count = 0
         for x in range(self.lst.GetCount()):
             b = (self.detector_coverage[x] >= worst_coverage)
             if b: count = count + 1
             if count > num: b = False
             if b:
-                print model.experiment.exp.inst.detectors[x].name,
+                print(model.experiment.exp.inst.detectors[x].name, end=' ')
             self.lst.Check(x,  b )
-        print ""
+        print("")
 
         #Redo the list
         self.changed()
@@ -428,38 +428,38 @@ class PanelDetectors(wx.Panel):
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Panel.__init__(self, id=wxID_PANELDETECTORS, name=u'PanelDetectors',
+        wx.Panel.__init__(self, id=wxID_PANELDETECTORS, name='PanelDetectors',
               parent=prnt, pos=wx.Point(755, 544), size=wx.Size(512, 511),
               style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(512, 511))
         self.SetAutoLayout(True)
 
         self.staticText1 = wx.StaticText(id=wxID_PANELDETECTORSSTATICTEXT1,
-              label=u'Check which detectors to consider in the calculation.',
+              label='Check which detectors to consider in the calculation.',
               name='staticText1', parent=self, pos=wx.Point(0, 0), style=0)
-        self.staticText1.SetToolTipString(u'Detectors!')
+        self.staticText1.SetToolTipString('Detectors!')
         self.staticText1.SetMinSize(wx.Size(-1, -1))
 
         self.button_view_detectors = wx.Button(id=wxID_PANELDETECTORSBUTTON_VIEW_DETECTORS,
-              label=u'  View Detectors in 3D  ', name=u'button_view_detectors',
+              label='  View Detectors in 3D  ', name='button_view_detectors',
               parent=self, pos=wx.Point(321, 62), style=0)
         self.button_view_detectors.Bind(wx.EVT_BUTTON,
               self.OnButton_view_detectorsButton,
               id=wxID_PANELDETECTORSBUTTON_VIEW_DETECTORS)
 
         self.chklistDetectors = wx.CheckListBox(choices=[],
-              id=wxID_PANELDETECTORSCHKLISTDETECTORS, name=u'chklistDetectors',
+              id=wxID_PANELDETECTORSCHKLISTDETECTORS, name='chklistDetectors',
               parent=self, pos=wx.Point(0, 99), size=wx.Size(512, 412))#,
               #style=wx.NO_3D)
         self.chklistDetectors.SetMinSize(wx.Size(20, 40))
         self.chklistDetectors.SetFont(wx.Font(10, 76, wx.NORMAL, wx.NORMAL,
-              False, u'Monospace'))
+              False, 'Monospace'))
         self.chklistDetectors.Bind(wx.EVT_CHECKLISTBOX,
               self.OnChklistDetectorsChecklistbox,
               id=wxID_PANELDETECTORSCHKLISTDETECTORS)
 
         self.checkSelectAll = wx.CheckBox(id=wxID_PANELDETECTORSCHECKSELECTALL,
-              label=u'Select All', name=u'checkSelectAll', parent=self,
+              label='Select All', name='checkSelectAll', parent=self,
               pos=wx.Point(0, 25), style=0)
         self.checkSelectAll.SetValue(False)
         self.checkSelectAll.SetMinSize(wx.Size(-1, 24))
@@ -467,31 +467,31 @@ class PanelDetectors(wx.Panel):
               id=wxID_PANELDETECTORSCHECKSELECTALL)
 
         self.buttonStats = wx.Button(id=wxID_PANELDETECTORSBUTTONSTATS,
-              label=u'  Coverage Stats...  ', name=u'buttonStats', parent=self,
+              label='  Coverage Stats...  ', name='buttonStats', parent=self,
               pos=wx.Point(0, 62),  style=0)
         self.buttonStats.Bind(wx.EVT_BUTTON, self.OnButtonStatsButton,
               id=wxID_PANELDETECTORSBUTTONSTATS)
 
         self.buttonSelectBest = wx.Button(id=wxID_PANELDETECTORSBUTTONSELECTBEST,
-              label=u'  Select best # detectors...  ', name=u'buttonSelectBest',
+              label='  Select best # detectors...  ', name='buttonSelectBest',
               parent=self, pos=wx.Point(128, 62), style=0)
         self.buttonSelectBest.Bind(wx.EVT_BUTTON, self.OnButtonSelectBestButton,
               id=wxID_PANELDETECTORSBUTTONSELECTBEST)
 
         self.buttonSelectList = wx.Button(id=wxID_PANELDETECTORSBUTTONSELECTLIST,
-              label=u'  Select List...  ', name=u'buttonSelectList', parent=self,
+              label='  Select List...  ', name='buttonSelectList', parent=self,
               pos=wx.Point(93, 25), style=0)
         self.buttonSelectList.Bind(wx.EVT_BUTTON, self.OnButtonSelectListButton,
               id=wxID_PANELDETECTORSBUTTONSELECTLIST)
 
         self.buttonOptimize = wx.Button(id=wxID_PANELDETECTORSBUTTONOPTIMIZE,
-              label=u'  Optimize using GA  ', name=u'buttonOptimize', parent=self,
+              label='  Optimize using GA  ', name='buttonOptimize', parent=self,
               pos=wx.Point(207, 25), style=0)
         self.buttonOptimize.Bind(wx.EVT_BUTTON, self.OnButtonOptimizeButton,
               id=wxID_PANELDETECTORSBUTTONOPTIMIZE)
 
-        self.buttonLoadDetectors = wx.Button(label=u'  Load Detectors CSV/detcal file  ',
-                name=u'buttonLoadDetectors', parent=self,
+        self.buttonLoadDetectors = wx.Button(label='  Load Detectors CSV/detcal file  ',
+                name='buttonLoadDetectors', parent=self,
                 pos=wx.Point(207, 25), style=0)
         self.buttonLoadDetectors.Bind(wx.EVT_BUTTON, self.OnButtonLoadDetectors)
 
@@ -584,6 +584,6 @@ if __name__ == "__main__":
 #    frame3d.display()
 #    sys.exit()
 
-    import gui_utils
+    from . import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelDetectors)
     app.MainLoop()

@@ -12,8 +12,8 @@ from numpy import array, sin, cos, pi, sign
 import weave
 
 #--- Model Imports ---
-import numpy_utils
-from numpy_utils import column, rotation_matrix, vector_length, normalize_vector, vector, \
+from . import numpy_utils
+from .numpy_utils import column, rotation_matrix, vector_length, normalize_vector, vector, \
                     vectors_to_matrix, az_elev_direction, within
 
 
@@ -692,8 +692,8 @@ class TestCrystalCalc(unittest.TestCase):
         rot_matrix = rotation_matrix(0.31, -0.23, 0.43)
         q1 = getq_python(az, elev, wl, rot_matrix, wl_input=wl_input)
         q2 = getq(az, elev, wl, rot_matrix, wl_input=wl_input)
-        print "python:", q1
-        print "c:", q2
+        print("python:", q1)
+        print("c:", q2)
         assert np.allclose(q1[0].flatten(), np.array(q2[0]).flatten()) , "Python and C getq (inelastic) match within float error. %s (python); %s (C)" % (q1, q2)
         assert np.allclose(q1[1].flatten(), np.array(q2[1]).flatten()) , "Python and C getq (inelastic) match within float error. %s (python); %s (C)" % (q1, q2)
         #assert np.all(q1 == q2) , "Python and C getq match exactly."
@@ -810,7 +810,7 @@ class TestCrystalCalc(unittest.TestCase):
         hkl = get_hkl_from_q(column([0.2, 0, 0])*2*pi, rec)
         assert np.allclose(vector(hkl), vector([1,0,0])), "get_hkl_from_q (1,0,0)."
         #Sanity check
-        for i in xrange(10):
+        for i in range(10):
             val = column(np.random.rand(3))
             q = get_q_from_hkl(val, a, b, c)
             hkl = get_hkl_from_q(q, rec)
@@ -819,7 +819,7 @@ class TestCrystalCalc(unittest.TestCase):
 
     def check_matrix_lengths(self, M, lat):
         """Check if the lengths of the columns of M match the values in tuple lat"""
-        lengths = [(vector_length(M[:,x])) for x in xrange(3)]
+        lengths = [(vector_length(M[:,x])) for x in range(3)]
         #print "lengths", lengths
         return np.allclose(lengths, lat)
 
@@ -830,7 +830,7 @@ class TestCrystalCalc(unittest.TestCase):
         angles = tuple( np.deg2rad( [90, 90, 90]))
         #Make the expected matrix
         M = np.identity(3)
-        for x in xrange(3): M[x,x] = lat[x]
+        for x in range(3): M[x,x] = lat[x]
         (a,b,c,V) = make_lattice_vectors(lat, angles)
         res = (vectors_to_matrix(a,b,c))
         assert np.allclose(M, res), "Simple orthorombic lattice"
@@ -847,7 +847,7 @@ class TestCrystalCalc(unittest.TestCase):
         #Rhombohedral example
         angles = tuple( np.deg2rad( [45, 45, 45]))
         M = np.identity(3)
-        for x in xrange(3): M[x,x] = lat[x]
+        for x in range(3): M[x,x] = lat[x]
         M[:,1] = np.sqrt(2)/2 * vector( 10, 10, 0 ) #Value by inspection
         M[:,2] = vector( 14.14213562, 5.85786438, 12.87188506 ) #Value came from program
         (a,b,c,V) = make_lattice_vectors(lat, angles)
@@ -858,7 +858,7 @@ class TestCrystalCalc(unittest.TestCase):
         #Triclinic example
         angles = tuple( np.deg2rad( [30, 45, 60]))
         M = np.identity(3)
-        for x in xrange(3): M[x,x] = lat[x]
+        for x in range(3): M[x,x] = lat[x]
         M[:,1] = vector( 5, 8.66025404, 0 ) #Value came from program
         M[:,2] = vector( 14.14213562, 11.83503419, 7.74157385 ) #Value came from program
         (a,b,c,V) = make_lattice_vectors(lat, angles)
@@ -917,11 +917,11 @@ class TestCrystalCalc(unittest.TestCase):
 #---------------------------------------------------------------------
 if __name__ == "__main__":
     rot_matrix = numpy_utils.rotation_matrix(np.rad2deg(45), np.rad2deg(90), 0)
-    print rot_matrix
+    print(rot_matrix)
 
     start = column([-1,0,0])
-    print start
+    print(start)
     
     rot = np.dot(rot_matrix, start)
-    print rot
+    print(rot)
     #unittest.main()

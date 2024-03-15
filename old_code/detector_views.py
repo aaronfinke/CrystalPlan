@@ -26,7 +26,7 @@ class DetectorView3D:
             g = ((c/n)%n)/n
             b = ((c/(n*n))%n)/n
             col = (r, g, b)
-            print "plotting " + det.name
+            print("plotting " + det.name)
             det.plot(color=col)
 
         mlab.orientation_axes()

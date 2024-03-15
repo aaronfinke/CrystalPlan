@@ -13,9 +13,9 @@ import numpy as np
 import sys
 
 #--- GUI Imports ---
-import gui_utils
-import display_thread
-import detector_plot
+from . import gui_utils
+from . import display_thread
+from . import detector_plot
 
 #--- Traits imports ---
 from traits.api import HasTraits,Int,Float,Str,String,Property,Bool, List, Tuple, Array, Range, Enum
@@ -168,7 +168,7 @@ class PlacerMapThread(Thread):
                 except:
                     #Unhandled exceptions get thrown to log and message boxes.
                     (type, value, traceback) = sys.exc_info()
-                    print "Exception in PlacerMapThread:\n%s\n%s\n%s" % (type, value, traceback)
+                    print("Exception in PlacerMapThread:\n%s\n%s\n%s" % (type, value, traceback))
                     #sys.excepthook(type, value, traceback, thread_information="reflection_placer.PlacerMapThread")
                 
             else:
@@ -280,8 +280,8 @@ class ReflectionPlacer(HasTraits):
             block_y = block_y.transpose()
             block_xy = block_x * block_y
 
-            for ix in xrange(1, xpixels/previous_step-2, 1):
-                for iy in xrange(1, xpixels/previous_step-2, 1):
+            for ix in range(1, xpixels/previous_step-2, 1):
+                for iy in range(1, xpixels/previous_step-2, 1):
                     #Abort calculation
                     if self._want_abort:
                         self._want_abort=False
@@ -317,14 +317,14 @@ class ReflectionPlacer(HasTraits):
 
             #print time.time()-t1, "secs to fill blocks. Went from %d to %d" % (old_sum, np.sum(calculated))
 
-        for ix in xrange(0, xpixels, step):
+        for ix in range(0, xpixels, step):
             #Report progress
             if callable(callback) and (time.time()-t_start) > 0.1:
                 wx.CallAfter(callback, step, ix*1.0/xpixels)
                 t_start = time.time()
                 
             x = (ix-xpixels/2) * det.width/(1.*xpixels)
-            for iy in xrange(0, ypixels, step):
+            for iy in range(0, ypixels, step):
                 #Don't calculate twice
                 if not calculated[ix,iy]:
                     y = (iy-ypixels/2) * det.height/(1.*ypixels)
@@ -472,10 +472,10 @@ class FrameReflectionPlacer(wx.Frame):
 
 
     def _init_ctrls(self, prnt):
-        wx.Frame.__init__(self, name=u'PanelReflectionPlacer',
+        wx.Frame.__init__(self, name='PanelReflectionPlacer',
               parent=prnt, pos=wx.Point(702, 235), size=wx.Size(475, 600),
               style=wx.DEFAULT_FRAME_STYLE,
-              title=u'Reflection Placer')
+              title='Reflection Placer')
         self.SetClientSize(wx.Size(500, 850))
         self.Bind(wx.EVT_CLOSE, self.OnFormClose)
 
@@ -488,21 +488,21 @@ class FrameReflectionPlacer(wx.Frame):
         self.detectorPlot.Bind(detector_plot.EVT_DETECTOR_CLICKED, self.OnDetectorClick)
 #        self.detectorPlot.Bind(detector_plot.EVT_DETECTOR_CLICK_MOVED, self.OnDetectorClick)
 
-        self.buttonAddOrientation = wx.Button(label=u'Add this orientation...', 
+        self.buttonAddOrientation = wx.Button(label='Add this orientation...', 
               parent=self, pos=wx.Point(128, 62), size=wx.Size(210, 29),
               style=0)
         self.buttonAddOrientation.Bind(wx.EVT_BUTTON, self.OnButtonAddOrientation)
         self.buttonAddOrientation.Enable(False)
 
-        self.buttonOK = wx.Button(label=u'OK',
+        self.buttonOK = wx.Button(label='OK',
               parent=self, pos=wx.Point(128, 62), size=wx.Size(120, 29),
               style=0)
         self.buttonOK.Bind(wx.EVT_BUTTON, self.OnButtonOK)
 
 
-        self.statusBar = wx.StatusBar(name=u'statusBar', parent=self,
+        self.statusBar = wx.StatusBar(name='statusBar', parent=self,
               style=wx.THICK_FRAME | wx.ST_SIZEGRIP)
-        self.statusBar.SetStatusText(u'Calculation status.')
+        self.statusBar.SetStatusText('Calculation status.')
         self.statusBar.SetAutoLayout(True)
         self.SetStatusBar(self.statusBar)
 
@@ -631,7 +631,7 @@ if __name__ == "__main__":
     model.instrument.inst = model.instrument.Instrument(model.config.cfg.default_detector_filename)
     model.experiment.exp = model.experiment.Experiment(model.instrument.inst)
     model.experiment.exp.initialize_reflections()
-    import gui_utils
+    from . import gui_utils
     refl = Reflection( (1,1,-6), np.array([1,1,-6]) )
     (app, pnl) = gui_utils.test_my_gui(FrameReflectionPlacer, refl, None)
     app.frame.SetClientSize(wx.Size(500, 850))

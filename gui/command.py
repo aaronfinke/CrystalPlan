@@ -39,7 +39,7 @@ class Actions:
     reflections_display,
     list_of_positions,
     list_of_detectors
-    ) = range(8)
+    ) = list(range(8))
 
 
 
@@ -224,7 +224,7 @@ ctlr = CommandController()
 #========================================================================
 #========================================================================
 def my_test(message, also="12"):
-    print message, also
+    print(message, also)
 
 if __name__ == "__main__":
     cmd = Command("Test command", my_test, message="This comes from a test command!", also=123)

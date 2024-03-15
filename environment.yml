@@ -5,16 +5,15 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=2.7
+  - python=3.10
   - traitsui=5.0.0
   - mayavi=4.5.0
   - apptools=4.4.0
-  - jsoncpp=0.10.6
   - wxpython=3.0.0
-  - numpy=1.15.4
-  - matplotlib=2.2.5
+  - numpy
+  - matplotlib
   - vtk
   - weave
-  - scipy=1.2.3
-  - gdk-pixbuf=2.42.10
+  - scipy
+  - gdk-pixbuf
   - atk-1.0

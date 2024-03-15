@@ -9,13 +9,13 @@ import time
 import numpy as np
 
 #--- GUI Imports ---
-import panel_qspace_options
-import panel_coverage_stats
-import panel_reflections_view_options
-import frame_reflection_info
-import config_gui
-import gui_utils
-import display_thread
+from . import panel_qspace_options
+from . import panel_coverage_stats
+from . import panel_reflections_view_options
+from . import frame_reflection_info
+from . import config_gui
+from . import gui_utils
+from . import display_thread
 
 #--- Model Imports ---
 import model
@@ -47,8 +47,8 @@ try:
     from mayavi.sources.vtk_data_source import VTKDataSource
     from mayavi.modules.api import Outline, Surface, Glyph, Text
 
-except ImportError, e:
-    print "FrameQspaceView: ERROR IMPORTING MAYAVI MODULES - 3D WILL NOT WORK!"
+except ImportError as e:
+    print("FrameQspaceView: ERROR IMPORTING MAYAVI MODULES - 3D WILL NOT WORK!")
     
 
 
@@ -61,7 +61,7 @@ _instance = None
 
 def create(parent):
     global _instance
-    print "This is FrameQspaceView, creating a new instance of it"
+    print("This is FrameQspaceView, creating a new instance of it")
     _instance = FrameQspaceView(parent)
     return _instance
 
@@ -139,7 +139,7 @@ class QspaceViewController(HasTraits):
 
     #-----------------------------------------------------------------------------------------------
     def __del__(self):
-        print "QspaceViewController.__del__"
+        print("QspaceViewController.__del__")
         self.cleanup()
 
     #-----------------------------------------------------------------------------------------------
@@ -167,7 +167,7 @@ class QspaceViewController(HasTraits):
 
         interactor = self.scene.interactor
         if interactor is None:
-            print "Bad interactor! : ", interactor
+            print("Bad interactor! : ", interactor)
             return
         interactor.add_observer('RightButtonPressEvent', self.on_button_press)
         interactor.add_observer('MouseMoveEvent', self.on_mouse_move)
@@ -458,7 +458,7 @@ class QspaceViewController(HasTraits):
         Parameters:
             predicted: bool, True for the "predicted" color map; measured otherwise"""
         if not hasattr(self, 'points_lut'):
-            print "No LUT!"
+            print("No LUT!")
             return
 #        print "setting lut ", predicted
         if predicted or True:
@@ -876,33 +876,33 @@ class FrameQspaceView(wx.Frame):
 
     def _init_ctrls(self, prnt):
         wx.Frame.__init__(self, id=wxID_FRAMEQSPACEVIEW,
-              name=u'FrameQspaceView', parent=prnt, pos=wx.Point(300, 300),
+              name='FrameQspaceView', parent=prnt, pos=wx.Point(300, 300),
               size=wx.Size(800, 700), style=wx.DEFAULT_FRAME_STYLE,
-              title=u'Reciprocal Space 3D Viewer')
+              title='Reciprocal Space 3D Viewer')
         self.SetClientSize(wx.Size(800, 700))
         self.SetAutoLayout(True)
         self.Bind(wx.EVT_CLOSE, self.OnFrameQspaceViewClose)
 
         self.splitterAll = wx.SplitterWindow(id=wxID_FRAMEQSPACEVIEWSPLITTERALL,
-              name=u'splitterAll', parent=self, pos=wx.Point(0, 0),
+              name='splitterAll', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(778, 792), style=wx.SP_3D)
         self.splitterAll.SetSashSize(8)
         self.splitterAll.SetSashGravity(1.0)
 
         self.panelBottom = wx.Panel(id=wxID_FRAMEQSPACEVIEWPANELBOTTOM,
-              name=u'panelBottom', parent=self.splitterAll, pos=wx.Point(0,
+              name='panelBottom', parent=self.splitterAll, pos=wx.Point(0,
               608), size=wx.Size(778, 184), style=wx.TAB_TRAVERSAL)
         self.panelBottom.SetBackgroundStyle(wx.BG_STYLE_SYSTEM)
         self.panelBottom.SetAutoLayout(True)
 
         self.panelStats = wx.Panel(id=wxID_FRAMEQSPACEVIEWPANELSTATS,
-              name=u'panelStats', parent=self.panelBottom, pos=wx.Point(550, 0),
+              name='panelStats', parent=self.panelBottom, pos=wx.Point(550, 0),
               size=wx.Size(220, 184), style=wx.TAB_TRAVERSAL)
         self.panelStats.SetBackgroundStyle(wx.BG_STYLE_SYSTEM)
         self.panelStats.SetAutoLayout(True)
         self.panelStats.SetMinSize((220, 168))
 
-        self.panel3D = wx.Panel(id=wxID_FRAMEQSPACEVIEWPANEL3D, name=u'panel3D',
+        self.panel3D = wx.Panel(id=wxID_FRAMEQSPACEVIEWPANEL3D, name='panel3D',
               parent=self.splitterAll, pos=wx.Point(0, 0), size=wx.Size(778,
               600), style=wx.TAB_TRAVERSAL)
         self.panel3D.SetBackgroundColour(wx.Colour(246, 243, 245))
@@ -911,7 +911,7 @@ class FrameQspaceView(wx.Frame):
         self.panel3D.Bind(wx.EVT_SIZE, self.onPanel3DSize)
         
         self.buttonAdvancedView = wx.Button(id=wxID_FRAMEQSPACEVIEWBUTTONADVANCEDVIEW,
-              label=u'3D Advanced Settings...', name=u'buttonAdvancedView',
+              label='3D Advanced Settings...', name='buttonAdvancedView',
               parent=self.panelStats, pos=wx.Point(0, 160), size=wx.Size(220,
               24), style=0)
         self.buttonAdvancedView.Bind(wx.EVT_BUTTON,
@@ -919,13 +919,13 @@ class FrameQspaceView(wx.Frame):
               id=wxID_FRAMEQSPACEVIEWBUTTONADVANCEDVIEW)
 
         self.staticLineSpacer = wx.StaticLine(id=wxID_FRAMEQSPACEVIEWSTATICLINESPACER,
-              name=u'staticLineSpacer', parent=self.panelStats, pos=wx.Point(0,
+              name='staticLineSpacer', parent=self.panelStats, pos=wx.Point(0,
               124), size=wx.Size(220, 36), style=0)
 
-        self.staticTextMouseInfo = wx.StaticText(label=u'Mouse is over:', name=u'staticTextMouseInfo',
+        self.staticTextMouseInfo = wx.StaticText(label='Mouse is over:', name='staticTextMouseInfo',
               parent=self.panel3D, pos=wx.Point(0, 0), size=wx.Size(125, 17), style=0)
 
-        self.notebookView = wx.Notebook(id=wx.ID_ANY, name=u'notebookView',
+        self.notebookView = wx.Notebook(id=wx.ID_ANY, name='notebookView',
             parent=self.panelBottom, pos=wx.Point(0, 0), size=wx.Size(573, 629), style=0)
         self.notebookView.SetMinSize(wx.Size(-1, -1))
         self.notebookView.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.onNotebookPageChanged, id=wx.ID_ANY)
@@ -952,7 +952,7 @@ class FrameQspaceView(wx.Frame):
 
         #Make the stats panel
         self.stats_panel = panel_coverage_stats.PanelCoverageStats(parent=self.panelStats,
-            id=wx.NewId(), name=u'stats_panel', pos=wx.Point(0, 0),
+            id=wx.NewId(), name='stats_panel', pos=wx.Point(0, 0),
             size=wx.Size(624, 120), style=wx.TAB_TRAVERSAL)
         #Put it in the sizer
         self.boxSizerStats.Insert(0, self.stats_panel, 1, border=0, flag=wx.EXPAND)

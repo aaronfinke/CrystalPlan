@@ -9,7 +9,7 @@ import wx
 import numpy as np
 
 #--- GUI Imports ---
-import config_gui
+from . import config_gui
 
 #--- Model Imports ---
 
@@ -516,7 +516,7 @@ class SliceControl(wx.PyControl):
                     if x_label > 0:
                         label = ("%.1f" % (2*np.pi/(1.0*x_label)))
                     else:
-                        label = u"\u221E" #infinity
+                        label = "\u221E" #infinity
                     self.DrawTick(dc, x_label, 0, label, horizontal=True)
                 dc.DrawLabel('d' , wx.Rect( 2, height), alignment=wx.ALIGN_LEFT|wx.ALIGN_BOTTOM )
             else:
@@ -567,14 +567,14 @@ class SliceControl(wx.PyControl):
 
 
 if __name__ == '__main__':
-    import gui_utils
+    from . import gui_utils
     (app, sc) = gui_utils.test_my_gui(SliceControl)
     sc.use_slice = True
     sc.energy_mode = True
     data_x = np.arange(-50, 20, 5)
-    print data_x
+    print(data_x)
     data_y = []
-    for i in xrange(4):
+    for i in range(4):
         data_y.append( data_x*0 )
     sc.SetData(data_x, data_y)
     sc.Refresh()

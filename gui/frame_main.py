@@ -11,21 +11,21 @@ import sys
 import os
 
 #--- GUI Imports ---
-import panel_experiment
-import panel_detectors
-import panel_goniometer
-import panel_add_positions
-import panel_try_position
-import panel_sample
-import panel_startup
-import gui_utils
-import frame_qspace_view
-import frame_reflection_info
-import dialog_preferences
+from . import panel_experiment
+from . import panel_detectors
+from . import panel_goniometer
+from . import panel_add_positions
+from . import panel_try_position
+from . import panel_sample
+from . import panel_startup
+from . import gui_utils
+from . import frame_qspace_view
+from . import frame_reflection_info
+from . import dialog_preferences
 import CrystalPlan_version
-import display_thread
-import frame_optimizer
-import detector_plot
+from . import display_thread
+from . import frame_optimizer
+from . import detector_plot
 
 #--- Model Imports ---
 import model
@@ -43,12 +43,12 @@ class FrameMain(wx.Frame):
     #--------------------------------------------------------------------
     def _init_menuFile(self, parent):
         id = wx.NewId()
-        parent.Append(id=id, text=u'Save experiment to file...\tCtrl+S', kind=wx.ITEM_NORMAL,
+        parent.Append(id=id, text='Save experiment to file...\tCtrl+S', kind=wx.ITEM_NORMAL,
                     help='Save the experiment to a .exp file so that it can be re-loaded later.')
         self.Bind(wx.EVT_MENU, self.OnMenuSave, id=id)
 
         id = wx.NewId()
-        parent.Append(id=id, text=u'Load experiment from file...\tCtrl+L', kind=wx.ITEM_NORMAL,
+        parent.Append(id=id, text='Load experiment from file...\tCtrl+L', kind=wx.ITEM_NORMAL,
                     help='Load a .exp file.')
         self.Bind(wx.EVT_MENU, self.OnMenuLoad, id=id)
 
@@ -58,35 +58,35 @@ class FrameMain(wx.Frame):
             # ---------- HFIR-specific loading menus --------------------
 
             id = wx.NewId()
-            parent.Append(id=id, text=u'Load a HFIR .int file...\tCtrl+I', kind=wx.ITEM_NORMAL,
+            parent.Append(id=id, text='Load a HFIR .int file...\tCtrl+I', kind=wx.ITEM_NORMAL,
                         help='Load a peaks file from HFIR software to compare predicted and real peaks.')
             self.Bind(wx.EVT_MENU, self.OnMenuLoadIntegrateHFIR, id=id)
 
             id = wx.NewId()
-            parent.Append(id=id, text=u'Load a HFIR UB matrix and lattice parameters file...\tCtrl+U', kind=wx.ITEM_NORMAL,
+            parent.Append(id=id, text='Load a HFIR UB matrix and lattice parameters file...\tCtrl+U', kind=wx.ITEM_NORMAL,
                         help='Load a UB matrix file made by HFIR software, and a corresponding lattice parameters file.')
             self.Bind(wx.EVT_MENU, self.OnMenuLoadHFIRUB, id=id)
 
         else:
             # ---------- ISAW loading menus --------------------
             id = wx.NewId()
-            parent.Append(id=id, text=u'Load an older ISAW .integrate or .peaks file with sequential det. numbers', kind=wx.ITEM_NORMAL,
+            parent.Append(id=id, text='Load an older ISAW .integrate or .peaks file with sequential det. numbers', kind=wx.ITEM_NORMAL,
                         help='Load a peaks file from ISAW to compare predicted and real peaks. Use this menu for older files (made with ISAW before ~April 2011).')
             self.Bind(wx.EVT_MENU, self.OnMenuLoadIntegrateOld, id=id)
 
             id = wx.NewId()
-            parent.Append(id=id, text=u'Load an ISAW .integrate or .peaks file...\tCtrl+I', kind=wx.ITEM_NORMAL,
+            parent.Append(id=id, text='Load an ISAW .integrate or .peaks file...\tCtrl+I', kind=wx.ITEM_NORMAL,
                         help='Load a peaks file from ISAW to compare predicted and real peaks.')
             self.Bind(wx.EVT_MENU, self.OnMenuLoadIntegrateNew, id=id)
 
             id = wx.NewId()
-            parent.Append(id=id, text=u'Load an ISAW UB matrix (.mat) file...\tCtrl+U', kind=wx.ITEM_NORMAL,
+            parent.Append(id=id, text='Load an ISAW UB matrix (.mat) file...\tCtrl+U', kind=wx.ITEM_NORMAL,
                         help='Load a UB matrix file made by ISAW (goniometer-corrected; not by ISAWev).')
             self.Bind(wx.EVT_MENU, self.OnMenuLoadUB, id=id)
 
 
             id = wx.NewId()
-            parent.Append(id=id, text=u'Load a Lauegen .ldm UB matrix file...\tCtrl+M', kind=wx.ITEM_NORMAL,
+            parent.Append(id=id, text='Load a Lauegen .ldm UB matrix file...\tCtrl+M', kind=wx.ITEM_NORMAL,
                         help='Load a Lauegen .ldm file containing the crystal orientation for the IMAGINE instrument.')
             self.Bind(wx.EVT_MENU, self.OnMenuLoadLDM, id=id)
 
@@ -94,34 +94,34 @@ class FrameMain(wx.Frame):
         parent.AppendSeparator()
 
         id = wx.NewId()
-        parent.Append(id=id, text=u'Save sample orientations to CSV file...\tCtrl+D', kind=wx.ITEM_NORMAL,
+        parent.Append(id=id, text='Save sample orientations to CSV file...\tCtrl+D', kind=wx.ITEM_NORMAL,
                     help='Make a CSV file containing the list of motor positions.')
         self.Bind(wx.EVT_MENU, self.OnMenuSaveToCSV, id=id)
 
         id = wx.NewId()
-        parent.Append(id=id, text=u'Preferences...', kind=wx.ITEM_NORMAL, help='Change preferences for calculations, display, and others.')
+        parent.Append(id=id, text='Preferences...', kind=wx.ITEM_NORMAL, help='Change preferences for calculations, display, and others.')
         self.Bind(wx.EVT_MENU, self.OnMenuPreferences, id=id)
 
         parent.AppendSeparator()
 
-        parent.Append(id=wx.ID_EXIT, text=u'Quit\tCtrl+Q', kind=wx.ITEM_NORMAL, help='Exit the program.')
+        parent.Append(id=wx.ID_EXIT, text='Quit\tCtrl+Q', kind=wx.ITEM_NORMAL, help='Exit the program.')
         self.Bind(wx.EVT_MENU, self.OnMenuQuit, id=wx.ID_EXIT)
 
     # -------------------------------------------------------------------------
     def _init_menuView(self, parent):
         id = wx.NewId()
-        parent.Append(id=id, text=u'View Q-Space in 3D\tF2', kind=wx.ITEM_NORMAL, help='Make a CSV file containing the list of motor positions.')
+        parent.Append(id=id, text='View Q-Space in 3D\tF2', kind=wx.ITEM_NORMAL, help='Make a CSV file containing the list of motor positions.')
         self.Bind(wx.EVT_MENU, self.OnMenuView3D, id=id)
 
         id = wx.NewId()
-        parent.Append(id=id, text=u'New single reflection info window\tF3', kind=wx.ITEM_NORMAL, help='Open a new window with info for a single HKL reflection.')
+        parent.Append(id=id, text='New single reflection info window\tF3', kind=wx.ITEM_NORMAL, help='Open a new window with info for a single HKL reflection.')
         self.Bind(wx.EVT_MENU, self.OnMenuNewReflectionInfoWindow, id=id)
 
 
     # -------------------------------------------------------------------------
     def _init_menuParameters(self, parent):
         id = wx.NewId()
-        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text=u'Other...')
+        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text='Other...')
         self.Bind(wx.EVT_MENU, self.OnMenu, id=id)
 
 
@@ -130,29 +130,29 @@ class FrameMain(wx.Frame):
 
         if not gui_utils.fourcircle_mode():
             id = wx.NewId()
-            parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text=u'Automatic Coverage Optimizer...\tCtrl+O')
+            parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text='Automatic Coverage Optimizer...\tCtrl+O')
             self.Bind(wx.EVT_MENU, self.OnMenuOptimizePositions, id=id)
 
         id = wx.NewId()
-        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text=u'Compare measured to predicted peak positions...')
+        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text='Compare measured to predicted peak positions...')
         self.Bind(wx.EVT_MENU, self.OnMenuComparePeaks, id=id)
 
         id = wx.NewId()
-        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text=u'Find angles for all HKL.')
+        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text='Find angles for all HKL.')
         self.Bind(wx.EVT_MENU, self.OnMenuFourCircleAllHKL, id=id)
 
         id = wx.NewId()
-        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text=u'Simple Laue Plots')
+        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text='Simple Laue Plots')
         self.Bind(wx.EVT_MENU, self.OnMenuLauePlot, id=id)
 
 
     def _init_menuHelp(self, parent):
         id = wx.NewId()
-        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text=u'Open User Guide in WebBrowser\tF1')
+        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text='Open User Guide in WebBrowser\tF1')
         self.Bind(wx.EVT_MENU, self.OnMenuUserGuide, id=id)
 
         id = wx.NewId()
-        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text=u'About %s...' % CrystalPlan_version.package_name)
+        parent.Append(id=id, help='', kind=wx.ITEM_NORMAL, text='About %s...' % CrystalPlan_version.package_name)
         self.Bind(wx.EVT_MENU, self.OnMenuAbout, id=id)
 
 #        parent.AppendSeparator()
@@ -164,7 +164,7 @@ class FrameMain(wx.Frame):
 
     def _init_menus(self):
         self.menuBar1 = wx.MenuBar()
-        self.menuBar1.SetHelpText(u'')
+        self.menuBar1.SetHelpText('')
         bar = self.menuBar1
 
         self.menuFile = wx.Menu()
@@ -261,8 +261,8 @@ class FrameMain(wx.Frame):
         #The old U matrix, before messing with it.
         old_U = model.experiment.exp.crystal.get_u_matrix()
 
-        print filename
-        print lattice_filename
+        print(filename)
+        print(lattice_filename)
 
         #Load the file with no goniometer correction
         model.experiment.exp.crystal.read_HFIR_ubmatrix_file(filename, lattice_filename)
@@ -409,7 +409,7 @@ class FrameMain(wx.Frame):
 
         #Make the user guide screenshots
         if hasattr(self, 'user_guide_thread'):
-            print "The thread has already started!"
+            print("The thread has already started!")
         else:
             self.user_guide_thread = doc_maker.user_guide.generate_user_guide(self, frame_qspace_view.get_instance(self))
         event.Skip()
@@ -529,7 +529,7 @@ class FrameMain(wx.Frame):
 
     #--------------------------------------------------------------------
     def _init_ctrls(self, prnt):
-        wx.Frame.__init__(self, id=wxID_FRAMEMAIN, name=u'FrameMain',
+        wx.Frame.__init__(self, id=wxID_FRAMEMAIN, name='FrameMain',
               parent=prnt, pos=wx.Point(0, 0), size=wx.Size(800, 830),
               style=wx.DEFAULT_FRAME_STYLE,
               title="%s %s - Main Window" % (CrystalPlan_version.package_name, CrystalPlan_version.version) )
@@ -543,14 +543,14 @@ class FrameMain(wx.Frame):
         self.Bind(wx.EVT_IDLE, self.OnIdle)
 
         self.statusBar_main = wx.StatusBar(id=wxID_FRAMEMAINSTATUSBAR_MAIN,
-              name=u'statusBar_main', parent=self,
+              name='statusBar_main', parent=self,
               style=wx.THICK_FRAME | wx.ST_SIZEGRIP)
-        self.statusBar_main.SetStatusText(u'Status...')
+        self.statusBar_main.SetStatusText('Status...')
         self.statusBar_main.SetAutoLayout(True)
         self.SetStatusBar(self.statusBar_main)
 
         self.notebook = wx.Notebook(id=wxID_FRAMEMAINnotebook,
-              name=u'notebook', parent=self, pos=wx.Point(0, 0),
+              name='notebook', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(573, 629), style=0)
         self.notebook.SetMinSize(wx.Size(-1, -1))
 
@@ -612,7 +612,7 @@ class FrameMain(wx.Frame):
     #--------------------------------------------------------------------
     def RefreshAll(self):
         """Refresh all the tabs."""
-        for i in xrange(self.notebook.GetPageCount()):
+        for i in range(self.notebook.GetPageCount()):
             tab = self.notebook.GetPage(i)
             #Call the refresh method, if it exists
             if hasattr(tab, "Refresh"):

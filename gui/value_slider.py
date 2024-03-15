@@ -97,25 +97,25 @@ class ValueSlider(wx.Panel):
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Panel.__init__(self, id=wxID_VALUESLIDER, name=u'ValueSlider',
+        wx.Panel.__init__(self, id=wxID_VALUESLIDER, name='ValueSlider',
               parent=prnt, pos=wx.Point(639, 289), size=wx.Size(160, 61),
               style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(160, 61))
 
         self.staticTextLabel = wx.StaticText(id=wxID_VALUESLIDERSTATICTEXTLABEL,
-              label=u'Label:', name=u'staticTextLabel', parent=self,
+              label='Label:', name='staticTextLabel', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(128, 27), style=0)
 
         self.textValue = wx.TextCtrl(id=wxID_VALUESLIDERTEXTVALUE,
-              name=u'textValue', parent=self, pos=wx.Point(80, 0),
-              size=wx.Size(80, 27), style=wx.TE_PROCESS_ENTER, value=u'0')
+              name='textValue', parent=self, pos=wx.Point(80, 0),
+              size=wx.Size(80, 27), style=wx.TE_PROCESS_ENTER, value='0')
         self.textValue.Bind(wx.EVT_TEXT, self.OnTextValueText)
         self.textValue.Bind(wx.EVT_TEXT_ENTER, self.OnTextEnter) #Don't forget the wx.TE_PROCESS_ENTER otherwise it doesn't work.
         self.textValue.Bind(wx.EVT_KILL_FOCUS, self.OnTextEnter)
         self.textValue.Bind(wx.EVT_KEY_UP, self.OnTextValueKeyUp)
 
         self.sliderValue = wx.Slider(id=wxID_VALUESLIDERSLIDERVALUE,
-              maxValue=100, minValue=0, name=u'sliderValue', parent=self,
+              maxValue=100, minValue=0, name='sliderValue', parent=self,
               pos=wx.Point(0, 27), size=wx.Size(200, 19),
               style=wx.SL_HORIZONTAL, value=0)
         self.sliderValue.Bind(wx.EVT_SCROLL, self.OnSliderValueScroll)
@@ -195,14 +195,14 @@ class ValueSlider(wx.Panel):
 #===========================================================================
 def on_slider(event):
     global slid
-    print "Scroll End: ", slid.Value
+    print("Scroll End: ", slid.Value)
 
 def on_slider_scroll(event):
     global slid
-    print "Scrolling ", slid.Value
+    print("Scrolling ", slid.Value)
 
 if __name__ == '__main__':
-    import gui_utils
+    from . import gui_utils
     global slid
     (app, slid) = gui_utils.test_my_gui(ValueSlider, floats=2)
     slid.Bind(EVT_VALUE_SLIDER_CHANGED, on_slider)

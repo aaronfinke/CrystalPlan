@@ -48,7 +48,7 @@ def embed_latex_in_html(sourcefn, destfn):
     sourcefn = os.path.basename(sourcefn)
     texfn = sourcefn_base+'.tex'
 
-    print "Processing %s" % sourcefn
+    print("Processing %s" % sourcefn)
     # load and parse source document
     f = open(sourcefn)
     xhtmltree = et.parse(f)
@@ -101,7 +101,7 @@ def embed_latex_in_html(sourcefn, destfn):
     # Write processed source document to dest
     xhtmltree.write(destfn)
 
-    print "Done."
+    print("Done.")
 
 
 

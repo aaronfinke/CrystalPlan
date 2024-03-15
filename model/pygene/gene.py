@@ -12,7 +12,7 @@ import sys, new
 from random import randrange, random, uniform
 from math import sqrt
 
-from xmlio import PGXmlMixin
+from .xmlio import PGXmlMixin
 
 class BaseGene(PGXmlMixin):
     """
@@ -296,11 +296,11 @@ class IntGene(BaseGene):
     """
     # minimum possible value for gene
     # override in subclasses as needed
-    randMin = -sys.maxint
+    randMin = -sys.maxsize
     
     # maximum possible value for gene
     # override in subclasses as needed
-    randMax = sys.maxint + 1
+    randMax = sys.maxsize + 1
     
     # maximum amount by which gene can mutate
     mutAmt = 1

@@ -14,7 +14,7 @@ import numpy as np
 import sys
 
 #--- GUI Imports ---
-import gui_utils
+from . import gui_utils
 
 #--- Model Imports ---
 import model
@@ -89,7 +89,7 @@ def check_for_changes():
 #        print "DisplayThread: NextParams was set."
         ChangedParams = ParamsDict()
 
-        for key in NextParams.keys():
+        for key in list(NextParams.keys()):
             value = NextParams[key]
             if not (value is None):
 #                print key, "has been set."
@@ -106,7 +106,7 @@ def check_for_changes():
                     # print key, "has changed.",
 
         #Now we clear the "Next" parameters because we will have calculated them by the time this loop is done.
-        for key in NextParams.keys():
+        for key in list(NextParams.keys()):
             NextParams[key] = None
 
         #Now we calculate the coverage map by doing the stuff in ChangedParams
@@ -139,7 +139,7 @@ def check_for_changes():
                 if trypos.use_trial and (poscov.coverage is None):
                     #We are using the trial position, and...
                     #The coverage is not calculated, we need to do it now.
-                    print "Recalculating trial position with angles ", np.rad2deg(poscov.angles)
+                    print("Recalculating trial position with angles ", np.rad2deg(poscov.angles))
                     poscov.coverage = model.experiment.exp.inst.calculate_coverage(model.experiment.exp.inst.detectors, poscov.angles, sample_U_matrix=poscov.sample_U_matrix)
 
         if not gui_utils.inelastic_mode():
@@ -188,7 +188,7 @@ def check_for_changes():
             qspace_changed = True
 
         #Update the latest parameters array to what was last displayed
-        for key in ChangedParams.keys():
+        for key in list(ChangedParams.keys()):
             value = ChangedParams[key]
             if not value is None:
                 LatestParams[key] = value
@@ -240,7 +240,7 @@ def manual_update():
     if thread_exists:
         pass
     else:
-        print "---- display_thread.manual_update() ----"
+        print("---- display_thread.manual_update() ----")
         check_for_changes()
 
 #-----------------------------------------------------------------------------------------------

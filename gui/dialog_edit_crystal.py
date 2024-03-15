@@ -120,48 +120,48 @@ class DialogEditCrystal(wx.Dialog):
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Dialog.__init__(self, name=u'DialogEditCrystal',
+        wx.Dialog.__init__(self, name='DialogEditCrystal',
               parent=prnt, pos=wx.Point(702, 235), size=wx.Size(475, 600),
               style= wx.RESIZE_BORDER | wx.DEFAULT_DIALOG_STYLE | wx.MAXIMIZE_BOX | wx.MINIMIZE_BOX,
-              title=u'Edit Crystal Parameters')
+              title='Edit Crystal Parameters')
         self.SetClientSize(wx.Size(500, 800))
 
         self.buttonOK = wx.Button(
-              label=u'Ok', name=u'buttonOK', parent=self,
+              label='Ok', name='buttonOK', parent=self,
               pos=wx.Point(16, 563), size=wx.Size(150, 29), style=0)
         self.buttonOK.Bind(wx.EVT_BUTTON, self.OnbuttonOKButton)
 
         self.buttonCancel = wx.Button(
-              label=u'Cancel', name=u'buttonCancel', parent=self, pos=wx.Point(309,
+              label='Cancel', name='buttonCancel', parent=self, pos=wx.Point(309,
               563), size=wx.Size(150, 29), style=0)
         self.buttonCancel.Bind(wx.EVT_BUTTON, self.OnbuttonCancelButton)
 
-        self.notebook = wx.Notebook(name=u'notebook', parent=self, pos=wx.Point(100, 100), size=wx.Size(200,200), style=wx.TAB_TRAVERSAL)
+        self.notebook = wx.Notebook(name='notebook', parent=self, pos=wx.Point(100, 100), size=wx.Size(200,200), style=wx.TAB_TRAVERSAL)
         self.notebook.SetMinSize(wx.Size(-1, -1))
         self.notebook.Show()
 
         #--- ISAW load panel ----
         self.panelIsaw = wx.Panel(id=wx.NewId(), name="panelIsaw", parent=self.notebook, style=wx.TAB_TRAVERSAL)
 
-        self.staticTextHelp1 = wx.StaticText(label=u'Loading an ISAW UB matrix file:',
+        self.staticTextHelp1 = wx.StaticText(label='Loading an ISAW UB matrix file:',
             parent=self.panelIsaw, pos=wx.Point(166, 563), style=wx.ALIGN_CENTER)
-        self.staticTextHelp1.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL, wx.BOLD, False, u'Sans'))
-        self.staticTextHelp2 = wx.StaticText(label=u'ISAWev only!: before loading the file, enter the goniometer settings at the time you acquired the data from which this UB matrix was taken.\n\nFor ISAW, leave all angles at 0.0 (the UB matrix is already corrected by ISAW for the goniometer settings)',
-            name=u'staticTextHelp2', parent=self.panelIsaw, pos=wx.Point(166, 563), style=wx.ALIGN_LEFT)
-        self.staticTextHelp3 = wx.StaticText(label=u"Use ISAW's Initial Peaks Wizard or ISAWev's Find Peaks/Index Peaks functions to find the UB matrix and save it to a text file.",
-            name=u'staticTextHelp2', parent=self.panelIsaw, pos=wx.Point(166, 563), style=wx.ALIGN_CENTER)
+        self.staticTextHelp1.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL, wx.BOLD, False, 'Sans'))
+        self.staticTextHelp2 = wx.StaticText(label='ISAWev only!: before loading the file, enter the goniometer settings at the time you acquired the data from which this UB matrix was taken.\n\nFor ISAW, leave all angles at 0.0 (the UB matrix is already corrected by ISAW for the goniometer settings)',
+            name='staticTextHelp2', parent=self.panelIsaw, pos=wx.Point(166, 563), style=wx.ALIGN_LEFT)
+        self.staticTextHelp3 = wx.StaticText(label="Use ISAW's Initial Peaks Wizard or ISAWev's Find Peaks/Index Peaks functions to find the UB matrix and save it to a text file.",
+            name='staticTextHelp2', parent=self.panelIsaw, pos=wx.Point(166, 563), style=wx.ALIGN_CENTER)
         #Wrap the text
         w = self.GetSize()[0]-60
         self.staticTextHelp2.Wrap(w)
         self.staticTextHelp3.Wrap(w)
 
-        self.buttonReadUB = wx.Button(label=u'Read UB matrix from file...', name=u'buttonReadUB', parent=self.panelIsaw,
+        self.buttonReadUB = wx.Button(label='Read UB matrix from file...', name='buttonReadUB', parent=self.panelIsaw,
               pos=wx.Point(16, 563), size=wx.Size(250, 29), style=0)
         self.buttonReadUB.Bind(wx.EVT_BUTTON, self.OnButtonReadUB)
 
         #--- Manual panel ----
         self.panelManual = wx.Panel(id=wx.NewId(), name="panelManual", parent=self.notebook, style=wx.TAB_TRAVERSAL)
-        self.buttonGenerateUB = wx.Button(label=u'Generate UB matrix', name=u'buttonGenerateUB', parent=self.panelManual,
+        self.buttonGenerateUB = wx.Button(label='Generate UB matrix', name='buttonGenerateUB', parent=self.panelManual,
               pos=wx.Point(16, 563), size=wx.Size(250, 29), style=0)
         self.buttonGenerateUB.Bind(wx.EVT_BUTTON, self.OnButtonGenerateUB)
 
@@ -324,7 +324,7 @@ def show_dialog(parent, crystal):
 if __name__=="__main__":
     sys.path.insert(0, "..")
     c = Crystal("Test")
-    print show_dialog(None, c)
-    print c.name
-    print c.ub_matrix
+    print(show_dialog(None, c))
+    print(c.name)
+    print(c.ub_matrix)
 

@@ -9,9 +9,9 @@ Implements genetic programming organisms
 from random import random, randrange, choice
 from math import sqrt
 
-from organism import BaseOrganism
+from .organism import BaseOrganism
 
-from xmlio import PGXmlMixin
+from .xmlio import PGXmlMixin
 
 #@-node:imports
 #@+node:class BaseNode
@@ -54,7 +54,7 @@ class FuncNode(BaseNode):
         
         # and fill in the args, from given, or randomly
         if not children:
-            children = [org.genNode(depth+1) for i in xrange(nargs)]
+            children = [org.genNode(depth+1) for i in range(nargs)]
     
         self.name = name
         self.func = func
@@ -93,7 +93,7 @@ class FuncNode(BaseNode):
         
         indents = "  " * level
         #print indents + "func:" + self.name
-        print "%s%s" % (indents, self.name)
+        print("%s%s" % (indents, self.name))
         for child in self.children:
             child.dump(level+1)
     
@@ -154,7 +154,7 @@ class FuncNode(BaseNode):
         else:
             # delegate the split down to selected child
             clonedChildren = []
-            for i in xrange(self.nargs):
+            for i in range(self.nargs):
                 child = self.children[i]
                 if (i == childIdx):
                     # chosen child
@@ -235,7 +235,7 @@ class ConstNode(TerminalNode):
         
         indents = "  " * level
         #print "%sconst: {%s}" % (indents, self.value)
-        print "%s{%s}" % (indents, self.value)
+        print("%s{%s}" % (indents, self.value))
     
     #@-node:dump
     #@+node:copy
@@ -287,7 +287,7 @@ class VarNode(TerminalNode):
         
         indents = "  " * level
         #print indents + "var {" + self.name + "}"
-        print "%s{%s}" % (indents, self.name)
+        print("%s{%s}" % (indents, self.name))
     
     #@-node:dump
     #@+node:copy
@@ -325,9 +325,9 @@ class ProgOrganismMetaclass(type):
         # process the funcs
         funcsList = []
         funcsDict = {}
-        for name, func in funcs.items():
-            funcsList.append((name, func, func.func_code.co_argcount))
-            funcsDict[name] = (func, func.func_code.co_argcount)
+        for name, func in list(funcs.items()):
+            funcsList.append((name, func, func.__code__.co_argcount))
+            funcsDict[name] = (func, func.__code__.co_argcount)
     
         cls.funcsList = funcsList
         cls.funcsDict = funcsDict
@@ -337,7 +337,7 @@ class ProgOrganismMetaclass(type):
 
 #@-node:class ProgOrganismMetaclass
 #@+node:class ProgOrganism
-class ProgOrganism(BaseOrganism):
+class ProgOrganism(BaseOrganism, metaclass=ProgOrganismMetaclass):
     """
     Implements an organism for genetic programming
 
@@ -349,9 +349,6 @@ class ProgOrganism(BaseOrganism):
         - vars - a list of variable names
         - consts - a list of constant values
     """
-    #@    @+others
-    #@+node:attribs
-    __metaclass__ = ProgOrganismMetaclass
     
     funcs = {}
     vars = []
@@ -435,7 +432,7 @@ class ProgOrganism(BaseOrganism):
         try:
             return self.__class__(self.tree)
         except:
-            print "self.__class__ = %s" % self.__class__
+            print("self.__class__ = %s" % self.__class__)
             raise
     
     
@@ -448,7 +445,7 @@ class ProgOrganism(BaseOrganism):
         """
         prints out this organism's node tree
         """
-        print "organism:"
+        print("organism:")
         self.tree.dump(1)
     
     #@-node:dump

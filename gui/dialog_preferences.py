@@ -9,7 +9,7 @@ import wx
 import CrystalPlan_version
 
 #--- GUI Imports ---
-import config_gui
+from . import config_gui
 
 #--- Model Imports ---
 import model
@@ -62,9 +62,9 @@ class DialogPreferences(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOGPREFERENCES,
-              name=u'DialogPreferences', parent=prnt, pos=wx.Point(525, 314),
+              name='DialogPreferences', parent=prnt, pos=wx.Point(525, 314),
               size=wx.Size(631, 703), style=wx.DEFAULT_DIALOG_STYLE,
-              title=u'Change Preferences')
+              title='Change Preferences')
         self.SetClientSize(wx.Size(500, 400))
 
         import os
@@ -72,13 +72,13 @@ class DialogPreferences(wx.Dialog):
         self.SetIcon( wx.Icon(icon_file, wx.BITMAP_TYPE_PNG) )
 
         self.buttonOK = wx.Button(id=wxID_DIALOGPREFERENCESBUTTONOK,
-              label=u'OK', name=u'buttonOK', parent=self, pos=wx.Point(0, 0),
+              label='OK', name='buttonOK', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(85, 29), style=0)
         self.buttonOK.Bind(wx.EVT_BUTTON, self.OnButtonOKButton,
               id=wxID_DIALOGPREFERENCESBUTTONOK)
 
         self.buttonCancel = wx.Button(id=wxID_DIALOGPREFERENCESBUTTONCANCEL,
-              label=u'Cancel', name=u'buttonCancel', parent=self,
+              label='Cancel', name='buttonCancel', parent=self,
               pos=wx.Point(0, 29), size=wx.Size(85, 29), style=0)
         self.buttonCancel.Bind(wx.EVT_BUTTON, self.OnButtonCancelButton,
               id=wxID_DIALOGPREFERENCESBUTTONCANCEL)
@@ -137,7 +137,7 @@ class DialogPreferences(wx.Dialog):
 #--------------------------------------------------------------------
 if __name__ == '__main__':
     #Test routine
-    import gui_utils
+    from . import gui_utils
     (app, frm) = gui_utils.test_my_gui(DialogPreferences)
     app.MainLoop()
 

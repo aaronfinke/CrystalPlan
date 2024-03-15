@@ -27,7 +27,7 @@ def get_all_tests():
                     test_classes += [member_name]
 
         if len(test_classes) == 0:
-            print "No tests found in module %s" % (module_name)
+            print("No tests found in module %s" % (module_name))
 
         for test_class_name in test_classes:
             #Create an instance of it

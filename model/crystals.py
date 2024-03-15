@@ -13,11 +13,11 @@ import numpy as np
 from numpy import cos, sin
 
 #--- Model Imports ---
-import crystal_calc
-import numpy_utils
-from numpy_utils import column, vector_length, rotation_matrix, z_rotation_matrix
-import ubmatrixreader
-import utils
+from . import crystal_calc
+from . import numpy_utils
+from .numpy_utils import column, vector_length, rotation_matrix, z_rotation_matrix
+from . import ubmatrixreader
+from . import utils
 
 #--- Traits Imports ---
 from traits.api import HasTraits,Int,Float,Str,String,Property,Bool, List, Tuple, Array, Enum
@@ -360,7 +360,7 @@ class Crystal(HasTraits):
                 except:
                     self.point_group_name = '-1 (Triclinic)'
                     self.reflection_condition = 'Primitive'
-                    print("Using Triclinic P instead of '%s'" % line )
+                    print(("Using Triclinic P instead of '%s'" % line ))
             
             if line.startswith("LMIN "):
                 try:
@@ -528,7 +528,7 @@ class Crystal(HasTraits):
             #Test that U must be orthonormal.
             U2 = np.dot(U, U.transpose())
             if not np.allclose(U2, np.eye(3), atol=1e-2):
-                print "The U matrix must be orthonormal. Instead, we got:\nU*U.transpose()=%s" % U2
+                print("The U matrix must be orthonormal. Instead, we got:\nU*U.transpose()=%s" % U2)
 
             if (convert_from_IPNS):
                 #Okay, now let's permute the rows for IPNS->SNS convention
@@ -542,7 +542,7 @@ class Crystal(HasTraits):
             U2 = np.dot(U, U.transpose())
             #assert np.allclose(U2, np.eye(3), atol=1e-2), "The U matrix must be orthonormal. Instead, we got:\nU*U.transpose()=%s" % U2
             if not np.allclose(U2, np.eye(3), atol=1e-2):
-                print "The U matrix must be orthonormal. Instead, we got:\nU*U.transpose()=%s" % U2
+                print("The U matrix must be orthonormal. Instead, we got:\nU*U.transpose()=%s" % U2)
             U_det = np.linalg.det(U)
             #print "Its determinant is %s" % U_det
             assert (abs(U_det-1) < 1e-3), "The U matrix must be a proper reflection. Its determinant is %s" % U_det
@@ -629,7 +629,7 @@ def make_generators():
     generators["H2;2,1,0"] = Generator([ [1,0,0], [1,-1,0], [0,0,-1] ], 2)
     generators["H2;1,2,0"] = Generator([ [-1,1,0], [0,1,0], [0,0,-1] ], 2)
 
-    for key in generators.keys():
+    for key in list(generators.keys()):
         generators[key].name = key
 
 
@@ -646,11 +646,11 @@ def permutations(iterable, r=None):
     r = n if r is None else r
     if r > n:
         return
-    indices = range(n)
-    cycles = range(n, n-r, -1)
+    indices = list(range(n))
+    cycles = list(range(n, n-r, -1))
     yield tuple(pool[i] for i in indices[:r])
     while n:
-        for i in reversed(range(r)):
+        for i in reversed(list(range(r))):
             cycles[i] -= 1
             if cycles[i] == 0:
                 indices[i:] = indices[i+1:] + indices[i:i+1]
@@ -669,7 +669,7 @@ def product(*args, **kwds):
     Equivalent to nested for-loops in a generator expression. For example, product(A, B) returns the same as ((x,y) for x in A for y in B)."""
     # product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
     # product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
-    pools = map(tuple, args) * kwds.get('repeat', 1)
+    pools = list(map(tuple, args)) * kwds.get('repeat', 1)
     result = [[]]
     for pool in pools:
         result = [x+[y] for x in result for y in pool]
@@ -727,7 +727,7 @@ class PointGroup():
 
         for gen in self.generators:
             this_gen_factors = []
-            for i in xrange(1,gen.symmetry+1):
+            for i in range(1,gen.symmetry+1):
                 this_gen_factors.append( gen.matrix**i )
             gen_factors.append( this_gen_factors )
 
@@ -753,11 +753,11 @@ class PointGroup():
         mult_list = []
         #Each generator can be applied up to gen.symmetry times
         for gen in self.generators:
-            for i in xrange(1,gen.symmetry+1):
+            for i in range(1,gen.symmetry+1):
                 mult_list.append( gen.matrix )
 
         #So we look at applying 1 to X elements from the list
-        for num_operations in xrange(1, len(mult_list)+1):
+        for num_operations in range(1, len(mult_list)+1):
             #But matrix multiplications are not commutative, in general!
             #So now we need to go through every permuation of the order of that list
             # Python, in its wise ways, gives us a function for that
@@ -837,11 +837,11 @@ def unique(x):
             break
     #No? It is unique, add it
     if not matrix_already_there:
-        print "..adding it!"
+        print("..adding it!")
         table.append(x)
-        print table
+        print(table)
     else:
-        print "already there!"
+        print("already there!")
     
 
 #----------------------------------------------------------------
@@ -1212,16 +1212,16 @@ class TestCrystal(unittest.TestCase):
         c = self.c
         c.read_ISAW_ubmatrix_file("data/natrolite_807_ev.mat", [0,0,0])
         UB = c.ub_matrix
-        print "UB matrix loaded (including 2pi) is:\n", UB
+        print("UB matrix loaded (including 2pi) is:\n", UB)
 
-        print "reciprocal lattice (B) found using the direct lattice params:\n", c.reciprocal_lattice
+        print("reciprocal lattice (B) found using the direct lattice params:\n", c.reciprocal_lattice)
         g_star = np.dot(c.reciprocal_lattice.transpose(), c.reciprocal_lattice.transpose())
-        print "a*.a* is", vector_length(c.recip_a)**2
-        print "b*.b* is", vector_length(c.recip_b)**2
-        print "c*.c* is", vector_length(c.recip_c)**2
+        print("a*.a* is", vector_length(c.recip_a)**2)
+        print("b*.b* is", vector_length(c.recip_b)**2)
+        print("c*.c* is", vector_length(c.recip_c)**2)
         g_star3 = np.dot(UB.transpose(), UB)
-        print "G* found using the direct lattice params:\n", g_star
-        print "G* found using UB.transpose() * UB:\n", g_star3
+        print("G* found using the direct lattice params:\n", g_star)
+        print("G* found using UB.transpose() * UB:\n", g_star3)
         
         #Check the U matrix
         U = c.get_u_matrix()
@@ -1283,7 +1283,7 @@ class TestCrystal(unittest.TestCase):
         
         # Check the other ones!
         if make_all_point_groups:
-            print "All point groups"
+            print("All point groups")
             self.check_point_group("1", (1,2,3), [(1,2,3)] )
             self.check_point_group("2", (1,2,3), [(1,2,3),(-1,2,-3)] )
             self.check_point_group("m", (1,2,3), [(1,2,3),(1,2,-3)] )
@@ -1303,14 +1303,14 @@ class TestCrystal(unittest.TestCase):
         c = self.c
         c.read_HFIR_ubmatrix_file("data/HFIR_UBmatrix.dat", "data/HFIR_lattice.dat")
         UB = c.ub_matrix
-        print "UB matrix loaded (including 2pi) is:\n", UB
+        print("UB matrix loaded (including 2pi) is:\n", UB)
 
     def test_read_LDM_file(self):
         #@type c Crystal
         c = self.c
         c.read_LDM_file("data/LADI_fd14.ldm")
         UB = c.ub_matrix
-        print "UB matrix loaded (including 2pi) is:\n", UB
+        print("UB matrix loaded (including 2pi) is:\n", UB)
 
 
 #---------------------------------------------------------------------

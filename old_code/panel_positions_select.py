@@ -99,7 +99,7 @@ class PositionsListView():
             pos = model.instrument.inst.positions[i]
             #Check it if you find it, and it's true.
             val = False
-            if pos_dict.has_key( id(pos) ):
+            if id(pos) in pos_dict:
                 val = pos_dict[ id(pos) ]
             self.panel.checkListPositions.Check(i, val )
 
@@ -172,7 +172,7 @@ class PanelPositions(wx.Panel):
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Panel.__init__(self, id=wxID_PANELPOSITIONS, name=u'PanelPositions',
+        wx.Panel.__init__(self, id=wxID_PANELPOSITIONS, name='PanelPositions',
               parent=prnt, pos=wx.Point(743, 601), size=wx.Size(330, 612),
               style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(330, 612))
@@ -182,37 +182,37 @@ class PanelPositions(wx.Panel):
 
         self.checkListPositions = wx.CheckListBox(choices=[],
               id=wxID_PANELPOSITIONSCHECKLISTPOSITIONS,
-              name=u'checkListPositions', parent=self, pos=wx.Point(0, 92),
+              name='checkListPositions', parent=self, pos=wx.Point(0, 92),
               size=wx.Size(330, 483), style=0)
         self.checkListPositions.SetAutoLayout(False)
         self.checkListPositions.SetMinSize(wx.Size(10, 10))
         self.checkListPositions.SetFont(wx.Font(10, 76, wx.NORMAL, wx.NORMAL,
-              False, u'Monospace'))
+              False, 'Monospace'))
         self.checkListPositions.Bind(wx.EVT_CHECKLISTBOX,
               self.OnCheckListPositionsChecklistbox,
               id=wxID_PANELPOSITIONSCHECKLISTPOSITIONS)
 
         self.staticTextHelp = wx.StaticText(id=wxID_PANELPOSITIONSSTATICTEXTHELP,
-              label=u'Check the sample orientations you wish to use in the calculation:',
-              name=u'staticTextHelp', parent=self, pos=wx.Point(0, 0),
+              label='Check the sample orientations you wish to use in the calculation:',
+              name='staticTextHelp', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(330, 32), style=0)
         self.staticTextHelp.SetMinSize(wx.Size(71, 32))
 
         self.staticTextHeader = wx.StaticText(id=wxID_PANELPOSITIONSSTATICTEXTHEADER,
-              label=u'        Phi      Chi    Omega', name=u'staticTextHeader',
+              label='        Phi      Chi    Omega', name='staticTextHeader',
               parent=self, pos=wx.Point(0, 58), size=wx.Size(330, 17), style=0)
         self.staticTextHeader.SetFont(wx.Font(10, 76, wx.NORMAL, wx.NORMAL,
-              False, u'Monospace'))
+              False, 'Monospace'))
 
         self.checkSelectAll = wx.CheckBox(id=wxID_PANELPOSITIONSCHECKSELECTALL,
-              label=u'Select All', name=u'checkSelectAll', parent=self,
+              label='Select All', name='checkSelectAll', parent=self,
               pos=wx.Point(0, 36), size=wx.Size(95, 22), style=0)
         self.checkSelectAll.SetValue(False)
         self.checkSelectAll.Bind(wx.EVT_CHECKBOX, self.OnCheckSelectAllCheckbox,
               id=wxID_PANELPOSITIONSCHECKSELECTALL)
 
         self.buttonDeletePosition = wx.Button(id=wxID_PANELPOSITIONSBUTTONDELETEPOSITION,
-              label=u'Delete Positions', name=u'buttonDeletePosition',
+              label='Delete Positions', name='buttonDeletePosition',
               parent=self, pos=wx.Point(202, 579), size=wx.Size(120, 29),
               style=0)
         self.buttonDeletePosition.Bind(wx.EVT_BUTTON,
@@ -220,16 +220,16 @@ class PanelPositions(wx.Panel):
               id=wxID_PANELPOSITIONSBUTTONDELETEPOSITION)
 
         self.buttonUpdateList = wx.Button(id=wxID_PANELPOSITIONSBUTTONUPDATELIST,
-              label=u'Refresh List', name=u'buttonUpdateList', parent=self,
+              label='Refresh List', name='buttonUpdateList', parent=self,
               pos=wx.Point(8, 579), size=wx.Size(120, 29), style=0)
         self.buttonUpdateList.Bind(wx.EVT_BUTTON, self.OnButtonUpdateListButton,
               id=wxID_PANELPOSITIONSBUTTONUPDATELIST)
 
         self.staticTextHeaderUnits = wx.StaticText(id=wxID_PANELPOSITIONSSTATICTEXTHEADERUNITS,
-              label=u'       (deg)', name=u'staticTextHeaderUnits', parent=self,
+              label='       (deg)', name='staticTextHeaderUnits', parent=self,
               pos=wx.Point(0, 75), size=wx.Size(330, 17), style=0)
         self.staticTextHeaderUnits.SetFont(wx.Font(10, 76, wx.NORMAL, wx.NORMAL,
-              False, u'Monospace'))
+              False, 'Monospace'))
         self.staticTextHeaderUnits.SetForegroundColour(wx.Colour(122, 122, 122))
 
         self._init_sizers()

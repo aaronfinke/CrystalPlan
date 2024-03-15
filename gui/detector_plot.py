@@ -10,7 +10,7 @@ import  wx.lib.newevent
 import numpy as np
 
 #--- GUI Imports ---
-import gui_utils
+from . import gui_utils
 
 import model
 
@@ -227,7 +227,7 @@ class DetectorPlot(wx.Window):
 
 #===========================================================================
 if __name__ == "__main__":
-    import gui_utils
+    from . import gui_utils
     (app, pnl) = gui_utils.test_my_gui(DetectorPlot)
     app.frame.SetClientSize(wx.Size(500, 700))
     det = model.detectors.FlatDetector("Modified det")

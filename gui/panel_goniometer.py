@@ -10,10 +10,10 @@ goniometer.
 #--- General Imports ---
 import wx
 import copy
-import dialog_goniometer_angles
+from . import dialog_goniometer_angles
 
 #--- GUI Imports ---
-import gui_utils
+from . import gui_utils
 
 #--- Model Imports ---
 import model
@@ -200,50 +200,50 @@ class PanelGoniometer(wx.Panel):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PANELGONIOMETER,
-              name=u'PanelGoniometer', parent=prnt, pos=wx.Point(637, 307), style=wx.TAB_TRAVERSAL)
+              name='PanelGoniometer', parent=prnt, pos=wx.Point(637, 307), style=wx.TAB_TRAVERSAL)
         self.SetClientSize(wx.Size(626, 618))
 
         self.staticTextTitle = wx.StaticText(id=wxID_PANELGONIOMETERSTATICTEXTTITLE,
-              label=u'Available Goniometers:', name=u'staticTextTitle',
+              label='Available Goniometers:', name='staticTextTitle',
               parent=self, pos=wx.Point(0, 8), style=0)
 
         self.choiceGonio = wx.Choice(choices=model.goniometer.get_goniometers_names(),
-              id=wxID_PANELGONIOMETERCHOICEGONIO, name=u'choiceGonio',
+              id=wxID_PANELGONIOMETERCHOICEGONIO, name='choiceGonio',
               parent=self, pos=wx.Point(8, 33), style=0)
         self.choiceGonio.Bind(wx.EVT_CHOICE, self.controller.on_goniometer_choice)
 
         self.staticText1 = wx.StaticText(id=wxID_PANELGONIOMETERSTATICTEXT1,
-              label=u'Current Goniometer:', name='staticText1', parent=self,
+              label='Current Goniometer:', name='staticText1', parent=self,
               pos=wx.Point(8, 70), style=0)
-        self.staticText1.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL, wx.BOLD, False, u'Sans'))
+        self.staticText1.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL, wx.BOLD, False, 'Sans'))
 
         self.staticTextDescLabel = wx.StaticText(id=wxID_PANELGONIOMETERSTATICTEXTDESCLABEL,
-              label=u'Description:', name=u'staticTextDescLabel', parent=self,
+              label='Description:', name='staticTextDescLabel', parent=self,
               pos=wx.Point(0, 95), style=0)
 
         self.staticTextCurrentGonio = wx.StaticText(id=wxID_PANELGONIOMETERstaticTextCurrentGonio,
-              label=u'name of selected', name=u'staticTextCurrentGonio',
+              label='name of selected', name='staticTextCurrentGonio',
               parent=self, style=0)
-        self.staticTextCurrentGonio.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL, wx.BOLD, False, u'Sans'))
+        self.staticTextCurrentGonio.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL, wx.BOLD, False, 'Sans'))
 
         self.staticTextDesc = wx.StaticText(id=wxID_PANELGONIOMETERSTATICTEXTDESC,
-              label=u'... ... text ... ...', name=u'staticTextDesc',
+              label='... ... text ... ...', name='staticTextDesc',
               parent=self, 
               style=0)
 
-        self.buttonApplyChanges = wx.Button(label=u'  Apply Changes to Goniometer...  ', parent=self,
+        self.buttonApplyChanges = wx.Button(label='  Apply Changes to Goniometer...  ', parent=self,
               pos=wx.Point(4, 734),  style=0)
-        self.buttonApplyChanges.SetToolTipString(u'Applies any changes made to the current goniometer. ')
+        self.buttonApplyChanges.SetToolTipString('Applies any changes made to the current goniometer. ')
         self.buttonApplyChanges.Bind(wx.EVT_BUTTON, self.controller.apply_changes)
 
-        self.buttonEditAngles = wx.Button(label=u'  Edit Angles (advanced)...  ', parent=self,
+        self.buttonEditAngles = wx.Button(label='  Edit Angles (advanced)...  ', parent=self,
               pos=wx.Point(4, 734),  style=0)
-        self.buttonEditAngles.SetToolTipString(u'Change the details on the goniometer angles.')
+        self.buttonEditAngles.SetToolTipString('Change the details on the goniometer angles.')
         self.buttonEditAngles.Bind(wx.EVT_BUTTON, self.controller.edit_angles)
 
-        self.buttonSwitchGoniometer = wx.Button(label=u'  Switch to this goniometer  ', parent=self,
+        self.buttonSwitchGoniometer = wx.Button(label='  Switch to this goniometer  ', parent=self,
               pos=wx.Point(4, 734), style=0)
-        self.buttonSwitchGoniometer.SetToolTipString(u'Select the goniometer shown for this experiment. ')
+        self.buttonSwitchGoniometer.SetToolTipString('Select the goniometer shown for this experiment. ')
         self.buttonSwitchGoniometer.Bind(wx.EVT_BUTTON, self.controller.switch_goniometer)
 
         
@@ -277,7 +277,7 @@ class PanelGoniometer(wx.Panel):
 if __name__ == "__main__":
     model.instrument.inst = model.instrument.Instrument()
     model.goniometer.initialize_goniometers()
-    import gui_utils
+    from . import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelGoniometer)
     pnl.SetClientSize(wx.Size(1200,1200))
     app.MainLoop()

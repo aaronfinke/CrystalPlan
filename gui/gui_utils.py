@@ -7,12 +7,12 @@ import wx
 import os
 import os.path
 import sys
-from cPickle import loads, dumps
+from pickle import loads, dumps
 import xml.etree.ElementTree as ET
 
 #--- GUI Imports ---
-import display_thread
-import config_gui
+from . import display_thread
+from . import config_gui
 
 #--- Model Imports ---
 import model
@@ -83,7 +83,7 @@ def print_large_number(n,width=0,delim=',',decimal='.'):
     dec = s.find(decimal)
     if dec == -1: dec = len(s)
     threes = int((dec-1)/3) #we don't need a comma at the start
-    for i in xrange(threes):
+    for i in range(threes):
         loc = dec-3*(i+1)
         s = s[:loc] + delim + s[loc:]
     return s
@@ -174,7 +174,7 @@ def load_integrate_file_dialog(parent, sequential_detector_numbers):
     #Now, ask if the file peaks should be appended
     res = wx.MessageDialog(parent, "Do you wish to REPLACE the peaks to the current list of measured peaks?\nClick NO to append to the list.", "Replace Measured Peaks List?", wx.YES_NO | wx.YES_DEFAULT).ShowModal()
     do_append = (res == wx.ID_NO)
-    print "do_append", do_append
+    print("do_append", do_append)
     #Load it
     model.experiment.exp.load_peaks_file(filename, append=do_append, sequential_detector_numbers=sequential_detector_numbers)
     #This hopefully redraws everything
@@ -201,7 +201,7 @@ def load_HFIR_int_file_dialog(parent):
     #Now, ask if the file peaks should be appended
     res = wx.MessageDialog(parent, "Do you wish to REPLACE the peaks to the current list of measured peaks?\nClick NO to append to the list.", "Replace Measured Peaks List?", wx.YES_NO | wx.YES_DEFAULT).ShowModal()
     do_append = (res == wx.ID_NO)
-    print "do_append", do_append
+    print("do_append", do_append)
     #Load it
     model.experiment.exp.load_HFIR_peaks_file(filename, append=do_append)
     #This hopefully redraws everything
@@ -230,7 +230,7 @@ def do_recalculation_with_progress_bar(new_sample_U_matrix=None):
     prog_dlg.Update(count)
 
     keep_going = True
-    for i in xrange(len(model.instrument.inst.positions)):
+    for i in range(len(model.instrument.inst.positions)):
         try:
             #Do the recalculation
             poscov = model.instrument.inst.positions[i]
@@ -366,7 +366,7 @@ def scale_to_fit(source, target):
 [   FOLLOW_SIDE_TOP,
     FOLLOW_SIDE_BOTTOM,
     FOLLOW_TOP_LEFT,
-    FOLLOW_TOP_RIGHT ] = xrange(4)
+    FOLLOW_TOP_RIGHT ] = range(4)
 
 class FrameFollower():
     """Class to handle following a frame with another."""
@@ -458,7 +458,7 @@ def stop_following_window(parent, child):
     """Stop a child window following a parent."""
     key = (parent, child)
     #Stop following, and remove from dict
-    if followers.has_key(key):
+    if key in followers:
         follower = followers[key]
         follower.unbind()
         del followers[key]

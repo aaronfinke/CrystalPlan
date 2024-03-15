@@ -12,14 +12,14 @@ import types
 import numpy as np
 
 #--- Model Imports ---
-import instrument
-import experiment
+from . import instrument
+from . import experiment
 
 #--- Pygene Imports ---
-import pygene
-from pygene.gene import FloatGene, FloatGeneMax, FloatGeneRandom
-from pygene.organism import Organism, MendelOrganism
-from pygene.population import Population
+from . import pygene
+from .pygene.gene import FloatGene, FloatGeneMax, FloatGeneRandom
+from .pygene.organism import Organism, MendelOrganism
+from .pygene.population import Population
 
 #--- Traits Imports ---
 from traits.api import HasTraits,Int,Float,Str,Property,Bool, List
@@ -160,7 +160,7 @@ class DetectorChoice(Organism):
         """Return the list of detectors to used, based on the genes of this organism."""
         global dop
         #List of the gene values
-        sorter = [(self[detnum], detnum) for (detnum, gene) in self.genome.items()]
+        sorter = [(self[detnum], detnum) for (detnum, gene) in list(self.genome.items())]
         #Sort using the values (first thing in the tuple)
         sorter.sort()
         #List of detectors numbers to use, sorted in order.
@@ -182,7 +182,7 @@ class DetectorChoice(Organism):
         keystring = ""
         for val in det_list: keystring += val
         #Does the key exist?
-        if saved_fitness.has_key(keystring):
+        if keystring in saved_fitness:
             #No need to recalculate! We have it
             return saved_fitness[keystring]
         else:
@@ -250,7 +250,7 @@ def optimize_detector_choice(optim_params, gui=False):
         det: list of detector numbers that were chosen as the best solution."""
         
     global dop
-    print "Starting optimize_detector_choice"
+    print("Starting optimize_detector_choice")
     dop = optim_params
 
     def list_from_string(in_string):
@@ -259,7 +259,7 @@ def optimize_detector_choice(optim_params, gui=False):
         for s in in_string.split(','):
             try:
                 out.append( int( float(s) ) )
-            except Exception, e:
+            except Exception as e:
                 pass
         return out
 
@@ -307,14 +307,14 @@ def optimize_detector_choice(optim_params, gui=False):
         #Build up the best detector list
         det_list = [int(val) for val in pop.best().get_detector_list()]
         message = "Gen. %s: Best=%.2f%%, avg=%.2f%% coverage.\nBest is: %s" % (count, 100-thebest, 100-theavg, det_list)
-        print message
+        print(message)
         message += "\n\nPress cancel to stop search here."
 
         count += 1
         if gui:
             out = prog_dlg.Update(100-thebest, message)
             #Return value of this can be tuple or bool, depends on the particular wx version ? or something.
-            if type(out)==types.TupleType:
+            if type(out)==tuple:
                 keep_going = out[0]
             else:
                 keep_going = out
@@ -335,13 +335,13 @@ def optimize_detector_choice(optim_params, gui=False):
     # get the best solution
     solution = pop.best()
 
-    print "\n\n---------------------------------------\n\n"
-    print "The best organism found had coverage of %s%%!" % (100-solution.fitness())
+    print("\n\n---------------------------------------\n\n")
+    print("The best organism found had coverage of %s%%!" % (100-solution.fitness()))
     det = [int(val) for val in solution.get_detector_list()]
-    print "The list of detectors it had is %s" % det
+    print("The list of detectors it had is %s" % det)
 
-    print "\nThe saved_fitness dictionary has %s items." % len(saved_fitness.items())
-    print "Fitness called", count_fitness, "times. calc_fitness() called", count_calc_fitness, "times."
+    print("\nThe saved_fitness dictionary has %s items." % len(list(saved_fitness.items())))
+    print("Fitness called", count_fitness, "times. calc_fitness() called", count_calc_fitness, "times.")
 
     #Restore verbosity
     experiment.exp.verbose = True

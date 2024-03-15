@@ -12,8 +12,8 @@ import numpy as np
 import copy
 
 #--- GUI Imports ---
-import display_thread
-import gui_utils
+from . import display_thread
+from . import gui_utils
 
 #--- Model Imports ---
 import model
@@ -264,24 +264,24 @@ class PanelStartup(wx.Panel):
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Panel.__init__(self, id=wxID_DIALOGSTARTUP, name=u'PanelStartup',
+        wx.Panel.__init__(self, id=wxID_DIALOGSTARTUP, name='PanelStartup',
               parent=prnt, pos=wx.Point(702, 235), size=wx.Size(600, 600))
         self.SetClientSize(wx.Size(600, 600))
 
         self.staticTextHelp = wx.StaticText(id=wxID_DIALOGSTARTUPSTATICTEXTHELP,
-              label=u"The CrystalPlan application is used to simulate the coverage of reciprocal space of an instrument's detectors, given a list of sample orientations.",
-              name=u'staticTextHelp', parent=self, pos=wx.Point(0, 40),
+              label="The CrystalPlan application is used to simulate the coverage of reciprocal space of an instrument's detectors, given a list of sample orientations.",
+              name='staticTextHelp', parent=self, pos=wx.Point(0, 40),
               style=0)
         if gui_utils.is_mac():
             self.staticTextHelp.Wrap(self.GetSize()[0]-50)
 
         self.staticTextSelect = wx.StaticText(id=wxID_DIALOGSTARTUPSTATICTEXTSELECT,
-              label=u'Please select the instrument you will be simulating:',
-              name=u'staticTextSelect', parent=self, pos=wx.Point(0, 99),
+              label='Please select the instrument you will be simulating:',
+              name='staticTextSelect', parent=self, pos=wx.Point(0, 99),
               size=wx.Size(475, 17), style=0)
 
         self.listInstruments = wx.ListBox(choices=['TOPAZ', 'Other Instruments...'],
-              id=wxID_DIALOGSTARTUPLISTINSTRUMENTS, name=u'listInstruments',
+              id=wxID_DIALOGSTARTUPLISTINSTRUMENTS, name='listInstruments',
               parent=self, pos=wx.Point(16, 116), size=wx.Size(443, 149),
               style=0)
 
@@ -290,19 +290,19 @@ class PanelStartup(wx.Panel):
               size=wx.Size(475, 2), style=0)
 
         self.buttonApply = wx.Button(id=wxID_DIALOGSTARTUPbuttonApply,
-              label=u'  Apply Changes  ', name=u'buttonApply', parent=self,
+              label='  Apply Changes  ', name='buttonApply', parent=self,
               pos=wx.Point(16, 563), style=0)
         self.buttonApply.Bind(wx.EVT_BUTTON, self.OnbuttonApplyButton,
               id=wxID_DIALOGSTARTUPbuttonApply)
 
         self.buttonQuit = wx.Button(id=wxID_DIALOGSTARTUPBUTTONQUIT,
-              label=u'  Revert  ', name=u'buttonQuit', parent=self, pos=wx.Point(309,
+              label='  Revert  ', name='buttonQuit', parent=self, pos=wx.Point(309,
               563), style=0)
         self.buttonQuit.Bind(wx.EVT_BUTTON, self.OnButtonQuitButton,
               id=wxID_DIALOGSTARTUPBUTTONQUIT)
 
         self.staticTextSpacer1 = wx.StaticText(id=wxID_DIALOGSTARTUPSTATICTEXTSPACER1,
-              label=u' ', name=u'staticTextSpacer1', parent=self,
+              label=' ', name='staticTextSpacer1', parent=self,
               pos=wx.Point(166, 563), size=wx.Size(320, 17), style=0)
 
         self.staticLine2 = wx.StaticLine(id=wxID_DIALOGSTARTUPSTATICLINE2,
@@ -310,11 +310,11 @@ class PanelStartup(wx.Panel):
               size=wx.Size(478, 2), style=0)
 
         self.staticTextSpaceWarning = wx.StaticText(id=wxID_DIALOGSTARTUPSTATICTEXTSPACEWARNING,
-              label=u'Warning: This many points may make calculations slow. Increase the q-space resolution, or reduce the q-space range by increasing d_min.',
-              name=u'staticTextSpaceWarning', parent=self, pos=wx.Point(0, 432),
+              label='Warning: This many points may make calculations slow. Increase the q-space resolution, or reduce the q-space range by increasing d_min.',
+              name='staticTextSpaceWarning', parent=self, pos=wx.Point(0, 432),
               size=wx.Size(475, 51), style=0)
         self.staticTextSpaceWarning.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL,
-              wx.NORMAL, False, u'Sans'))
+              wx.NORMAL, False, 'Sans'))
         self.staticTextSpaceWarning.SetForegroundColour(wx.Colour(255, 0, 0))
 
 
@@ -368,7 +368,7 @@ class PanelStartup(wx.Panel):
 # ===========================================================================================
 
 if __name__ == '__main__':
-    import gui_utils
+    from . import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelStartup)
     app.frame.SetClientSize(wx.Size(700,500))
     app.MainLoop()
