@@ -7,12 +7,13 @@ Class definitions for detector geometries.
 
 #--- General Imports ---
 import numpy as np
-import weave
+from numba import jit
+from math import sqrt
 
 #--- Model Imports ---
 from . import numpy_utils
 from . import utils
-from .numpy_utils import rotation_matrix, x_rotation_matrix, column, vector_length
+from .numpy_utils import rotation_matrix, x_rotation_matrix, column, vector_length, az_elev_direction
 
 
 #========================================================================================================
@@ -222,7 +223,7 @@ class FlatDetector(Detector):
 
 
 
-    #-------------------------------------------------------------------------------
+    #-------------------------------------------------------------------------------    
     def get_detector_coordinates(self, beam, wl_min=0.0, wl_max=1e6):
         """Returns the coordinates of the point(s) touched on the detector (if any).
 
@@ -259,179 +260,134 @@ class FlatDetector(Detector):
         wl_out = np.zeros( array_size )
         distance_out = np.zeros( array_size )
         hits_it = np.zeros( array_size, dtype=bool )
-
-        #The abs() call might be screwed up!
-        support = """
-        #define FLOAT float
-        FLOAT absolute(FLOAT x)
-        {
-            if (x > 0.0)
-            { return x; }
-            else
-            { return -x; }
-        }
-        """
-        code = """
-        FLOAT az, elev;
-        FLOAT bx,by,bz;
-        FLOAT x,y,z, temp;
-        FLOAT h,v,d;
-        FLOAT diff_x, diff_y, diff_z;
-
-        //some vars
-        FLOAT base_point_x = base_point[0];
-        FLOAT base_point_y = base_point[1];
-        FLOAT base_point_z = base_point[2];
-        FLOAT horizontal_x = horizontal[0];
-        FLOAT horizontal_y = horizontal[1];
-        FLOAT horizontal_z = horizontal[2];
-        FLOAT vertical_x = vertical[0];
-        FLOAT vertical_y = vertical[1];
-        FLOAT vertical_z = vertical[2];
-        FLOAT nx = normal[0];
-        FLOAT ny = normal[1];
-        FLOAT nz = normal[2];
-        FLOAT n_dot_base_f = FLOAT(n_dot_base);
-
-        int i;
-        int error_count = 0;
-        int bad_beam = 0;
-        FLOAT projection, beam_length,  wavelength;
-
-        for (i=0; i<array_size; i++)
-        {
-            //Good beam, nice beam.
-            bad_beam = 0;
-
-            // Non-normalized beam direction
-            bx=BEAM2(0,i);
-            by=BEAM2(1,i);
-            bz=BEAM2(2,i);
-
-            // So we normalize it
-            beam_length = sqrt(bx*bx + by*by + bz*bz);
-            bx = bx/beam_length;
-            by = by/beam_length;
-            bz = bz/beam_length;
-
-            //Check if the wavelength is within range
-            wavelength = 6.2831853071795862/beam_length;
-
-            //If there are any nan's in the beam direction, this next check will return false.
-            if ((wavelength <= wl_max) && (wavelength >= wl_min))
-            {
-                //Wavelength in range! Keep going.
-
-                //Make sure the beam points in the same direction as the detector, not opposite to it
-                // project beam onto detector's base_point
-                projection = (base_point_x*bx)+(base_point_y*by)+(base_point_z*bz);
-                if (projection > 0)
-                {
-                    //beam points towards the detector
-
-                    //This beam coincides with the origin (0,0,0)
-                    //Therefore the line equation is x/bx = y/by = z/bz
-
-                    //Now we look for the intersection between the plane of normal nx,ny,nz and the given angle.
-
-                    //Threshold to avoid divide-by-zero
-                    FLOAT min = 1e-6;
-                    if ((absolute(bz) > min)) // && (absolute(nz) > min))
-                    {
-                        z = n_dot_base_f / ((nx*bx)/bz + (ny*by)/bz + nz);
-                        temp = (z / bz);
-                        y = by * temp;
-                        x = bx * temp;
-                    }
-                    else if ((absolute(by) > min)) //  && (absolute(ny) > min))
-                    {
-                        y = n_dot_base_f / (nx*bx/by + ny + nz*bz/by);
-                        temp = (y / by);
-                        x = bx * temp;
-                        z = bz * temp;
-                    }
-                    else if ((absolute(bx) > min)) //  && (absolute(nx) > min))
-                    {
-                        x = n_dot_base_f / (nx + ny*by/bx + nz*bz/bx);
-                        temp = (x / bx);
-                        y = by * temp;
-                        z = bz * temp;
-                    }
-                    else
-                    {
-                        // The scattered beam is 0,0,0
-                        error_count += 1;
-                        bad_beam = 1;
-                    }
-                }
-                else
-                {
-                    //The projection is <0
-                    // means the beam is opposite the detector. BAD BEAM! No cookie!
-                    bad_beam = 1;
-                }
-            }
-            else
-            {
-                //Wavelength is out of range. Can't measure it!
-                bad_beam = 1;
-            }
-
-
-            if (bad_beam)
-            {
-                //A bad beam means it does not hit, for sure.
-                h_out[i] = NAN;
-                v_out[i] = NAN;
-                wl_out[i] = wavelength; //This may be NAN too, for NAN inputs.
-                hits_it[i] = 0;
-            }
-            else
-            {
-                //Valid beam calculation
-                //Difference between this point and the base point (the center)
-                diff_x = x - base_point_x;
-                diff_y = y - base_point_y;
-                diff_z = z - base_point_z;
-
-                //Project onto horizontal and vertical axes by doing a dot product
-                h = diff_x*horizontal_x + diff_y*horizontal_y + diff_z*horizontal_z;
-                v = diff_x*vertical_x + diff_y*vertical_y + diff_z*vertical_z;
-
-                // Save to matrix
-                h_out[i] = h;
-                v_out[i] = v;
-
-                // the scattered beam is 1/wl long.
-                wl_out[i] = wavelength;
-
-                //What was the distance to the detector spot?
-                distance_out[i] = sqrt(x*x + y*y + z*z);
-
-                // And do we hit that detector?
-                // Detector is square and our h,v coordinates are relative to the center of it.
-                hits_it[i] = (v > -height/2) && (v < height/2) && (h > -width/2) && (h < width/2);
-            }
-        }
-        return_val = error_count;
-        """
-
         #Generate a list of the variables used
         varlist = ['base_point', 'horizontal', 'vertical', 'normal']
         #Dump them in the locals namespace
         for var in varlist: locals()[var] = getattr(self, var).flatten()
         width = self.width
         height = self.height
-        varlist += ['h_out', 'v_out', 'wl_out', 'distance_out', 'hits_it']
-        varlist += ['beam', 'array_size', 'n_dot_base', 'height', 'width', 'wl_min', 'wl_max']
-        #Run the code
-        error_count = weave.inline(code, varlist, compiler='gcc', support_code = support,libraries = ['m'])
+        h_out, v_out, wl_out, distance_out, hits_it, error_count = self.get_detector_coordinates_jit(
+                                    self.base_point, self.horizontal, self.vertical, 
+                                    self.normal, h_out, v_out, wl_out, distance_out, 
+                                    hits_it,beam, array_size, n_dot_base, height, 
+                                    width, wl_min, wl_max)
 
         #if error_count>0: print "error_count", error_count
 #        positions = np.concatenate( (h_out, v_out, wl_out), 0)
         return (h_out, v_out, wl_out, distance_out, hits_it)
 
+    @jit
+    def get_detector_coordinates_jit(base_point, horizontal, vertical, 
+                                    normal,h_out, v_out, wl_out, distance_out, 
+                                    hits_it,beam, array_size, n_dot_base, height, 
+                                    width, wl_min, wl_max):
+        base_point_x = base_point[0]
+        base_point_y = base_point[1]
+        base_point_z = base_point[2]
+        horizontal_x = horizontal[0]
+        horizontal_y = horizontal[1]
+        horizontal_z = horizontal[2]
+        vertical_x = vertical[0]
+        vertical_y = vertical[1]
+        vertical_z = vertical[2]
+        nx = normal[0]
+        ny = normal[1]
+        nz = normal[2]
+        n_dot_base_f = float(n_dot_base)
 
+        error_count = 0
+        bad_beam = 0
+        for i in range(array_size):
+            # good beam, nice beam.
+            bad_beam = 0
+            
+            # non-normalized beam direction
+            bx = beam(0,i)
+            by = beam(1,i)
+            bz = beam(2,i)
+
+            # so we normalize it
+            beam_length = sqrt(bx*bx + by*by + bz*bz)
+            bx = bx/beam_length
+            by = by/beam_length
+            bz = bz/beam_length
+
+            # check if the wavelength is in range
+            wavelength = 6.2831853071795862/beam_length
+            
+            # If there are any nan's in the beam direction, this next check will return false.
+            if wavelength <= wl_max and wavelength >= wl_min:
+
+                # wavelength is in range! keep going.
+                # Make sure the beam points in the same direction as the detector, not opposite to it
+                # project beam onto detector's base_point
+                projection = (base_point_x*bx)+(base_point_y*by)+(base_point_z*bz)
+                if projection > 0:
+                    # beam points toward the detector
+                    # This beam coincides with the origin (0,0,0)
+                    # Therefore the line equation is x/bx = y/by = z/bz
+
+                    # Now we look for the intersection between the plane of normal nx,ny,nz and the given angle.
+
+                    # Threshold to avoid divide-by-zero
+                    minim = 1e-6
+                    if abs(bz) > min: # and abs(nz) > min 
+                        z = n_dot_base_f / ((nx*bx)/bz + (ny*by)/bz + nz)
+                        temp = (z / bz)
+                        y = by * temp
+                        x = bx * temp
+                    elif abs(by) > min:
+                        y = n_dot_base_f / (nx*bx/by + ny + nz*bz/by)
+                        temp = (y / by)
+                        x = bx * temp
+                        z = bz * temp
+                    elif abs(bx) > min:
+                        x = n_dot_base_f / (nx + ny*by/bx + nz*bz/bx)
+                        temp = (x / bx)
+                        y = by * temp
+                        z = bz * temp
+                    else:
+                        # the scattered beam is 0,0,0
+                        error_count += 1
+                        bad_beam = 1
+                else:
+                    # the projection is < 0
+                    # means the beam is opposite the detector. BAD BEAM! No cookie!
+                    bad_beam = 1
+            else:
+                # wavelength is out of range. Can't measure it!
+                bad_beam = 1
+            
+            if bad_beam == 1:
+                # a bad beam means it doesn't hit, for sure.
+                h_out[i] = float('nan')
+                v_out[i] = float('nan')
+                wl_out[i] = wavelength
+                hits_it[i] = 0
+            else:
+                # valid beam calculation
+                # Difference between this point and the base point (the center)
+                diff_x = x - base_point_x
+                diff_y = y - base_point_y
+                diff_z = z - base_point_z
+                # Project onto horizontal and vertical axes by doing a dot
+                h = diff_x*horizontal_x + diff_y*horizontal_y + diff_z*horizontal_z
+                v = diff_x*vertical_x + diff_y*vertical_y + diff_z*vertical_z
+
+                # save to matrix
+                h_out[i] = h
+                v_out[i] = v
+
+                # the scattered beam is 1/wl long.
+                wl_out[i] = wavelength
+
+                # What was the distance to the detector spot?
+                distance_out[i] = sqrt(x*x + y*y + z*z)
+                # And do we hit that detector?
+                # Detector is square and our h,v coordinates are relative to the center of it.
+                hits_it[i] = (v > -height/2) and (v < height/2) and (h > -width/2) and (h < width/2)
+        
+        return h_out, v_out, wl_out, distance_out, hits_it, error_count
 
 
     #-------------------------------------------------------------------------------

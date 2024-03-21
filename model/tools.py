@@ -7,7 +7,6 @@
 #--- General Imports ---
 import numpy as np
 from numpy import array, sin, cos, pi, sign
-import weave
 import os
 
 #--- Model Imports ---
