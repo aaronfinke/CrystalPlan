@@ -131,30 +131,30 @@ class PanelPositions(wx.Panel):
     def _init_coll_boxSizerBottom_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=wx.EXPAND | wx.RIGHT)
-        parent.AddWindow(self.buttonUpdateList, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=wx.EXPAND | wx.RIGHT)
+        parent.Add(self.buttonUpdateList, 0, border=0, flag=0)
         parent.AddStretchSpacer(1)
-        parent.AddWindow(self.buttonDeletePosition, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=wx.EXPAND | wx.RIGHT)
+        parent.Add(self.buttonDeletePosition, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=wx.EXPAND | wx.RIGHT)
 
     def _init_coll_boxSizerAll_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.staticTextHelp, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
-        parent.AddSizer(self.boxSizerCheckboxes, 0, border=0, flag=0)
-        parent.AddWindow(self.staticTextHeader, 0, border=0, flag=wx.EXPAND)
-        parent.AddWindow(self.staticTextHeaderUnits, 0, border=0,
+        parent.Add(self.staticTextHelp, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(self.boxSizerCheckboxes, 0, border=0, flag=0)
+        parent.Add(self.staticTextHeader, 0, border=0, flag=wx.EXPAND)
+        parent.Add(self.staticTextHeaderUnits, 0, border=0,
               flag=wx.EXPAND)
-        parent.AddWindow(self.checkListPositions, 1, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
-        parent.AddSizer(self.boxSizerBottom, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(self.checkListPositions, 1, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(self.boxSizerBottom, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
 
     def _init_coll_boxSizerCheckboxes_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.checkSelectAll, 0, border=0, flag=0)
+        parent.Add(self.checkSelectAll, 0, border=0, flag=0)
 
     def _init_sizers(self):
         # generated method, don't edit

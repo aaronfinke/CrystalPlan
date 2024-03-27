@@ -88,8 +88,8 @@ class TryPositionController:
             slid.Bind(EVT_VALUE_SLIDER_CHANGING, self.SliderChanging)
             sliders.append(slid)
             #Add to the sizer
-            self.panel.boxSizerSliders.AddWindow(slid, 0, border=0, flag=wx.EXPAND)
-            self.panel.boxSizerSliders.AddSpacer(wx.Size(12, 12), border=0, flag=wx.EXPAND)
+            self.panel.boxSizerSliders.Add(slid, 0, border=0, flag=wx.EXPAND)
+            self.panel.boxSizerSliders.Add(wx.Size(12, 12), border=0, flag=wx.EXPAND)
         self.panel.boxSizerSliders.Layout()
         self.panel.boxSizerAll.Layout()
         #Save to panel
@@ -200,18 +200,18 @@ class PanelTryPosition(wx.Panel):
     def _init_coll_boxSizerAll_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.staticTextHelp, 0, border=0, flag=wx.EXPAND|wx.SHRINK)
-        parent.AddWindow(self.staticLineTop, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.checkAdd, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=wx.EXPAND)
-        parent.AddSizer(self.boxSizerSliders, border=0, flag=wx.EXPAND)
-        parent.AddWindow(self.staticTextWarning, 0, border=4,
+        parent.Add(self.staticTextHelp, 0, border=0, flag=wx.EXPAND|wx.SHRINK)
+        parent.Add(self.staticLineTop, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.checkAdd, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=wx.EXPAND)
+        parent.Add(self.boxSizerSliders, border=0, flag=wx.EXPAND)
+        parent.Add(self.staticTextWarning, 0, border=4,
               flag=wx.RIGHT | wx.LEFT | wx.EXPAND)
-        parent.AddWindow(self.staticTextWarningReason, 0, border=16,
+        parent.Add(self.staticTextWarningReason, 0, border=16,
               flag=wx.RIGHT | wx.LEFT | wx.EXPAND)
-        parent.AddSpacer(wx.Size(16, 16), border=0, flag=wx.EXPAND)
-        parent.AddWindow(self.buttonSave, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(16, 16), border=0, flag=wx.EXPAND)
+        parent.Add(self.buttonSave, 0, border=0, flag=wx.EXPAND)
 
     def _init_sizers(self):
         # generated method, don't edit

@@ -64,18 +64,18 @@ class DialogGoniometerAngles(wx.Dialog):
 
     def _init_coll_boxSizerButtons_Items(self, parent):
         parent.AddStretchSpacer(1)
-        parent.AddWindow(self.buttonOK, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonCancel, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(self.buttonOK, 0, border=0, flag=0)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(self.buttonCancel, 0, border=0, flag=0)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
 
     def _init_coll_boxSizerAll_Items(self, parent):
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizerButtons, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(self.boxSizerButtons, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
 
     def _init_coll_boxSizerIsaw_Items(self, parent):
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
 
     def _init_sizers(self):
         self._init_coll_boxSizerAll_Items(self.boxSizerAll)
@@ -133,7 +133,7 @@ class DialogGoniometerAngles(wx.Dialog):
             )
             )
             panel_control = ang.edit_traits(parent=panel, kind='subpanel').control
-            panel_boxSizer.AddWindow(panel_control, 0, border=0, flag=wx.EXPAND)
+            panel_boxSizer.Add(panel_control, 0, border=0, flag=wx.EXPAND)
             panel.SetSizer(panel_boxSizer)
 
             #Save it for later
@@ -156,10 +156,10 @@ class DialogGoniometerAngles(wx.Dialog):
             )
         #Make the control and add it
         self.control_top = self.gonio.edit_traits(parent=self, view=self.view_top, kind='subpanel', handler=self.handler).control
-        self.boxSizerAll.AddWindow(self.control_top, 0, border=0, flag=wx.EXPAND)
+        self.boxSizerAll.Add(self.control_top, 0, border=0, flag=wx.EXPAND)
 
         # Now add the notebook, make it expand
-        self.boxSizerAll.AddWindow(self.notebook, 1, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP)
+        self.boxSizerAll.Add(self.notebook, 1, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP)
 
         #self.notebook.AddPage(self.panelManual, "Manually Enter Lattice")
 

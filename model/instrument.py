@@ -1023,7 +1023,7 @@ class Instrument:
             a string.
         """
         import string
-        return string.join([self.angles[i].pretty_print(angles[i], add_unit=True) for i in range(len(angles))], ", ")
+        return ", ".join([self.angles[i].pretty_print(angles[i], add_unit=True) for i in range(len(angles))])
 
     # ========================================================================================================
     def get_default_stopping_criterion(self):

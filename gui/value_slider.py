@@ -37,16 +37,16 @@ class ValueSlider(wx.Panel):
     def _init_coll_boxSizerAll_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSizer(self.boxSizerTop, 0, border=0, flag=wx.EXPAND)
-        parent.AddWindow(self.sliderValue, 0, border=0, flag=wx.EXPAND)
+        parent.Add(self.boxSizerTop, 0, border=0, flag=wx.EXPAND)
+        parent.Add(self.sliderValue, 0, border=0, flag=wx.EXPAND)
 
     def _init_coll_boxSizerTop_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.staticTextLabel, 1, border=0,
+        parent.Add(self.staticTextLabel, 1, border=0,
               flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.textValue, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.textValue, 0, border=0, flag=0)
 
     def SetLabel(self, text):
         """Set the text of the label."""

@@ -106,28 +106,28 @@ class PanelSample(wx.Panel):
     def _init_coll_boxSizerRangeButtons_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonApplyRange, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonRevertRange, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonApplyRange, 0, border=0, flag=0)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(self.buttonRevertRange, 0, border=0, flag=0)
 
     def _init_coll_boxSizerAll_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonEditCrystal, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonEditCrystal, 0, border=0,
               flag=wx.ALIGN_CENTER)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticLine1, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextRangeHeader, 0, border=0, flag=0)
-        parent.AddWindow(self.staticTextRangeHeader2, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizerRangeButtons, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=wx.EXPAND)
-        parent.AddWindow(self.staticLine2, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticLine1, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextRangeHeader, 0, border=0, flag=0)
+        parent.Add(self.staticTextRangeHeader2, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.boxSizerRangeButtons, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=wx.EXPAND)
+        parent.Add(self.staticLine2, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
 
     def _init_sizers(self):
         # generated method, don't edit

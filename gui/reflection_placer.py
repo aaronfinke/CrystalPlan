@@ -501,22 +501,22 @@ class FrameReflectionPlacer(wx.Frame):
 
 
         self.statusBar = wx.StatusBar(name='statusBar', parent=self,
-              style=wx.THICK_FRAME | wx.ST_SIZEGRIP)
+              style= wx.ST_SIZEGRIP)
         self.statusBar.SetStatusText('Calculation status.')
         self.statusBar.SetAutoLayout(True)
         self.SetStatusBar(self.statusBar)
 
         #---- Sizers -----
         self.boxSizerAll = wx.BoxSizer(orient=wx.VERTICAL)
-        self.boxSizerAll.AddSpacer(wx.Size(8,8))
-        self.boxSizerAll.AddWindow(self.staticTextHelp, 0, border=8, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
-        self.boxSizerAll.AddSpacer(wx.Size(8,8))
+        self.boxSizerAll.Add(wx.Size(8,8))
+        self.boxSizerAll.Add(self.staticTextHelp, 0, border=8, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
+        self.boxSizerAll.Add(wx.Size(8,8))
         self.SetSizer(self.boxSizerAll)
 
         self.boxSizerBottom = wx.BoxSizer(orient=wx.HORIZONTAL)
         self.boxSizerBottom.AddStretchSpacer(1)
-        self.boxSizerBottom.AddSpacer(wx.Size(8,8))
-        self.boxSizerBottom.AddWindow(self.buttonOK, 0)
+        self.boxSizerBottom.Add(wx.Size(8,8))
+        self.boxSizerBottom.Add(self.buttonOK, 0)
 
 
 
@@ -566,14 +566,14 @@ class FrameReflectionPlacer(wx.Frame):
         self.controlBottom = self.placer.edit_traits(parent=self, view=viewBottom, kind='subpanel', handler=self.handler).control
 
         #Put them in sizers
-        self.boxSizerAll.AddWindow(self.controlTop, 0, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP)
-        self.boxSizerAll.AddWindow(self.detectorPlot, 1, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP)
-        self.boxSizerAll.AddWindow(self.controlBottom, 0, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP)
-        self.boxSizerAll.AddSpacer(wx.Size(8,8))
-        self.boxSizerAll.AddWindow(self.buttonAddOrientation, 0, border=4, flag=wx.LEFT | wx.RIGHT | wx.ALIGN_CENTER_HORIZONTAL)
-        self.boxSizerAll.AddSpacer(wx.Size(8,8))
-        self.boxSizerAll.AddSizer(self.boxSizerBottom, flag=wx.EXPAND)
-        self.boxSizerAll.AddSpacer(wx.Size(8,8))
+        self.boxSizerAll.Add(self.controlTop, 0, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP)
+        self.boxSizerAll.Add(self.detectorPlot, 1, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP)
+        self.boxSizerAll.Add(self.controlBottom, 0, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP)
+        self.boxSizerAll.Add(wx.Size(8,8))
+        self.boxSizerAll.Add(self.buttonAddOrientation, 0, border=4, flag=wx.LEFT | wx.RIGHT | wx.ALIGN_CENTER_HORIZONTAL)
+        self.boxSizerAll.Add(wx.Size(8,8))
+        self.boxSizerAll.Add(self.boxSizerBottom, flag=wx.EXPAND)
+        self.boxSizerAll.Add(wx.Size(8,8))
         self.GetSizer().Layout()
 
         #Make an initial update of GUIs

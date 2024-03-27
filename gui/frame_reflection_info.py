@@ -44,13 +44,13 @@ class FrameReflectionInfo(wx.Frame):
     def _init_coll_boxSizerAll_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(6,6), border=0, flag=0)
-        parent.AddWindow(self.staticTextHelp, 0, border=0,
+        parent.Add(wx.Size(6,6), border=0, flag=0)
+        parent.Add(self.staticTextHelp, 0, border=0,
               flag=wx.SHRINK | wx.EXPAND)
-        parent.AddSpacer(wx.Size(8,8))
-        parent.AddWindow(self.staticLine1, 0, border=2,
+        parent.Add(wx.Size(8,8))
+        parent.Add(self.staticLine1, 0, border=2,
               flag=wx.BOTTOM | wx.EXPAND | wx.TOP)
-        parent.AddWindow(self.checkBoxFollowWindow, 0, border=0, flag=0)
+        parent.Add(self.checkBoxFollowWindow, 0, border=0, flag=0)
 
     def _init_sizers(self):
         # generated method, don't edit

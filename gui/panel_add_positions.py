@@ -190,12 +190,12 @@ class AddPositionsController():
 
                 #Make a sizer
                 sizer = wx.BoxSizer(orient=wx.HORIZONTAL)
-                sizer.AddWindow(static, 0, border=0, flag=wx.EXPAND | wx.ALIGN_CENTER_VERTICAL)
-                sizer.AddWindow(text, 1, border=0, flag=wx.EXPAND)
-                sizer.AddWindow(static_unit, 0, border=0, flag=wx.EXPAND | wx.ALIGN_CENTER_VERTICAL)
+                sizer.Add(static, 0, border=0, flag=wx.EXPAND | wx.ALIGN_CENTER_VERTICAL)
+                sizer.Add(text, 1, border=0, flag=wx.EXPAND)
+                sizer.Add(static_unit, 0, border=0, flag=wx.EXPAND | wx.ALIGN_CENTER_VERTICAL)
 
                 #Add the sizer to the other one
-                self.panel.boxSizerAngles.AddSizer(sizer, 0, border=0, flag=wx.EXPAND)
+                self.panel.boxSizerAngles.Add(sizer, 0, border=0, flag=wx.EXPAND)
 
                 #Add the controls
                 self.textAngles.append(text)
@@ -337,45 +337,45 @@ class PanelAddPositions(wx.Panel):
     def _init_coll_boxSizerMiddle_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.checkIgnoreGonio, 0, border=0, flag=wx.EXPAND)
+        parent.Add(self.checkIgnoreGonio, 0, border=0, flag=wx.EXPAND)
 
     def _init_coll_boxSizerBottom_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.buttonCalculate, 0, border=2,
+        parent.Add(self.buttonCalculate, 0, border=2,
               flag=wx.ALIGN_CENTER_HORIZONTAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonCancel, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonCancel, 0, border=0, flag=0)
 
     def _init_coll_boxSizerAll_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.staticTextTitle, 0, border=0,
+        parent.Add(self.staticTextTitle, 0, border=0,
               flag=wx.ALIGN_CENTER_HORIZONTAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextHelp, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextHelp, 0, border=0,
               flag=wx.EXPAND | wx.ALIGN_CENTER_HORIZONTAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizerAngles, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.boxSizerAngles, 0, border=0,
               flag=wx.RIGHT | wx.LEFT | wx.GROW)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizerMiddle, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextWarnings, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.boxSizerMiddle, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextWarnings, 0, border=0,
               flag=wx.ALIGN_CENTER_HORIZONTAL)
-        parent.AddWindow(self.textWarnings, 1, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextProgress, 0, border=0, flag=0)
-        parent.AddWindow(self.gaugeProgress, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizer1, 0, border=0, flag=0)
-        parent.AddSizer(self.boxSizerBottom, 0, border=0, flag=wx.ALIGN_CENTER)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.textWarnings, 1, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextProgress, 0, border=0, flag=0)
+        parent.Add(self.gaugeProgress, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.boxSizer1, 0, border=0, flag=0)
+        parent.Add(self.boxSizerBottom, 0, border=0, flag=wx.ALIGN_CENTER)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
 
     def _init_coll_boxSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.checkMultiprocessing, 0, border=0, flag=0)
+        parent.Add(self.checkMultiprocessing, 0, border=0, flag=0)
 
     def _init_sizers(self):
         # generated method, don't edit

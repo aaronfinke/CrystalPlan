@@ -34,19 +34,19 @@ class DialogPreferences(wx.Dialog):
     def _init_coll_boxSizerButtons_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8,8))
+        parent.Add(wx.Size(8,8))
         parent.AddStretchSpacer(prop=1)
-        parent.AddWindow(self.buttonOK, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8,8))
-        parent.AddWindow(self.buttonCancel, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8,8))
+        parent.Add(self.buttonOK, 0, border=0, flag=0)
+        parent.Add(wx.Size(8,8))
+        parent.Add(self.buttonCancel, 0, border=0, flag=0)
+        parent.Add(wx.Size(8,8))
 
     def _init_coll_boxSizerAll_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8,8))
-        parent.AddSizer(self.boxSizerButtons, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8,8))
+        parent.Add(wx.Size(8,8))
+        parent.Add(self.boxSizerButtons, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8,8))
 
     def _init_sizers(self):
         # generated method, don't edit

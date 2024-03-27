@@ -87,28 +87,28 @@ class DialogEditCrystal(wx.Dialog):
 
     def _init_coll_boxSizerButtons_Items(self, parent):
         parent.AddStretchSpacer(1)
-        parent.AddWindow(self.buttonOK, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonCancel, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(self.buttonOK, 0, border=0, flag=0)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(self.buttonCancel, 0, border=0, flag=0)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
 
     def _init_coll_boxSizerAll_Items(self, parent):
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizerButtons, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(self.boxSizerButtons, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
 
     def _init_coll_boxSizerIsaw_Items(self, parent):
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
-        parent.AddWindow(self.staticTextHelp1,0, border=0, flag=wx.CENTER)
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
-        parent.AddWindow(self.staticTextHelp3,0, border=0, flag=wx.LEFT)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextHelp2,0, border=0, flag=wx.CENTER)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
-        parent.AddWindow(self.control_load_angles,0, border=0, flag=wx.CENTER)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonReadUB, 0, border=0, flag=wx.CENTER)
-        parent.AddSpacer(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(self.staticTextHelp1,0, border=0, flag=wx.CENTER)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(self.staticTextHelp3,0, border=0, flag=wx.LEFT)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(self.staticTextHelp2,0, border=0, flag=wx.CENTER)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(self.control_load_angles,0, border=0, flag=wx.CENTER)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
+        parent.Add(self.buttonReadUB, 0, border=0, flag=wx.CENTER)
+        parent.Add(wx.Size(16, 8), border=0, flag=0)
         self.panelIsaw.SetSizer(self.boxSizerIsaw)
 
     def _init_sizers(self):
@@ -200,10 +200,10 @@ class DialogEditCrystal(wx.Dialog):
             )
         #Make the control and add it
         self.control_top = self.crystal.edit_traits(parent=self, view=self.view_top, kind='subpanel', handler=self.handler).control
-        self.boxSizerAll.AddWindow(self.control_top, 0, border=0, flag=wx.EXPAND)
+        self.boxSizerAll.Add(self.control_top, 0, border=0, flag=wx.EXPAND)
 
         # Now add the notebook, make it expand
-        self.boxSizerAll.AddWindow(self.notebook, 1, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP)
+        self.boxSizerAll.Add(self.notebook, 1, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP)
             
         #Now a view to manually create the parameters
         angle_label = Group(
@@ -235,9 +235,9 @@ The 'a' vector is parallel to x; 'b' is in the XY plane towards +y;
         #Make it into a control, put it in the notebook
         self.control_manual = self.crystal.edit_traits(parent=self.panelManual, view=self.view_manual, kind='subpanel', handler=self.handler).control
         self.notebook.AddPage(self.panelManual, "Manually Enter Lattice")
-        self.boxSizerManual.AddWindow(self.control_manual, 0, border=0, flag=wx.EXPAND)
-        self.boxSizerManual.AddSpacer(wx.Size(8,8))
-        self.boxSizerManual.AddWindow(self.buttonGenerateUB, 0, border=0, flag=wx.CENTER)
+        self.boxSizerManual.Add(self.control_manual, 0, border=0, flag=wx.EXPAND)
+        self.boxSizerManual.Add(wx.Size(8,8))
+        self.boxSizerManual.Add(self.buttonGenerateUB, 0, border=0, flag=wx.CENTER)
         self.panelManual.SetSizer(self.boxSizerManual)
 
         self.ub_orientation = SampleOrientationWhenUBMatrixWasSaved()
