@@ -848,17 +848,17 @@ class FrameQspaceView(wx.Frame):
 
     def _init_coll_boxSizerStats_Items(self, parent):
         #The stats panel goes here, before the rest
-        parent.AddWindow(self.staticLineSpacer, 0, border=0, flag=wx.EXPAND)
-        parent.AddWindow(self.buttonAdvancedView, 0, border=1, flag=0)
+        parent.Add(self.staticLineSpacer, 0, border=0, flag=wx.EXPAND)
+        parent.Add(self.buttonAdvancedView, 0, border=1, flag=0)
 
     def _init_coll_boxSizerBottomPanel_Items(self, parent):
-        parent.AddWindow(self.notebookView, 10, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.panelStats, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.notebookView, 10, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.panelStats, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
 
     def _init_coll_boxSizer1_Items(self, parent):
-        parent.AddWindow(self.splitterAll, 1, border=0, flag=wx.EXPAND)
+        parent.Add(self.splitterAll, 1, border=0, flag=wx.EXPAND)
 
     def _init_sizers(self):
         self.boxSizer1 = wx.BoxSizer(orient=wx.VERTICAL)
@@ -886,7 +886,7 @@ class FrameQspaceView(wx.Frame):
         self.splitterAll = wx.SplitterWindow(id=wxID_FRAMEQSPACEVIEWSPLITTERALL,
               name='splitterAll', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(778, 792), style=wx.SP_3D)
-        self.splitterAll.SetSashSize(8)
+        # self.splitterAll.SetSashSize(8)
         self.splitterAll.SetSashGravity(1.0)
 
         self.panelBottom = wx.Panel(id=wxID_FRAMEQSPACEVIEWPANELBOTTOM,

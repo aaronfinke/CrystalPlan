@@ -80,7 +80,7 @@ def csv_line(input_list):
     """Make a line acceptable for CSV from an input list of various types.
     Line has a newline character at the end"""
     good_strings = [csv_friendly_string(x) for x in input_list]
-    return string.join(good_strings, ",") + "\n"
+    return ",".join(good_strings) + "\n"
 
 
 
@@ -2787,8 +2787,9 @@ class TopazInHouseGoniometer(LimitedGoniometer):
         """
         #Blank line for pretty ness
         fileobj.write("#\n")
-        #Make a comment line with the angles
-        angle_comment = '#"Equivalent goniometer angles (phi, chi, omega) are: ' + string.join(["%.3f" % np.rad2deg(x) for x in angles], ", ") + ' degrees."\n'
+        # Make a comment line with the angles
+        angle_comment = '#"Equivalent goniometer angles (phi, chi, omega) are: ' + ", ".join(
+            ["%.3f" % np.rad2deg(x) for x in angles]) + ' degrees."\n'
         fileobj.write(angle_comment)
         #Calculate if its allowed
         (allowed, reason) = self.are_angles_allowed(angles, return_reason=True)

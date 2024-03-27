@@ -453,56 +453,56 @@ class FrameOptimizer(wx.Frame):
     def _init_coll_boxSizerParams_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticText1, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticLine1, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextHelp, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticText1, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticLine1, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextHelp, 0, border=0, flag=wx.EXPAND)
 
     def _init_coll_boxSizerStatus_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextResults, 0, border=4, flag=wx.LEFT)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.textStatus, 1, border=10, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.plotControl, 3, border=10, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.SHRINK)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextGeneration, 0, border=4, flag=wx.LEFT)
-        parent.AddWindow(self.gaugeGeneration, 0, border=10, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=wx.EXPAND)
-        parent.AddWindow(self.staticTextCoverage, 0, border=4, flag=wx.LEFT)
-        parent.AddWindow(self.gaugeCoverage, 0, border=10, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=wx.EXPAND)
-        parent.AddWindow(self.staticTextAverage, 0, border=4, flag=wx.LEFT)
-        parent.AddWindow(self.gaugeAverage, 0, border=10, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextComplete, 0, border=4, flag=wx.LEFT)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(wx.StaticLine(parent=self.panelStatus), 0, border=0, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSizer(self.gridSizerStatusButtons, 0, border=0, flag=wx.CENTER)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextResults, 0, border=4, flag=wx.LEFT)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.textStatus, 1, border=10, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.plotControl, 3, border=10, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.SHRINK)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextGeneration, 0, border=4, flag=wx.LEFT)
+        parent.Add(self.gaugeGeneration, 0, border=10, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
+        parent.Add(wx.Size(8, 8), border=0, flag=wx.EXPAND)
+        parent.Add(self.staticTextCoverage, 0, border=4, flag=wx.LEFT)
+        parent.Add(self.gaugeCoverage, 0, border=10, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
+        parent.Add(wx.Size(8, 8), border=0, flag=wx.EXPAND)
+        parent.Add(self.staticTextAverage, 0, border=4, flag=wx.LEFT)
+        parent.Add(self.gaugeAverage, 0, border=10, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextComplete, 0, border=4, flag=wx.LEFT)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(wx.StaticLine(parent=self.panelStatus), 0, border=0, flag=wx.EXPAND | wx.LEFT | wx.RIGHT)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.gridSizerStatusButtons, 0, border=0, flag=wx.CENTER)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
 
     def _init_coll_boxSizerAll_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.splitterMain, 1, border=8,
+        parent.Add(self.splitterMain, 1, border=8,
               flag=wx.TOP | wx.RIGHT | wx.LEFT | wx.EXPAND)
-        parent.AddSpacer(wx.Size(16, 16), border=0,
+        parent.Add(wx.Size(16, 16), border=0,
               flag=wx.BOTTOM | wx.TOP | wx.RIGHT | wx.LEFT)
 
     def _init_coll_gridSizerStatusButtons_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.buttonStart, 0, border=0,
+        parent.Add(self.buttonStart, 0, border=0,
               flag=wx.ALIGN_CENTER_HORIZONTAL)
-        parent.AddWindow(self.buttonKeepGoing, 0, border=0,
+        parent.Add(self.buttonKeepGoing, 0, border=0,
               flag=wx.ALIGN_CENTER_HORIZONTAL)
-        parent.AddWindow(self.buttonStop, 0, border=0, flag=wx.ALIGN_CENTER)
-        parent.AddWindow(self.buttonApply, 0, border=0, flag=wx.ALIGN_CENTER)
+        parent.Add(self.buttonStop, 0, border=0, flag=wx.ALIGN_CENTER)
+        parent.Add(self.buttonApply, 0, border=0, flag=wx.ALIGN_CENTER)
 
     def _init_sizers(self):
         # generated method, don't edit

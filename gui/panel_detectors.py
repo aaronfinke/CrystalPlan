@@ -383,34 +383,34 @@ class PanelDetectors(wx.Panel):
     def _init_coll_boxSizer3_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.buttonStats, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonSelectBest, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.button_view_detectors, 0, border=0, flag=0)
+        parent.Add(self.buttonStats, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonSelectBest, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.button_view_detectors, 0, border=0, flag=0)
 
     def _init_coll_boxSizer_main_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
-        parent.AddWindow(self.staticText1, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonLoadDetectors, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.boxSizer3, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizer2, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.chklistDetectors, 1, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(self.staticText1, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonLoadDetectors, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.boxSizer3, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.boxSizer2, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.chklistDetectors, 1, border=0, flag=wx.EXPAND)
 
     def _init_coll_boxSizer2_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.checkSelectAll, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonSelectList, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonOptimize, 0, border=0, flag=0)
+        parent.Add(self.checkSelectAll, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonSelectList, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonOptimize, 0, border=0, flag=0)
 
     def _init_sizers(self):
         # generated method, don't edit

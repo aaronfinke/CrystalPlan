@@ -16,16 +16,16 @@ class PanelCoverageStats(wx.Panel):
     """
 
     def _init_coll_boxSizerStats_Items(self, parent):
-        parent.AddWindow(self.staticTextStats1, 0, border=0,
+        parent.Add(self.staticTextStats1, 0, border=0,
               flag=wx.ALIGN_CENTER)
-        parent.AddSpacer(wx.Size(8,8))
-        parent.AddWindow(self.staticTextReflections,0, border=8, flag=wx.EXPAND | wx.BOTTOM)
-        parent.AddWindow(self.staticTextStatsCovered, 0, border=0,
+        parent.Add(wx.Size(8,8))
+        parent.Add(self.staticTextReflections,0, border=8, flag=wx.EXPAND | wx.BOTTOM)
+        parent.Add(self.staticTextStatsCovered, 0, border=0,
               flag=wx.EXPAND)
-        parent.AddWindow(self.gaugeCoverage, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8,8))
-        parent.AddWindow(self.staticTextStatsRedundant, 0, border=0, flag=wx.EXPAND)
-        parent.AddWindow(self.gaugeRedundancy, 0, border=0, flag=wx.EXPAND)
+        parent.Add(self.gaugeCoverage, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8,8))
+        parent.Add(self.staticTextStatsRedundant, 0, border=0, flag=wx.EXPAND)
+        parent.Add(self.gaugeRedundancy, 0, border=0, flag=wx.EXPAND)
 
     def _init_sizers(self):
         self.boxSizerStats = wx.BoxSizer(orient=wx.VERTICAL)
@@ -59,8 +59,8 @@ class PanelCoverageStats(wx.Panel):
         self.gaugeCoverage.SetValue(0)
         self.gaugeCoverage.SetLabel('')
         self.gaugeCoverage.SetForegroundColour(wx.Colour(0, 0, 0))
-        self.gaugeCoverage.SetBezelFace(1)
-        self.gaugeCoverage.SetShadowWidth(1)
+        # self.gaugeCoverage.SetBezelFace(1)
+        # self.gaugeCoverage.SetShadowWidth(1)
 
         self.gaugeRedundancy = wx.Gauge(id=wx.ID_ANY,
               name='gaugeRedundancy', parent=self, pos=wx.Point(0,
@@ -68,8 +68,8 @@ class PanelCoverageStats(wx.Panel):
         self.gaugeRedundancy.SetValue(0)
         self.gaugeRedundancy.SetLabel('')
         self.gaugeRedundancy.SetForegroundColour(wx.Colour(0, 0, 0))
-        self.gaugeRedundancy.SetBezelFace(1)
-        self.gaugeRedundancy.SetShadowWidth(1)
+        # self.gaugeRedundancy.SetBezelFace(1)
+        # self.gaugeRedundancy.SetShadowWidth(1)
 
         self._init_sizers()
 

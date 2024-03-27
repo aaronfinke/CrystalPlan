@@ -155,36 +155,36 @@ class PanelGoniometer(wx.Panel):
     def _init_coll_boxSizerall_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizerSelected, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonEditAngles, 0, border=24, flag=wx.LEFT)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonApplyChanges, 0, border=24, flag=wx.LEFT)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(wx.StaticLine(self), 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextTitle, 0, border=4, flag=wx.LEFT)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.choiceGonio, 0, border=8,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.boxSizerSelected, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonEditAngles, 0, border=24, flag=wx.LEFT)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonApplyChanges, 0, border=24, flag=wx.LEFT)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(wx.StaticLine(self), 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextTitle, 0, border=4, flag=wx.LEFT)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.choiceGonio, 0, border=8,
               flag=wx.RIGHT | wx.LEFT | wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=4, flag=wx.LEFT)
-        parent.AddWindow(self.staticTextDescLabel, 0, border=4, flag=wx.LEFT)
-        parent.AddSpacer(wx.Size(8, 8), border=4, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextDesc, 0, border=24,
+        parent.Add(wx.Size(8, 8), border=4, flag=wx.LEFT)
+        parent.Add(self.staticTextDescLabel, 0, border=4, flag=wx.LEFT)
+        parent.Add(wx.Size(8, 8), border=4, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextDesc, 0, border=24,
               flag=wx.RIGHT | wx.LEFT | wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonSwitchGoniometer, 0, border=24, flag=wx.LEFT)
-        parent.AddSpacer(wx.Size(8, 8), border=4, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonSwitchGoniometer, 0, border=24, flag=wx.LEFT)
+        parent.Add(wx.Size(8, 8), border=4, flag=0)
 
     def _init_coll_boxSizerSelected_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticText1, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextCurrentGonio, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticText1, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextCurrentGonio, 0, border=0, flag=0)
 
     def _init_sizers(self):
         # generated method, don't edit

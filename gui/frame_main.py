@@ -523,7 +523,7 @@ class FrameMain(wx.Frame):
     #--------------------------------------------------------------------
     def _init_sizers(self):
         self.boxSizerAll = wx.BoxSizer(orient=wx.VERTICAL)
-        self.boxSizerAll.AddWindow(self.notebook, 1, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP | wx.BOTTOM)
+        self.boxSizerAll.Add(self.notebook, 1, border=4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP | wx.BOTTOM)
         self.SetSizer(self.boxSizerAll)
 
 

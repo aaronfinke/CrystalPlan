@@ -401,67 +401,67 @@ class PanelExperiment(wx.Panel):
     def _init_coll_boxSizerDelete_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.buttonDeleteAll, 0, border=4,
+        parent.Add(self.buttonDeleteAll, 0, border=4,
               flag=wx.LEFT | wx.RIGHT)
-        parent.AddWindow(self.buttonDeleteHighlighted, 0, border=4,
+        parent.Add(self.buttonDeleteHighlighted, 0, border=4,
               flag=wx.LEFT | wx.RIGHT)
-        parent.AddWindow(self.buttonDeleteUnused, 0, border=4,
+        parent.Add(self.buttonDeleteUnused, 0, border=4,
               flag=wx.LEFT | wx.RIGHT)
         parent.AddStretchSpacer(1)
-        parent.AddWindow(self.buttonRefreshList, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonRefreshList, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
 
     def _init_coll_boxSizerEstimatedTime_Items(self, parent):
         # generated method, don't edit
         pass
-        #parent.AddWindow(self.staticTextEstimatedTime, 0, border=12, flag=wx.EXPAND  | wx.LEFT | wx.RIGHT)
+        #parent.Add(self.staticTextEstimatedTime, 0, border=12, flag=wx.EXPAND  | wx.LEFT | wx.RIGHT)
 
     def _init_coll_boxSizerSelect_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.checkUseAll, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.checkUseAll, 0, border=0,
               flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextHighlighted, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextHighlighted, 0, border=0,
               flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonUseHighlighted, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonUseHighlighted, 0, border=0,
               flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonDontUseHighlighted, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonChangeStopping, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonDontUseHighlighted, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonChangeStopping, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
 
     def _init_coll_boxSizerSave_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonSaveToCSV, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonSaveToCSV, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
         parent.AddStretchSpacer(1)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.buttonOptimizer, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.buttonOptimizer, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
 
     def _init_coll_boxSizerAll_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextHelp, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizerSelect, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.gridExp, 1, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizerDelete, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextHelp, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.boxSizerSelect, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.gridExp, 1, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.boxSizerDelete, 0, border=0,
               flag=wx.EXPAND | wx.ALIGN_CENTER_HORIZONTAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextEstimatedTime, 0, border=12, flag=wx.EXPAND  | wx.LEFT | wx.RIGHT)
-        #parent.AddSizer(self.boxSizerEstimatedTime, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddSizer(self.boxSizerSave, 0, border=0, flag=wx.EXPAND)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextEstimatedTime, 0, border=12, flag=wx.EXPAND  | wx.LEFT | wx.RIGHT)
+        #parent.Add(self.boxSizerEstimatedTime, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.boxSizerSave, 0, border=0, flag=wx.EXPAND)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
 
     def _init_sizers(self):
         # generated method, don't edit
@@ -497,7 +497,7 @@ class PanelExperiment(wx.Panel):
         self.gridExp.Bind(wx.grid.EVT_GRID_CELL_LEFT_CLICK, self.OnGridExpGridCellLeftClick)
         self.gridExp.Bind(wx.grid.EVT_GRID_CELL_LEFT_DCLICK, self.OnGridExpGridCellLeftDoubleClick)
         self.gridExp.Bind(wx.grid.EVT_GRID_CELL_RIGHT_CLICK, self.OnGridExpGridCellRightClick)
-        self.gridExp.Bind(wx.grid.EVT_GRID_CELL_CHANGE, self.OnGridExpGridCellChange)
+        self.gridExp.Bind(wx.grid.EVT_GRID_CELL_CHANGED, self.OnGridExpGridCellChange)
         self.gridExp.Bind(wx.grid.EVT_GRID_EDITOR_CREATED, self.OnGridExpGridEditorCreated)
         self.gridExp.Bind(wx.grid.EVT_GRID_LABEL_LEFT_CLICK, self.OnGridExpGridLabelLeftClick)
         self.gridExp.Bind(wx.grid.EVT_GRID_LABEL_LEFT_DCLICK, self.OnGridExpGridLabelLeftDClick)

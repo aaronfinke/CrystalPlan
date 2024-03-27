@@ -186,62 +186,62 @@ class PanelReflectionsViewOptions(wx.Panel):
     def _init_coll_boxSizerSliceOptions_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.checkShowSlice, 0, border=4,
+        parent.Add(self.checkShowSlice, 0, border=4,
               flag=wx.LEFT | wx.SHRINK)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.checkRealtimeSlice, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.checkRealtimeSlice, 0, border=0, flag=0)
 
     def _init_coll_boxSizerAll_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(4,4), border=0, flag=0)
-        parent.AddSizer(self.boxSizerTop, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
-        parent.AddSizer(self.boxSizerColor, 0, border=0, flag=wx.EXPAND)
-        parent.AddSizer(self.boxSizerDisplay, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
-        parent.AddSizer(self.boxSizerSliceOptions, 0, border=0, flag=0)
-        self.boxSizerAll.AddWindow(self.panel_to_hold_slice_control, 1,
+        parent.Add(wx.Size(4,4), border=0, flag=0)
+        parent.Add(self.boxSizerTop, 0, border=0, flag=0)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(self.boxSizerColor, 0, border=0, flag=wx.EXPAND)
+        parent.Add(self.boxSizerDisplay, 0, border=0, flag=0)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(self.boxSizerSliceOptions, 0, border=0, flag=0)
+        self.boxSizerAll.Add(self.panel_to_hold_slice_control, 1,
               border=4, flag=wx.BOTTOM | wx.RIGHT | wx.LEFT | wx.EXPAND)
 
     def _init_coll_boxSizerDisplay_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextDisplayAs, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextDisplayAs, 0, border=0,
               flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.radioPixels, 0, border=0, flag=wx.SHRINK)
-        parent.AddWindow(self.radioSpheres, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddWindow(self.staticTextSize, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.radioPixels, 0, border=0, flag=wx.SHRINK)
+        parent.Add(self.radioSpheres, 0, border=0, flag=0)
+        parent.Add(wx.Size(8, 8), border=0, flag=wx.ALIGN_CENTER_VERTICAL)
+        parent.Add(self.staticTextSize, 0, border=0,
               flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddWindow(self.sliderSize, 0, border=0, flag=0)
-        parent.AddWindow(self.checkAutoSize, 0, border=0, flag=0)
+        parent.Add(self.sliderSize, 0, border=0, flag=0)
+        parent.Add(self.checkAutoSize, 0, border=0, flag=0)
 
     def _init_coll_boxSizerTop_Items(self, parent):
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextViewOption, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.staticTextViewOption, 0, border=0,
               flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.choiceView, 0, border=0, flag=0)
-        parent.AddSpacer(wx.Size(12, 8), border=0, flag=0)
-        parent.AddWindow(self.checkUseSymmetry, 0, border=0,
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.choiceView, 0, border=0, flag=0)
+        parent.Add(wx.Size(12, 8), border=0, flag=0)
+        parent.Add(self.checkUseSymmetry, 0, border=0,
               flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddWindow(self.checkHighlightImportant, 0, border=0,
+        parent.Add(self.checkHighlightImportant, 0, border=0,
               flag=wx.ALIGN_CENTER_VERTICAL)
 
     def _init_coll_boxSizerColor_Items(self, parent):
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddWindow(self.staticTextColor, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(8, 8), border=0, flag=0)
-        parent.AddWindow(self.radioPredicted, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
-        parent.AddWindow(self.radioMeasured, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(12, 8), border=0, flag=0)
-        parent.AddWindow(self.staticTextThreshold, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
-        parent.AddSpacer(wx.Size(4, 4), border=0, flag=0)
-        parent.AddWindow(self.textThreshold, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
+        parent.Add(wx.Size(8, 8), border=0, flag=wx.ALIGN_CENTER_VERTICAL)
+        parent.Add(self.staticTextColor, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
+        parent.Add(wx.Size(8, 8), border=0, flag=0)
+        parent.Add(self.radioPredicted, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(self.radioMeasured, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
+        parent.Add(wx.Size(12, 8), border=0, flag=0)
+        parent.Add(self.staticTextThreshold, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
+        parent.Add(wx.Size(4, 4), border=0, flag=0)
+        parent.Add(self.textThreshold, 0, border=0, flag=wx.ALIGN_CENTER_VERTICAL)
 
     #-------------------------------------------------------------------------------
     def _init_sizers(self):
@@ -271,7 +271,7 @@ class PanelReflectionsViewOptions(wx.Panel):
         self.panel_to_hold_slice_control = wx.Panel(id=wxID_PANELREFLECTIONSVIEWOPTIONSPANEL_TO_HOLD_SLICE_CONTROL,
               name='panel_to_hold_slice_control', parent=self, pos=wx.Point(4,
               89), size=wx.Size(598, 176),
-              style=wx.RAISED_BORDER | wx.THICK_FRAME | wx.TAB_TRAVERSAL)
+              style=wx.RAISED_BORDER |  wx.TAB_TRAVERSAL)
         self.panel_to_hold_slice_control.SetBackgroundColour(wx.Colour(229, 246,
               245))
 
