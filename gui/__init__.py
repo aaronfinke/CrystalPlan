@@ -5,6 +5,6 @@
 #print "CrystalPlan.gui is being imported from ", __file__
 
 #We import the most important modules only.
-from . import frame_main
-from . import frame_qspace_view
-from . import display_thread
+from CrystalPlan.gui import frame_main
+from CrystalPlan.gui import frame_qspace_view
+from CrystalPlan.gui import display_thread

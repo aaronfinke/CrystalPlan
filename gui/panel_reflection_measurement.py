@@ -10,9 +10,9 @@ a single reflection.
 import wx
 
 #--- GUI Imports ---
-from . import detector_plot
-from . import gui_utils
-from . import reflection_placer
+from CrystalPlan.gui import detector_plot
+from CrystalPlan.gui import gui_utils
+from CrystalPlan.gui import reflection_placer
 
 #--- Model Imports ---
 import model
@@ -267,7 +267,7 @@ class PanelReflectionMeasurement(wx.Panel):
 
 
 if __name__ == "__main__":
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     model.instrument.inst = model.instrument.InstrumentFourCircle()
     (app, pnl) = gui_utils.test_my_gui(PanelReflectionMeasurement)
     ref = model.reflections.Reflection( (1,2,3), (2., 3., 4.))

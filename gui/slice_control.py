@@ -9,7 +9,7 @@ import wx
 import numpy as np
 
 #--- GUI Imports ---
-from . import config_gui
+from CrystalPlan.gui import config_gui
 
 #--- Model Imports ---
 
@@ -567,7 +567,7 @@ class SliceControl(wx.PyControl):
 
 
 if __name__ == '__main__':
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, sc) = gui_utils.test_my_gui(SliceControl)
     sc.use_slice = True
     sc.energy_mode = True

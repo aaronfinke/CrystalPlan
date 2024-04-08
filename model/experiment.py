@@ -16,16 +16,16 @@ from pickle import loads, dumps
 import os
 
 #--- Model Imports ---
-from . import instrument
-from . import goniometer
-from . import crystals
-from . import config
-from . import numpy_utils
-from .crystals import Crystal
-from .reflections import Reflection, ReflectionRealMeasurement
-from . import crystal_calc
-from .numpy_utils import *
-from . import utils
+from CrystalPlan.model import instrument
+from CrystalPlan.model import goniometer
+from CrystalPlan.model import crystals
+from CrystalPlan.model import config
+from CrystalPlan.model import numpy_utils
+from CrystalPlan.model.crystals import Crystal
+from CrystalPlan.model.reflections import Reflection, ReflectionRealMeasurement
+from CrystalPlan.model import crystal_calc
+from CrystalPlan.model.numpy_utils import *
+from CrystalPlan.model import utils
 
 
 #======================================================================================

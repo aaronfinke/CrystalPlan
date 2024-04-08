@@ -8,8 +8,8 @@
 import wx
 
 #--- GUI Imports ---
-from .panel_reflection_info import PanelReflectionInfo
-from . import gui_utils
+from CrystalPlan.gui.panel_reflection_info import PanelReflectionInfo
+from CrystalPlan.gui import gui_utils
 
 #--- Model Imports ---
 
@@ -131,7 +131,7 @@ class FrameReflectionInfo(wx.Frame):
         """Change the following window setting."""
         b = self.checkBoxFollowWindow.GetValue()
         if b:
-            from . import frame_qspace_view
+            from CrystalPlan.gui import frame_qspace_view
             if hasattr(self, 'follower'):
                 self.follower.rebind(self.follower.parent, self, position=self.follower.position)
             else:
@@ -147,7 +147,7 @@ if __name__ == "__main__":
     model.instrument.inst = model.instrument.Instrument()
     model.experiment.exp = model.experiment.Experiment(model.instrument.inst)
     model.experiment.exp.initialize_reflections()
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, pnl) = gui_utils.test_my_gui(FrameReflectionInfo)
 #    app.frame.SetClientSize(wx.Size(500, 200))
 #    pnl.set_reflection_measurements(None)

@@ -18,10 +18,10 @@ programming.
 
 from random import random, randrange, choice
 
-from .gene import BaseGene, rndPair
-from .gamete import Gamete
+from CrystalPlan.model.pygene.gene import BaseGene, rndPair
+from CrystalPlan.model.pygene.gamete import Gamete
 
-from .xmlio import PGXmlMixin
+from CrystalPlan.model.pygene.xmlio import PGXmlMixin
 
 class BaseOrganism(PGXmlMixin):
     """

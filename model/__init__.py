@@ -6,20 +6,20 @@
 #print "CrystalPlan.model, __name__ is", __name__
 
 #We import all the modules in this so as to make "import model" do all the necessary work.
-from . import config
-from . import crystal_calc
-from . import crystals
-from . import detectors
-from . import experiment
-from . import goniometer
-from . import instrument
-from . import messages
-from . import numpy_utils
-from . import optimize_coverage
-from . import reflections
-from . import ubmatrixreader
-from . import optimization
-from . import utils
-from . import tools
+from CrystalPlan.model import config
+from CrystalPlan.model import crystal_calc
+from CrystalPlan.model import crystals
+from CrystalPlan.model import detectors
+from CrystalPlan.model import experiment
+from CrystalPlan.model import goniometer
+from CrystalPlan.model import instrument
+from CrystalPlan.model import messages
+from CrystalPlan.model import numpy_utils
+from CrystalPlan.model import optimize_coverage
+from CrystalPlan.model import reflections
+from CrystalPlan.model import ubmatrixreader
+from CrystalPlan.model import optimization
+from CrystalPlan.model import utils
+from CrystalPlan.model import tools
 
 

@@ -12,7 +12,7 @@ from math import *
 import optparse
 
 #--- Model Imports ---
-from . import crystal_calc
+from CrystalPlan.model import crystal_calc
 
 
 #-----------------------------------------------------------------

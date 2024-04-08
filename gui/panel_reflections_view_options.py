@@ -10,8 +10,8 @@ in the 3D reciprocal space viewer.
 import wx
 
 #--- GUI Imports ---
-from . import display_thread
-from .slice_control import SliceControl
+from CrystalPlan.gui import display_thread
+from CrystalPlan.gui.slice_control import SliceControl
 
 #--- Model Imports ---
 import model
@@ -430,7 +430,7 @@ if __name__ == '__main__':
     model.instrument.inst.make_qspace()
     #Initialize the instrument and experiment
     model.experiment.exp = model.experiment.Experiment(model.instrument.inst)
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelReflectionsViewOptions)
     app.frame.SetClientSize(wx.Size(700,500))
     app.MainLoop()

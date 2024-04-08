@@ -13,9 +13,9 @@ import numpy as np
 import copy
 
 #--- GUI Imports ---
-from . import display_thread
-from  .value_slider import ValueSlider, EVT_VALUE_SLIDER_CHANGED, EVT_VALUE_SLIDER_CHANGING
-from . import gui_utils
+from CrystalPlan.gui import display_thread
+from CrystalPlan.gui.value_slider import ValueSlider, EVT_VALUE_SLIDER_CHANGED, EVT_VALUE_SLIDER_CHANGING
+from CrystalPlan.gui import gui_utils
 
 #--- Model Imports ---
 import model
@@ -296,6 +296,6 @@ class PanelTryPosition(wx.Panel):
 
 
 if __name__ == '__main__':
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelTryPosition)
     app.MainLoop()

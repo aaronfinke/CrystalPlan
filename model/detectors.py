@@ -10,9 +10,9 @@ import numpy as np
 import weave
 
 #--- Model Imports ---
-from . import numpy_utils
-from . import utils
-from .numpy_utils import rotation_matrix, x_rotation_matrix, column, vector_length
+from CrystalPlan.model import numpy_utils
+from CrystalPlan.model import utils
+from CrystalPlan.model.numpy_utils import rotation_matrix, x_rotation_matrix, column, vector_length
 
 
 #========================================================================================================

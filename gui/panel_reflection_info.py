@@ -10,9 +10,9 @@ import wx
 import numpy as np
 
 #--- GUI Imports ---
-from .panel_reflection_measurement import PanelReflectionMeasurement
-from . import gui_utils
-from . import reflection_placer
+from CrystalPlan.gui.panel_reflection_measurement import PanelReflectionMeasurement
+from CrystalPlan.gui import gui_utils
+from CrystalPlan.gui import reflection_placer
 
 #--- Model Imports ---
 import model
@@ -517,7 +517,7 @@ if __name__ == "__main__":
     model.instrument.inst = model.instrument.Instrument()
     model.experiment.exp = model.experiment.Experiment(model.instrument.inst)
     model.experiment.exp.initialize_reflections()
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelReflectionInfo)
     app.frame.SetClientSize(wx.Size(300, 500))
     #@type refl Reflection

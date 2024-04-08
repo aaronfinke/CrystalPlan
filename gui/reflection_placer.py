@@ -13,9 +13,9 @@ import numpy as np
 import sys
 
 #--- GUI Imports ---
-from . import gui_utils
-from . import display_thread
-from . import detector_plot
+from CrystalPlan.gui import gui_utils
+from CrystalPlan.gui import display_thread
+from CrystalPlan.gui import detector_plot
 
 #--- Traits imports ---
 from traits.api import HasTraits,Int,Float,Str,String,Property,Bool, List, Tuple, Array, Range, Enum
@@ -631,7 +631,7 @@ if __name__ == "__main__":
     model.instrument.inst = model.instrument.Instrument(model.config.cfg.default_detector_filename)
     model.experiment.exp = model.experiment.Experiment(model.instrument.inst)
     model.experiment.exp.initialize_reflections()
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     refl = Reflection( (1,1,-6), np.array([1,1,-6]) )
     (app, pnl) = gui_utils.test_my_gui(FrameReflectionPlacer, refl, None)
     app.frame.SetClientSize(wx.Size(500, 850))

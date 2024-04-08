@@ -12,14 +12,14 @@ import types
 import numpy as np
 
 #--- Model Imports ---
-from . import instrument
-from . import experiment
+from CrystalPlan.model import instrument
+from CrystalPlan.model import experiment
 
 #--- Pygene Imports ---
-from . import pygene
-from .pygene.gene import FloatGene, FloatGeneMax, FloatGeneRandom
-from .pygene.organism import Organism, MendelOrganism
-from .pygene.population import Population
+from CrystalPlan.model import pygene
+from CrystalPlan.model.pygene.gene import FloatGene, FloatGeneMax, FloatGeneRandom
+from CrystalPlan.model.pygene.organism import Organism, MendelOrganism
+from CrystalPlan.model.pygene.population import Population
 
 #--- Traits Imports ---
 from traits.api import HasTraits,Int,Float,Str,Property,Bool, List

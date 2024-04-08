@@ -16,8 +16,8 @@ matplotlib.interactive( True )
 matplotlib.use( 'WXAgg' )
 
 #--- GUI Imports ----
-from . import display_thread
-from . import gui_utils
+from CrystalPlan.gui import display_thread
+from CrystalPlan.gui import gui_utils
 
 #--- Model Imports ----
 import model
@@ -660,7 +660,7 @@ Click Apply Results while optimizing to see the current best solution.""",
 
 
 if __name__ == "__main__":
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, frm) = gui_utils.test_my_gui(FrameOptimizer)
     frm.Raise()
     app.MainLoop()

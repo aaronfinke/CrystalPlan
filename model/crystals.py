@@ -13,11 +13,11 @@ import numpy as np
 from numpy import cos, sin
 
 #--- Model Imports ---
-from . import crystal_calc
-from . import numpy_utils
-from .numpy_utils import column, vector_length, rotation_matrix, z_rotation_matrix
-from . import ubmatrixreader
-from . import utils
+from CrystalPlan.model import crystal_calc
+from CrystalPlan.model import numpy_utils
+from CrystalPlan.model.numpy_utils import column, vector_length, rotation_matrix, z_rotation_matrix
+from CrystalPlan.model import ubmatrixreader
+from CrystalPlan.model import utils
 
 #--- Traits Imports ---
 from traits.api import HasTraits,Int,Float,Str,String,Property,Bool, List, Tuple, Array, Enum

@@ -202,7 +202,7 @@ def on_slider_scroll(event):
     print("Scrolling ", slid.Value)
 
 if __name__ == '__main__':
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     global slid
     (app, slid) = gui_utils.test_my_gui(ValueSlider, floats=2)
     slid.Bind(EVT_VALUE_SLIDER_CHANGED, on_slider)

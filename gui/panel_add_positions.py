@@ -1,7 +1,7 @@
 #Boa:FramePanel:PanelAddPositions
 """PanelAddPositions: GUI component to add positions to the calculated list, and run their coverage
 calculation."""
-from . import gui_utils
+from CrystalPlan.gui import gui_utils
 
 # Author: Janik Zikovsky, zikovskyjl@ornl.gov
 # Version: $Id$
@@ -15,7 +15,7 @@ import numpy
 from numpy import arange, linspace, pi
 
 #--- GUI Imports ---
-from . import display_thread
+from CrystalPlan.gui import display_thread
 
 #--- Model Imports ---
 import model
@@ -519,7 +519,7 @@ class PanelAddPositions(wx.Panel):
 
 if __name__ == '__main__':
     #Test routine
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     model.instrument.inst = model.instrument.Instrument()
     model.goniometer.initialize_goniometers()
     (app, pnl) = gui_utils.test_my_gui(PanelAddPositions)

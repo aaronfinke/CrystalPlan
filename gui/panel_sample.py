@@ -12,9 +12,9 @@ import time
 import numpy as np
 
 #--- GUI Imports ---
-from . import dialog_edit_crystal
-from . import gui_utils
-from . import display_thread
+from CrystalPlan.gui import dialog_edit_crystal
+from CrystalPlan.gui import gui_utils
+from CrystalPlan.gui import display_thread
 
 #--- Traits imports ---
 from traits.api import HasTraits,Int,Float,Str,String,Property,Bool, List, Tuple, Array
@@ -375,7 +375,7 @@ if __name__=="__main__":
     #Test routine
     model.instrument.inst = model.instrument.Instrument()
     model.experiment.exp = model.experiment.Experiment(model.instrument.inst)
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelSample)
     app.MainLoop()
 

@@ -9,9 +9,9 @@ Implements genetic programming organisms
 from random import random, randrange, choice
 from math import sqrt
 
-from .organism import BaseOrganism
+from CrystalPlan.model.pygene.organism import BaseOrganism
 
-from .xmlio import PGXmlMixin
+from CrystalPlan.model.pygene.xmlio import PGXmlMixin
 
 #@-node:imports
 #@+node:class BaseNode

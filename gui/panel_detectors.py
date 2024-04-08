@@ -13,13 +13,13 @@ import os
 import numpy as np
 
 #--- GUI Imports ---
-from . import display_thread
-from . import gui_utils
+from CrystalPlan.gui import display_thread
+from CrystalPlan.gui import gui_utils
 from traits.api import HasTraits, Range, Instance, on_trait_change
 from traitsui.api import View, Item, HGroup
 #try:
 if 1:
-    from .mlab_utils import *
+    from CrystalPlan.gui.mlab_utils import *
     from tvtk.pyface.scene_editor import SceneEditor
     from mayavi.tools.mlab_scene_model import MlabSceneModel
     from mayavi.core.ui.mayavi_scene import MayaviScene
@@ -584,6 +584,6 @@ if __name__ == "__main__":
 #    frame3d.display()
 #    sys.exit()
 
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelDetectors)
     app.MainLoop()

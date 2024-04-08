@@ -7,12 +7,12 @@
 #--- General Imports ---
 import numpy as np
 
-from . import crystals
-from .crystals import Crystal
-from . import instrument
-from . import goniometer
-from . import experiment
-from .experiment import Experiment, ParamPositions
+from CrystalPlan.model import crystals
+from CrystalPlan.model.crystals import Crystal
+from CrystalPlan.model import instrument
+from CrystalPlan.model import goniometer
+from CrystalPlan.model import experiment
+from CrystalPlan.model.experiment import Experiment, ParamPositions
 
 
 #================================================================================

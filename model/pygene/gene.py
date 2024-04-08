@@ -12,7 +12,7 @@ import sys
 from random import randrange, random, uniform
 from math import sqrt
 
-from .xmlio import PGXmlMixin
+from CrystalPlan.model.pygene.xmlio import PGXmlMixin
 
 class BaseGene(PGXmlMixin):
     """

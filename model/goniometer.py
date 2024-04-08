@@ -23,9 +23,9 @@ import scipy.optimize
 import weave
 
 #--- Model Imports ---
-from . import numpy_utils
-from .numpy_utils import column, vector_length, rotation_matrix, get_translated_vectors, nearest_index
-from . import utils
+from CrystalPlan.model import numpy_utils
+from CrystalPlan.model.numpy_utils import column, vector_length, rotation_matrix, get_translated_vectors, nearest_index
+from CrystalPlan.model import utils
 
 #--- Traits Imports ---
 from traits.api import HasTraits,Int,Float,Str,String,Property,Bool, List, Tuple, Array, Enum

@@ -11,21 +11,21 @@ import sys
 import os
 
 #--- GUI Imports ---
-from . import panel_experiment
-from . import panel_detectors
-from . import panel_goniometer
-from . import panel_add_positions
-from . import panel_try_position
-from . import panel_sample
-from . import panel_startup
-from . import gui_utils
-from . import frame_qspace_view
-from . import frame_reflection_info
-from . import dialog_preferences
+from CrystalPlan.gui import panel_experiment
+from CrystalPlan.gui import panel_detectors
+from CrystalPlan.gui import panel_goniometer
+from CrystalPlan.gui import panel_add_positions
+from CrystalPlan.gui import panel_try_position
+from CrystalPlan.gui import panel_sample
+from CrystalPlan.gui import panel_startup
+from CrystalPlan.gui import gui_utils
+from CrystalPlan.gui import frame_qspace_view
+from CrystalPlan.gui import frame_reflection_info
+from CrystalPlan.gui import dialog_preferences
 import CrystalPlan_version
-from . import display_thread
-from . import frame_optimizer
-from . import detector_plot
+from CrystalPlan.gui import display_thread
+from CrystalPlan.gui import frame_optimizer
+from CrystalPlan.gui import detector_plot
 
 #--- Model Imports ---
 import model

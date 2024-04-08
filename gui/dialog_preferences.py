@@ -9,7 +9,7 @@ import wx
 import CrystalPlan_version
 
 #--- GUI Imports ---
-from . import config_gui
+from CrystalPlan.gui import config_gui
 
 #--- Model Imports ---
 import model
@@ -137,7 +137,7 @@ class DialogPreferences(wx.Dialog):
 #--------------------------------------------------------------------
 if __name__ == '__main__':
     #Test routine
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, frm) = gui_utils.test_my_gui(DialogPreferences)
     app.MainLoop()
 

@@ -9,13 +9,13 @@ import time
 import numpy as np
 
 #--- GUI Imports ---
-from . import panel_qspace_options
-from . import panel_coverage_stats
-from . import panel_reflections_view_options
-from . import frame_reflection_info
-from . import config_gui
-from . import gui_utils
-from . import display_thread
+from CrystalPlan.gui import panel_qspace_options
+from CrystalPlan.gui import panel_coverage_stats
+from CrystalPlan.gui import panel_reflections_view_options
+from CrystalPlan.gui import frame_reflection_info
+from CrystalPlan.gui import config_gui
+from CrystalPlan.gui import gui_utils
+from CrystalPlan.gui import display_thread
 
 #--- Model Imports ---
 import model

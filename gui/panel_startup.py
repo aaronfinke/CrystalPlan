@@ -12,8 +12,8 @@ import numpy as np
 import copy
 
 #--- GUI Imports ---
-from . import display_thread
-from . import gui_utils
+from CrystalPlan.gui import display_thread
+from CrystalPlan.gui import gui_utils
 
 #--- Model Imports ---
 import model
@@ -368,7 +368,7 @@ class PanelStartup(wx.Panel):
 # ===========================================================================================
 
 if __name__ == '__main__':
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelStartup)
     app.frame.SetClientSize(wx.Size(700,500))
     app.MainLoop()

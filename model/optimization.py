@@ -10,9 +10,9 @@ import random
 import copy
 
 #--- Model Imports ----
-from . import instrument
-from . import experiment
-from . import goniometer
+from CrystalPlan.model import instrument
+from CrystalPlan.model import experiment
+from CrystalPlan.model import goniometer
 
 import pyevolve
 from pyevolve import G1DList

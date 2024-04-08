@@ -11,8 +11,8 @@ from pickle import loads, dumps
 import xml.etree.ElementTree as ET
 
 #--- GUI Imports ---
-from . import display_thread
-from . import config_gui
+from CrystalPlan.gui import display_thread
+from CrystalPlan.gui import config_gui
 
 #--- Model Imports ---
 import model

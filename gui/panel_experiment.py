@@ -10,9 +10,9 @@ import wx
 import wx.grid
 
 #--- GUI Imports ---
-from . import gui_utils
-from . import display_thread
-from . import frame_optimizer
+from CrystalPlan.gui import gui_utils
+from CrystalPlan.gui import display_thread
+from CrystalPlan.gui import frame_optimizer
 
 #--- Model Imports ---
 import model
@@ -736,7 +736,7 @@ if __name__ == "__main__":
 #    for pos in model.instrument.inst.positions:
 #        pd[ id(pos) ] = True
 #    display_thread.NextParams[model.experiment.PARAM_POSITIONS] = model.experiment.ParamPositions(pd)
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelExperiment)
     app.frame.SetClientSize(wx.Size(700,500))
     app.MainLoop()

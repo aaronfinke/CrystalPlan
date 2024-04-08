@@ -6,9 +6,9 @@ import random
 from random import randrange, choice
 from math import sqrt
 
-from .organism import Organism, BaseOrganism
+from CrystalPlan.model.pygene.organism import Organism, BaseOrganism
 
-from .xmlio import PGXmlMixin
+from CrystalPlan.model.pygene.xmlio import PGXmlMixin
 
 class Population(PGXmlMixin):
     """

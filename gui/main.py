@@ -109,8 +109,8 @@ def excepthook(type, value, tb, thread_information="Main Loop"):
 class CrystalPlanApp(wx.App):
     def OnInit(self):
         #Create the main GUI frame
-        from . import frame_main
-        from . import frame_qspace_view
+        from CrystalPlan.gui import frame_main
+        from CrystalPlan.gui import frame_qspace_view
         self.main = frame_main.FrameMain(None)
         self.main.Show()
         #Set it on top
@@ -135,7 +135,7 @@ def launch_gui(inelastic, hb3a):
     print("-------------- %s %s GUI is starting -----------------" % (CrystalPlan_version.package_name, CrystalPlan_version.version))
     
     #--- GUI Imports ---
-    from . import display_thread
+    from CrystalPlan.gui import display_thread
     import wx
     import model
 

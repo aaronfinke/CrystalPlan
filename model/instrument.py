@@ -14,7 +14,7 @@ import sys
 import os
 from pickle import loads, dumps
 import warnings
-from . import messages
+from CrystalPlan.model import messages
 import numpy as np
 from numpy import array, sin, cos, pi
 #import scipy.optimize
@@ -24,15 +24,15 @@ import time
 import csv
 
 #--- Model Imports ---
-from . import numpy_utils
-from .numpy_utils import column, rotation_matrix, vector_length, normalize_vector, index_evenly_spaced, az_elev_direction
-from . import crystal_calc
-from .crystal_calc import getq, getq_python
-from . import goniometer
-from .goniometer import Goniometer, TopazInHouseGoniometer
-from .detectors import Detector, FlatDetector, CylindricalDetector
-from . import config
-from . import utils
+from CrystalPlan.model import numpy_utils
+from CrystalPlan.model.numpy_utils import column, rotation_matrix, vector_length, normalize_vector, index_evenly_spaced, az_elev_direction
+from CrystalPlan.model import crystal_calc
+from CrystalPlan.model.crystal_calc import getq, getq_python
+from CrystalPlan.model import goniometer
+from CrystalPlan.model.goniometer import Goniometer, TopazInHouseGoniometer
+from CrystalPlan.model.detectors import Detector, FlatDetector, CylindricalDetector
+from CrystalPlan.model import config
+from CrystalPlan.model import utils
 
 #--- Multiprocessing check ---
 try:

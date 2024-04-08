@@ -12,8 +12,8 @@ from numpy import array, sin, cos, pi, sign
 import weave
 
 #--- Model Imports ---
-from . import numpy_utils
-from .numpy_utils import column, rotation_matrix, vector_length, normalize_vector, vector, \
+from CrystalPlan.model import numpy_utils
+from CrystalPlan.model.numpy_utils import column, rotation_matrix, vector_length, normalize_vector, vector, \
                     vectors_to_matrix, az_elev_direction, within
 
 

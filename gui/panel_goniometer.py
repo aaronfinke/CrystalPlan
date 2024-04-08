@@ -10,10 +10,10 @@ goniometer.
 #--- General Imports ---
 import wx
 import copy
-from . import dialog_goniometer_angles
+from CrystalPlan.gui import dialog_goniometer_angles
 
 #--- GUI Imports ---
-from . import gui_utils
+from CrystalPlan.gui import gui_utils
 
 #--- Model Imports ---
 import model
@@ -277,7 +277,7 @@ class PanelGoniometer(wx.Panel):
 if __name__ == "__main__":
     model.instrument.inst = model.instrument.Instrument()
     model.goniometer.initialize_goniometers()
-    from . import gui_utils
+    from CrystalPlan.gui import gui_utils
     (app, pnl) = gui_utils.test_my_gui(PanelGoniometer)
     pnl.SetClientSize(wx.Size(1200,1200))
     app.MainLoop()

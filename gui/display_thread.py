@@ -14,7 +14,7 @@ import numpy as np
 import sys
 
 #--- GUI Imports ---
-from . import gui_utils
+from CrystalPlan.gui import gui_utils
 
 #--- Model Imports ---
 import model

@@ -11,11 +11,11 @@ import weave
 import os
 
 #--- Model Imports ---
-from . import experiment
-from . import instrument
-from .reflections import ReflectionMeasurement
-from . import numpy_utils
-from .numpy_utils import column, rotation_matrix, vector_length, normalize_vector, vector, \
+from CrystalPlan.model import experiment
+from CrystalPlan.model import instrument
+from CrystalPlan.model.reflections import ReflectionMeasurement
+from CrystalPlan.model import numpy_utils
+from CrystalPlan.model.numpy_utils import column, rotation_matrix, vector_length, normalize_vector, vector, \
                     vectors_to_matrix, az_elev_direction, within
 
 #================================================================================
