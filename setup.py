@@ -8,11 +8,17 @@
 from setuptools import setup, find_packages
 import sys
 import CrystalPlan_version
+from Cython.Build import cythonize
+import numpy
+
 
 #Two packages: the GUI and the model code
 packages = find_packages()
-packages = ['CrystalPlan', 'CrystalPlan.model',  'CrystalPlan.pyevolve', 'CrystalPlan.gui', 'CrystalPlan.model.pygene']
-package_dir = {'CrystalPlan': '.',  'CrystalPlan.pyevolve':'pyevolve', 'CrystalPlan.model':'model', 'CrystalPlan.gui':'gui', 'CrystalPlan.model.pygene':'model/pygene'}
+print(packages)
+packages = ['CrystalPlan', 'CrystalPlan.model',  'CrystalPlan.pyevolve', 'CrystalPlan.gui', 'CrystalPlan.model.pygene',
+            'CrystalPlan.model.cython_routines']
+package_dir = {'CrystalPlan': '.',  'CrystalPlan.pyevolve':'pyevolve', 'CrystalPlan.model':'model', 'CrystalPlan.gui': 'gui', 'CrystalPlan.model.pygene':'model/pygene',
+               'CrystalPlan.model.cython_routines': 'model/cython_routines'}
 #data_files = [ ('instruments', './instruments/*.csv'), ('instruments', './instruments/*.xls') ]
 data_files = []
 package_data = {'CrystalPlan':['instruments/*.xls', 'instruments/*.csv', 'instruments/*.detcal',
@@ -23,7 +29,7 @@ package_data = {'CrystalPlan':['instruments/*.xls', 'instruments/*.csv', 'instru
 scripts = ['crystalplan.py']
 
 #Package requirements
-install_requires = ['Traits', 'Mayavi', 'numpy', 'scipy']
+install_requires = ['Traits', 'Mayavi', 'numpy', 'scipy', 'Cython']
 
 def pythonVersionCheck():
     # Minimum version of Python
@@ -50,5 +56,8 @@ if __name__ == "__main__":
           package_data=package_data,
           #include_package_data=True,
           install_requires=install_requires,
-          #test_suite='model.test_all.get_all_tests'
+          include_dirs=[numpy.get_include()],
+    #test_suite='model.test_all.get_all_tests'
+          ext_modules=cythonize(["model/cython_routines/point_search.pyx",
+                                "model/cython_routines/crystal_calcs.pyx"])
           )

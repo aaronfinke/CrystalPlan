@@ -7,7 +7,8 @@ Class definitions for detector geometries.
 
 #--- General Imports ---
 import numpy as np
-import weave
+# import weave
+from CrystalPlan.model.cython_routines.point_search import point_search
 
 #--- Model Imports ---
 from CrystalPlan.model import numpy_utils
@@ -254,11 +255,11 @@ class FlatDetector(Detector):
 
         #output h,v, wl coordinate arrays
         (ignored, array_size) = beam.shape
-        h_out = np.zeros( array_size )
-        v_out = np.zeros( array_size )
-        wl_out = np.zeros( array_size )
-        distance_out = np.zeros( array_size )
-        hits_it = np.zeros( array_size, dtype=bool )
+        # h_out = np.zeros( array_size )
+        # v_out = np.zeros( array_size )
+        # wl_out = np.zeros( array_size )
+        # distance_out = np.zeros( array_size )
+        # hits_it = np.zeros( array_size, dtype=bool )
 
         #The abs() call might be screwed up!
         support = """
@@ -425,11 +426,15 @@ class FlatDetector(Detector):
         varlist += ['h_out', 'v_out', 'wl_out', 'distance_out', 'hits_it']
         varlist += ['beam', 'array_size', 'n_dot_base', 'height', 'width', 'wl_min', 'wl_max']
         #Run the code
-        error_count = weave.inline(code, varlist, compiler='gcc', support_code = support,libraries = ['m'])
+        # print(f"{self.base_point=} {self.horizontal=} {self.vertical=} {self.normal=}")
+        # print(f"{beam=} {array_size=} {n_dot_base=} {height=} {width=} {wl_min=} {wl_max=}")
+        # error_count = weave.inline(code, varlist, compiler='gcc', support_code = support,libraries = ['m'])
+        error_count, h_out, v_out, wl_out, distance_out, hits_it = point_search(self.base_point, self.horizontal,
+                                    self.vertical, self.normal, beam, array_size, n_dot_base, height, width, wl_min, wl_max)
 
         #if error_count>0: print "error_count", error_count
 #        positions = np.concatenate( (h_out, v_out, wl_out), 0)
-        return (h_out, v_out, wl_out, distance_out, hits_it)
+        return h_out, v_out, wl_out, distance_out, hits_it
 
 
 
@@ -899,6 +904,7 @@ class TestHitsFlatDetector(unittest.TestCase):
 
         beam = column([1.0, 0.0, 0.0])*2*pi
         (h, v, wl, distance, hits_it) = det.get_detector_coordinates(beam)
+        print(f"{h=} {v=} {wl=} {distance=} {hits_it=}")
         assert np.isnan(h), "H and V are nan since the beam is parallel to the detector plane."
         assert not np.any(hits_it), "... and it doesn't hit, of course."
 

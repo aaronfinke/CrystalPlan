@@ -9,7 +9,8 @@ Holds various useful functions for crystallography, like lattice calculations, e
 #--- General Imports ---
 import numpy as np
 from numpy import array, sin, cos, pi, sign
-import weave
+# import weave
+from CrystalPlan.model.cython_routines.crystal_calcs import getq_cython, getq_inelastic_cython
 
 #--- Model Imports ---
 from CrystalPlan.model import numpy_utils
@@ -494,12 +495,14 @@ def getq(az, elevation, wl_output, q_rot_matrix, wl_input=None):
     if wl_input is None:
         # -- elastic ---
         wl_input = wl_output
-        q = weave.inline(getq_code, ['wl_input', 'wl_output', 'elevation', 'az', 'pi', 'rot_matrix'],compiler='gcc', support_code = support,libraries = ['m'])
+        # q = weave.inline(getq_code, ['wl_input', 'wl_output', 'elevation', 'az', 'pi', 'rot_matrix'],compiler='gcc', support_code = support,libraries = ['m'])
+        q = getq_cython(wl_input, wl_output, az, elevation, rot_matrix)
         q = column([q[0],q[1],q[2]])
         return q
     else:
         #--- inelastic ---
-        (q_both) =  weave.inline(getq_inelastic_code, ['wl_input', 'wl_output', 'elevation', 'az', 'pi', 'rot_matrix'],compiler='gcc', support_code = support,libraries = ['m'])
+        # (q_both) =  weave.inline(getq_inelastic_code, ['wl_input', 'wl_output', 'elevation', 'az', 'pi', 'rot_matrix'],compiler='gcc', support_code = support,libraries = ['m'])
+        q_both = getq_inelastic_cython(wl_input, wl_output, az, elevation, rot_matrix)
         q = np.array(q_both[0:3]).reshape(3,1)
         q_unrot = np.array(q_both[3:]).reshape(3,1)
         return (q, q_unrot)

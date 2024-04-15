@@ -28,6 +28,7 @@ from CrystalPlan.model import numpy_utils
 from CrystalPlan.model.numpy_utils import column, rotation_matrix, vector_length, normalize_vector, index_evenly_spaced, az_elev_direction
 from CrystalPlan.model import crystal_calc
 from CrystalPlan.model.crystal_calc import getq, getq_python
+from CrystalPlan.model.cython_routines.crystal_calcs import calculate_coverage_cython
 from CrystalPlan.model import goniometer
 from CrystalPlan.model.goniometer import Goniometer, TopazInHouseGoniometer
 from CrystalPlan.model.detectors import Detector, FlatDetector, CylindricalDetector
@@ -827,7 +828,7 @@ class Instrument:
 
         #Start with zeros
         number_of_ints = self.get_coverage_number_of_ints()
-        coverage = self.make_blank_qspace(np.uint32, number_of_ints=number_of_ints)
+        coverage = self.make_blank_qspace(int, number_of_ints=number_of_ints)
         count = 0
         if self.verbose: sys.stdout.write( "For angles [%s], calculating coverage of detectors... " % angles_string)
         for det in det_list:
@@ -879,9 +880,9 @@ class Instrument:
 
             #So this is the list of the pixels in the detectors that we pick to calculate where they are in q-space
             #   (convert to int and take only unique values; convert back to list).
-            xlist = [x for x in set(np.linspace(0, det.xpixels-1, nx, endpoint=True).astype(int))]
+            xlist = [x for x in set(np.linspace(0, det.xpixels-1, int(nx), endpoint=True).astype(int))]
             xlist.sort()
-            ylist = [x for x in set(np.linspace(0, det.ypixels-1, ny, endpoint=True).astype(int))]
+            ylist = [x for x in set(np.linspace(0, det.ypixels-1, int(ny), endpoint=True).astype(int))]
             ylist.sort()
 
             if use_inline_c and not config.cfg.force_pure_python:
@@ -909,8 +910,9 @@ class Instrument:
                 for var in attribute_list: locals()[var] = getattr(self, var)
                 varlist += attribute_list
                 #Run the C code (see between function declarations for the actual code).
-                weave.inline(self._code_calculate_coverage, varlist, compiler='gcc', support_code=support) # , libraries = ['m'])
-
+                # weave.inline(self._code_calculate_coverage, varlist, compiler='gcc', support_code=support) # , libraries = ['m'])
+                coverage = calculate_coverage_cython(xlist, ylist, azimuthal_angle, elevation_angle, rot_matrix, set_value1, set_value2,
+                                                     number_of_ints, coverage, stride, max_index, wl_min, wl_max, self.qlim, self.q_resolution)
             else:
                 #-------- Pure Python ---------
                 for ix in xlist:

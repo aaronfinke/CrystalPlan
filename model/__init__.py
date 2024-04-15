@@ -22,4 +22,3 @@ from CrystalPlan.model import optimization
 from CrystalPlan.model import utils
 from CrystalPlan.model import tools
 
-
