@@ -6,4 +6,6 @@
 #print "CrystalPlan.model, __name__ is", __name__
 
 #We import all the modules in this so as to make "import model" do all the necessary work.
+from CrystalPlan.model.cython_routines import experiment_calcs
 from CrystalPlan.model.cython_routines import point_search
+from CrystalPlan.model.cython_routines import crystal_calcs

@@ -8,10 +8,10 @@ Enables model code to send messages back to the GUI, when needed.
 #--- General Imports ---
 import wx
 try:
-    from wx.lib.pubsub import Publisher as pub
+    from pubsub import pub
 except:
-    from wx.lib.pubsub import setuparg1
-    from wx.lib.pubsub import pub
+    from pubsub import setuparg1
+    from pubsub import pub
 from threading import Thread
 import time
 

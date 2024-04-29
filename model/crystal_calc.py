@@ -10,6 +10,7 @@ Holds various useful functions for crystallography, like lattice calculations, e
 import numpy as np
 from numpy import array, sin, cos, pi, sign
 # import weave
+import CrystalPlan.model.cython_routines.crystal_calcs
 from CrystalPlan.model.cython_routines.crystal_calcs import getq_cython, getq_inelastic_cython
 
 #--- Model Imports ---
@@ -693,6 +694,7 @@ class TestCrystalCalc(unittest.TestCase):
         wl = 2.32
         wl_input = 1.02
         rot_matrix = rotation_matrix(0.31, -0.23, 0.43)
+        print(f"{rot_matrix=}")
         q1 = getq_python(az, elev, wl, rot_matrix, wl_input=wl_input)
         q2 = getq(az, elev, wl, rot_matrix, wl_input=wl_input)
         print("python:", q1)

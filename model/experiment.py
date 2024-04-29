@@ -2,6 +2,7 @@
 Experiment module: Holds the Experiment class.
 """
 
+
 # Author: Janik Zikovsky, zikovskyjl@ornl.gov
 # Version: $Id$
 
@@ -10,10 +11,11 @@ import warnings
 import numpy as np
 import time
 import threading
-import weave
+# import weave
 import scipy.ndimage
 from pickle import loads, dumps
 import os
+from pathlib import Path
 
 #--- Model Imports ---
 from CrystalPlan.model import instrument
@@ -26,6 +28,7 @@ from CrystalPlan.model.reflections import Reflection, ReflectionRealMeasurement
 from CrystalPlan.model import crystal_calc
 from CrystalPlan.model.numpy_utils import *
 from CrystalPlan.model import utils
+from CrystalPlan.model.cython_routines.experiment_calcs import init_vol_symm_map_cython, appl_vol_sym_cython, calc_coverage_stats_cython
 
 
 #======================================================================================
@@ -424,7 +427,7 @@ class Experiment:
     #Range in h,k,l as a list that can be indexed
     def get_range_hkl(self):
         return [self.range_h, self.range_k, self.range_l]
-    range_hkl = property(get_range_hkl)
+    # range_hkl = property(get_range_hkl)
 
 
     #-------------------------------------------------------------------------------
@@ -443,6 +446,7 @@ class Experiment:
         self.range_h = (-6, 6)
         self.range_k = (-6, 6)
         self.range_l = (-6, 6)
+        self.range_hkl = self.get_range_hkl()
 
         #Will the hkl range be chosen automatically?
         self.range_automatic = True
@@ -518,7 +522,6 @@ class Experiment:
             inst: The instrument this experiment refers to."""
             
         self.initialize()
-
         #Reference to the instrument
         self.inst = instrument_to_use
 
@@ -550,7 +553,11 @@ class Experiment:
         """Set the state of experiment, using d as the settings dictionary."""
         self.initialize()
         for (key, value) in list(d.items()):
-            setattr(self, key, value)
+            try:
+                setattr(self, key, value)
+            except AttributeError as e:
+                print(f"error setting self {type(self)} key {key} and value {value}: {e}")
+
         #Ok, now fix everything
         # self.inst should be good though, its own setstate does it.
         self.initialize_reflections()
@@ -1320,6 +1327,7 @@ class Experiment:
 
         u_matrix = self.crystal.get_u_matrix()
         count = 0
+        print(f"Number of Reflections = {len(self.reflections)}")
         for ref in self.reflections:
             count += 1
             # Report progress
@@ -1707,7 +1715,8 @@ class Experiment:
             n = len(self.inst.qx_list)
             table = np.array(pg.table) #Turn the list of 3x3 arrays into a Nx3x3 array
             varlist = ['B', 'invB', 'symm', 'qres', 'qlim', 'n', 'order', 'table']
-            weave.inline(code, varlist, compiler='gcc', support_code="")
+            # weave.inline(code, varlist, compiler='gcc', support_code="")
+            symm = init_vol_symm_map_cython(B, invB, symm, qres, qlim, n, order, table)
 
         #Done with either version
         self.volume_symmetry = symm
@@ -1759,8 +1768,8 @@ class Experiment:
         if use_inline_c and not config.cfg.force_pure_python:
             #------ C version (about 400x faster than python) -------
             #Put some variables in the workspace
-            old_q = self.qspace.flatten() * 1.0
-            qspace_flat = old_q * 0.0
+            old_q = self.qspace.flatten().astype(np.int32)
+            qspace_flat = old_q
 
             support = ""
             code = """
@@ -1782,7 +1791,9 @@ class Experiment:
             }
             """
             varlist = ['old_q', 'qspace_flat', 'numpix', 'order', 'symm']
-            weave.inline(code, varlist, compiler='gcc', support_code=support)
+            # weave.inline(code, varlist, compiler='gcc', support_code=support)
+            # print(f"{old_q=} {qspace_flat=} {numpix=} {order=} {symm=}")
+            qspace_flat = appl_vol_sym_cython(old_q, qspace_flat, numpix, order, symm)
             #Reshape it back as a 3D array.
             n = len(self.inst.qx_list)
             self.qspace = qspace_flat.reshape( (n,n,n) )
@@ -1967,11 +1978,11 @@ class Experiment:
             #   about 40x faster than the python version.
 
             #Parameters to be passed.
-            covered_points0 = np.zeros(num)
-            covered_points1 = np.zeros(num)
-            covered_points2 = np.zeros(num)
-            covered_points3 = np.zeros(num)
-            total_points = np.zeros(num)
+            # covered_points0 = np.zeros(num)
+            # covered_points1 = np.zeros(num)
+            # covered_points2 = np.zeros(num)
+            # covered_points3 = np.zeros(num)
+            # total_points = np.zeros(num)
             qspace_radius = self.inst.qspace_radius.flatten()
             qspace = self.qspace.flatten()
             qspace_size = qspace.size
@@ -2035,10 +2046,14 @@ class Experiment:
             results[2] = overall_redundant_points;
             return_val = results;
             """
-            ret_val = weave.inline(code,['qspace', 'qspace_radius', 'q_step', 'qlim', 'total_points', 'qspace_size', 'num', 'covered_points0', 'covered_points1', 'covered_points2', 'covered_points3'],
-                                compiler='gcc', support_code = support)
+            # ret_val = weave.inline(code,['qspace', 'qspace_radius', 'q_step', 'qlim', 'total_points', 'qspace_size', 'num', 'covered_points0', 'covered_points1', 'covered_points2', 'covered_points3'],
+            #                     compiler='gcc', support_code = support)
             #The function returns a tuple
-            (overall_points, overall_covered_points, overall_redundant_points) = ret_val
+            # (overall_points, overall_covered_points, overall_redundant_points) = ret_val
+            overall_points, overall_covered_points, overall_redundant_points, total_points, \
+                covered_points0, covered_points1, \
+                covered_points2, covered_points3 = calc_coverage_stats_cython(qspace, qspace_radius, q_step, qlim,
+                                                        qspace_size, num)
 
             #Overall stats
             self.overall_coverage = 100.0 * overall_covered_points / overall_points;
@@ -2468,18 +2483,18 @@ def save_to_file(the_experiment, filename):
     saved, the rest will be recalculated upon loading."""
     #Pickle dumps
     datas = dumps(the_experiment)
-    f = open(filename, 'w')
+    f = open(filename, 'wb')
     f.write(datas)
     f.close()
 
 #-------------------------------------------------------------------------------
 def load_from_file(filename):
     """Loads an experiment from a previously-saved file."""
-    f = open(filename, 'r') #@type f file
+    f = open(filename, 'rb') #@type f file
     datas = f.read()
     f.close()
     #working with old files
-    datas=datas.replace('enthought.','')
+    datas=datas.replace(b'enthought.',b'')
     the_experiment = loads(datas)
     return the_experiment
 
@@ -2866,9 +2881,9 @@ class TestExperiment(unittest.TestCase):
         e.params[PARAM_POSITIONS] = pos_param
         e.calculate_coverage(None, None)
         #Now save to a file.
-        test_filename = os.path.expanduser("~") + "/test_save.exp"
+        test_filename = Path.home() / "test_save.exp"
         save_to_file(e, test_filename)
-        print("Pickled size is", os.path.getsize("test_save.exp"))
+        print("Pickled size is", os.path.getsize(str(test_filename)))
         #Load it out
         e2 = load_from_file(test_filename)
         os.remove(test_filename)
@@ -2932,7 +2947,10 @@ class TestExperimentFourCircle(unittest.TestCase):
 
     def test_ub_matrix(self):
         e = self.exp #@type e Experiment
-        e.crystal.read_HFIR_ubmatrix_file("data/HFIR_UBmatrix.dat", "data/HFIR_lattice.dat")
+        parentpath = Path(__file__).parent
+        ubmatrix = Path(parentpath / "data/HFIR_UBmatrix.dat").as_posix()
+        lattice = Path(parentpath / "data/HFIR_lattice.dat").as_posix()
+        e.crystal.read_HFIR_ubmatrix_file(ubmatrix, lattice)
         e.crystal.calculate_reciprocal()
         e.range_h = [-3,3]
         e.range_k = [-3,3]

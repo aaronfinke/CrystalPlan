@@ -21,4 +21,5 @@ from CrystalPlan.model import ubmatrixreader
 from CrystalPlan.model import optimization
 from CrystalPlan.model import utils
 from CrystalPlan.model import tools
+import CrystalPlan.model.cython_routines
 

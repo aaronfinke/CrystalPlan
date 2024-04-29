@@ -5,7 +5,7 @@
 # Version: $Id$
 
 #--- Imports ---
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Extension
 import sys
 import CrystalPlan_version
 from Cython.Build import cythonize
@@ -15,11 +15,10 @@ import numpy
 #Two packages: the GUI and the model code
 packages = find_packages()
 print(packages)
-packages = ['CrystalPlan', 'CrystalPlan.model',  'CrystalPlan.pyevolve', 'CrystalPlan.gui', 'CrystalPlan.model.pygene',
-            'CrystalPlan.model.cython_routines']
+packages = ['CrystalPlan', 'CrystalPlan.model',  'CrystalPlan.pyevolve', 'CrystalPlan.gui', 'CrystalPlan.model.pygene','CrystalPlan.model.cython_routines']
 package_dir = {'CrystalPlan': '.',  'CrystalPlan.pyevolve':'pyevolve', 'CrystalPlan.model':'model', 'CrystalPlan.gui': 'gui', 'CrystalPlan.model.pygene':'model/pygene',
                'CrystalPlan.model.cython_routines': 'model/cython_routines'}
-#data_files = [ ('instruments', './instruments/*.csv'), ('instruments', './instruments/*.xls') ]
+# data_files = [ ('instruments', './instruments/*.csv'), ('instruments', './instruments/*.xls') ]
 data_files = []
 package_data = {'CrystalPlan':['instruments/*.xls', 'instruments/*.csv', 'instruments/*.detcal',
                                'docs/*.*', 'docs/animations/*.*', 'docs/eq/*.*', 'docs/screenshots/*.*' ],
@@ -43,6 +42,15 @@ def pythonVersionCheck():
 
 if __name__ == "__main__":
     pythonVersionCheck()
+    
+    ext_modules = [
+        Extension(
+            "cython_routines",
+            ["model/cython_routines/*.pyx"],
+            extra_compile_args=['-Xclang','-fopenmp'],
+            extra_link_args=['-Xclang','-fopenmp']
+        )
+    ]
 
     setup(name=CrystalPlan_version.package_name,
           version=CrystalPlan_version.version,
@@ -58,6 +66,6 @@ if __name__ == "__main__":
           install_requires=install_requires,
           include_dirs=[numpy.get_include()],
     #test_suite='model.test_all.get_all_tests'
-          ext_modules=cythonize(["model/cython_routines/point_search.pyx",
-                                "model/cython_routines/crystal_calcs.pyx"])
+          ext_modules=cythonize(ext_modules, annotate=True, 
           )
+    )

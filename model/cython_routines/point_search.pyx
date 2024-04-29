@@ -1,6 +1,8 @@
 import cython
 from libc.math cimport fabs, sqrt
 import numpy as np
+cimport numpy as np
+np.import_array()
 
 """
 'base_point', 'horizontal', 'vertical', 'normal'

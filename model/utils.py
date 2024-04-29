@@ -45,10 +45,13 @@ def equal_values(value1, value2):
         if len(value1) != len(value2):
             return False
         else:
-            for (val1, val2) in zip(value1, value2):
-                if not equal_values(val1, val2):
-                    return False
-            return True
+            try:
+                return value1 == value2
+            except:
+                for (val1, val2) in zip(value1, value2):
+                    if not equal_values(val1, val2):
+                        return False
+                return True
     else:
         #Default!
         return (value1 == value2)
@@ -64,7 +67,10 @@ def equal_objects(first, second):
     #Make the dictionary
     for key in dir(first):
         if not key.startswith("_"):
-            value = getattr(first, key)
+            try:
+                value = getattr(first, key)
+            except AttributeError:
+                continue
             #No callable (don't pickle methods"
             if not hasattr(value, '__call__'):
 #                print "Key %s" % key

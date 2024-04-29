@@ -22,13 +22,14 @@ import scipy
 import weave
 import time
 import csv
+from pathlib import Path
 
 #--- Model Imports ---
 from CrystalPlan.model import numpy_utils
 from CrystalPlan.model.numpy_utils import column, rotation_matrix, vector_length, normalize_vector, index_evenly_spaced, az_elev_direction
 from CrystalPlan.model import crystal_calc
 from CrystalPlan.model.crystal_calc import getq, getq_python
-from CrystalPlan.model.cython_routines.crystal_calcs import calculate_coverage_cython
+from CrystalPlan.model.cython_routines.crystal_calcs import calculate_coverage_cython, get_coverage_cython, calculate_coverage_inelastic_cython
 from CrystalPlan.model import goniometer
 from CrystalPlan.model.goniometer import Goniometer, TopazInHouseGoniometer
 from CrystalPlan.model.detectors import Detector, FlatDetector, CylindricalDetector
@@ -911,9 +912,11 @@ class Instrument:
                 varlist += attribute_list
                 #Run the C code (see between function declarations for the actual code).
                 # weave.inline(self._code_calculate_coverage, varlist, compiler='gcc', support_code=support) # , libraries = ['m'])
+                t1 = time.perf_counter()
                 coverage = calculate_coverage_cython(xlist, ylist, azimuthal_angle, elevation_angle, rot_matrix, set_value1, set_value2,
                                                      number_of_ints, coverage, stride, max_index, wl_min, wl_max, self.qlim, self.q_resolution)
             else:
+                t1 = time.perf_counter()
                 #-------- Pure Python ---------
                 for ix in xlist:
                     for iy in ylist:
@@ -948,7 +951,6 @@ class Instrument:
                                 coverage[iqx, iqy, iqz, 0] |= set_value1
                                 if number_of_ints == 2:
                                     coverage[iqx, iqy, iqz, 1] |= set_value2
-
         if self.verbose:  print(" done!")
 
         return coverage
@@ -1162,7 +1164,8 @@ class Instrument:
             }
             """
             varlist = ['number_of_ints', 'coverage', 'coverage_size', 'mask1', 'mask2', 'num_coverage', 'coverage_list']
-            weave.inline(code, varlist, compiler='gcc', support_code = support)
+            # weave.inline(code, varlist, compiler='gcc', support_code = support)
+            coverage = get_coverage_cython(number_of_ints, coverage, mask1, mask2, coverage_list)
 
 
         if self.verbose: print("instrument.total_coverage done in %s sec." % (time.time()-t1))
@@ -1462,9 +1465,9 @@ class InstrumentInelastic(Instrument):
 
             #So this is the list of the pixels in the detectors that we pick to calculate where they are in q-space
             #   (convert to int and take only unique values; convert back to list).
-            xlist = [x for x in set(np.linspace(0, det.xpixels-1, nx, endpoint=True).astype(int))]
+            xlist = [x for x in set(np.linspace(0, det.xpixels-1, int(nx), endpoint=True).astype(int))]
             xlist.sort()
-            ylist = [x for x in set(np.linspace(0, det.ypixels-1, ny, endpoint=True).astype(int))]
+            ylist = [x for x in set(np.linspace(0, det.ypixels-1, int(ny), endpoint=True).astype(int))]
             ylist.sort()
 
             if use_inline_c and not config.cfg.force_pure_python:
@@ -1489,14 +1492,24 @@ class InstrumentInelastic(Instrument):
                 attribute_list = ['wl_min', 'wl_max', 'qlim', 'q_resolution']
                 for var in attribute_list: locals()[var] = getattr(self, var)
                 varlist += attribute_list
+                # for var in varlist:
+                #     try:
+                #         print(f"{type(locals()[var])}({var}= {locals()[var]}")
+                #     except:
+                #         pass
+                t1 = time.perf_counter()
                 #Run the C code (see between function declarations for the actual code).
-                weave.inline(self._code_calculate_coverage, varlist, compiler='gcc', support_code=support) # , libraries = ['m'])
+                # weave.inline(self._code_calculate_coverage, varlist, compiler='gcc', support_code=support) # , libraries = ['m'])
+                coverage = calculate_coverage_inelastic_cython(wl_input, xlist, ylist, azimuthal_angle, elevation_angle,
+                                                     rot_matrix, energy_constant, ki_squared, ki, coverage, stride,max_index,
+                                                     self.wl_min, self.wl_max, self.qlim, self.q_resolution)
 
-                print("C-code: neutron energy gain min", np.min(coverage), "; max", np.max(coverage[coverage <1e6]))
+                print(f"C-code: neutron energy gain min {np.min(coverage)}; max {np.max(coverage[coverage <1e6])}; time {time.perf_counter()-t1}")
 
             else:
 #            if True:
                 #-------- Pure Python ---------
+                t1 = time.perf_counter()
                 for ix in xlist:
                     for iy in ylist:
                         #The angles we find are the azimuth and elevation angle of the scattered beam.
@@ -1547,7 +1560,8 @@ class InstrumentInelastic(Instrument):
 
                                 #Set that energy in the array
                                 coverage[iqx, iqy, iqz] = E
-                print("Python-code: neutron energy gain min", np.min(coverage), "; max", np.max(coverage[coverage <1e6]))
+                print(f"type of var coverage = {type(coverage)}")
+                print(f"Python-code: neutron energy gain min {np.min(coverage)}; max {np.max(coverage[coverage <1e6])}; time {time.perf_counter()-t1}")
 
         if self.verbose: print(" done!")
 
@@ -1591,7 +1605,7 @@ class InstrumentInelastic(Instrument):
             coverage_list.append(pos_cov.coverage)
 
         #Now we add up the coverages together
-        if config.cfg.force_pure_python or not use_inline_c or True:
+        if config.cfg.force_pure_python or not use_inline_c:
             #--- Pure Python Version ---
             for one_coverage in coverage_list:
                 #Add one to the voxels where the energy is within the given range.
@@ -1723,7 +1737,8 @@ class TestInelasticInstrument(unittest.TestCase):
     """Unit test for the InstrumentInelastic class."""
     def setUp(self):
         config.cfg.force_pure_python = False
-        self.tst_inst = InstrumentInelastic("../instruments/TOPAZ_geom_all_2011.csv")
+        tst_inst_path = Path(Path(__file__).parent.parent / "instruments/TOPAZ_geom_all_2011.csv").as_posix()
+        self.tst_inst = InstrumentInelastic(tst_inst_path)
         ti = self.tst_inst #@type ti InstrumentInelastic
         ti.set_goniometer(goniometer.Goniometer())
         ti.d_min = 1.0
@@ -1776,7 +1791,8 @@ class TestInelasticInstrument(unittest.TestCase):
 class TestInstrumentWithDetectors(unittest.TestCase):
     """Unit test for the Instrument class."""
     def setUp(self):
-        self.tst_inst = Instrument("../instruments/TOPAZ_detectors_2010.csv")
+        tst_inst_path = Path(Path(__file__).parent.parent / "instruments/TOPAZ_detectors_2010.csv").as_posix()
+        self.tst_inst = Instrument(tst_inst_path)
         self.tst_inst.set_goniometer(goniometer.Goniometer())
         self.tst_inst.d_min = 0.7
         self.tst_inst.q_resolution = 0.15
@@ -1804,7 +1820,8 @@ class TestInstrumentWithDetectors(unittest.TestCase):
 
     def test_double_creation(self):
         assert len(self.tst_inst.detectors) == 14, "Correct # of detectors after first creation"
-        self.tst_inst = Instrument("../instruments/TOPAZ_geom_all_2011.csv")
+        tst_inst_path = Path(Path(__file__).parent.parent / "instruments/TOPAZ_geom_all_2011.csv").as_posix()
+        self.tst_inst = Instrument(tst_inst_path)
         assert len(self.tst_inst.detectors) == 14, "Correct # of detectors after second creation"
 
 
@@ -1933,7 +1950,9 @@ class TestInstrumentWithDetectors(unittest.TestCase):
         assert tst_inst==tst_inst2, "Matching instruments before and after file load."
 
     def test_load_detcal(self):
-        self.tst_inst = Instrument("../instruments/TOPAZ_2010_06_08.detcal")
+        tst_inst_path = Path(Path(__file__).parent.parent / "instruments/TOPAZ_2010_06_08.detcal").as_posix()
+
+        self.tst_inst = Instrument(tst_inst_path)
 
         
 
@@ -1961,7 +1980,9 @@ class TestFourCircleInstrument(unittest.TestCase):
 class TestImagine(unittest.TestCase):
     """Unit test for the 4-circle class."""
     def setUp(self):
-        self.tst_inst = Instrument("../instruments/IMAGINE_detectors.csv")
+        tst_inst_path = Path(Path(__file__).parent.parent / "instruments/IMAGINE_detectors.csv").as_posix()
+
+        self.tst_inst = Instrument(tst_inst_path)
         self.tst_inst.set_goniometer(goniometer.ImagineGoniometer())
         self.tst_inst.d_min = 0.7
         self.tst_inst.q_resolution = 0.15
