@@ -7,17 +7,17 @@
 #--- Imports ---
 from setuptools import setup, find_packages, Extension
 import sys
-import CrystalPlan_version
+# import CrystalPlan_version
 from Cython.Build import cythonize
 import numpy
 
 
 #Two packages: the GUI and the model code
-packages = find_packages()
-print(packages)
-packages = ['CrystalPlan', 'CrystalPlan.model',  'CrystalPlan.pyevolve', 'CrystalPlan.gui', 'CrystalPlan.model.pygene','CrystalPlan.model.cython_routines']
-package_dir = {'CrystalPlan': '.',  'CrystalPlan.pyevolve':'pyevolve', 'CrystalPlan.model':'model', 'CrystalPlan.gui': 'gui', 'CrystalPlan.model.pygene':'model/pygene',
-               'CrystalPlan.model.cython_routines': 'model/cython_routines'}
+# packages = find_packages("src")
+# print(packages)
+# packages = ['CrystalPlan', 'CrystalPlan.model',  'CrystalPlan.pyevolve', 'CrystalPlan.gui', 'CrystalPlan.model.pygene','CrystalPlan.model.cython_routines']
+# package_dir = {'CrystalPlan': '.',  'CrystalPlan.pyevolve':'pyevolve', 'CrystalPlan.model':'model', 'CrystalPlan.gui': 'gui', 'CrystalPlan.model.pygene':'model/pygene',
+            #    'CrystalPlan.model.cython_routines': 'model/cython_routines'}
 # data_files = [ ('instruments', './instruments/*.csv'), ('instruments', './instruments/*.xls') ]
 data_files = []
 package_data = {'CrystalPlan':['instruments/*.xls', 'instruments/*.csv', 'instruments/*.detcal',
@@ -30,41 +30,49 @@ scripts = ['crystalplan.py']
 #Package requirements
 install_requires = ['Traits', 'Mayavi', 'numpy', 'scipy', 'Cython']
 
-def pythonVersionCheck():
-    # Minimum version of Python
-    PYTHON_MAJOR = 2
-    PYTHON_MINOR = 5
-
-    if sys.version_info < (PYTHON_MAJOR, PYTHON_MINOR):
-        print('You need at least Python %d.%d for %s %s' \
-              % (PYTHON_MAJOR, PYTHON_MINOR, CrystalPlan_version.package_name, CrystalPlan_version.version), file=sys.stderr)
-        sys.exit(-3)
-
 if __name__ == "__main__":
-    pythonVersionCheck()
     
     ext_modules = [
         Extension(
-            "cython_routines",
-            ["model/cython_routines/*.pyx"],
+            "crystal_calcs",
+            ["src/CrystalPlan/model/cython_routines/crystal_calcs.pyx"],
             extra_compile_args=['-Xclang','-fopenmp'],
             extra_link_args=['-Xclang','-fopenmp']
-        )
+        ),
+        Extension(
+            "experiment_calcs",
+            ["src/CrystalPlan/model/cython_routines/experiment_calcs.pyx"],
+            extra_compile_args=['-Xclang','-fopenmp'],
+            extra_link_args=['-Xclang','-fopenmp']
+        ),
+        Extension(
+            "goniometers",
+            ["src/CrystalPlan/model/cython_routines/goniometers.pyx"],
+            extra_compile_args=['-Xclang','-fopenmp'],
+            extra_link_args=['-Xclang','-fopenmp']
+        ),
+        Extension(
+            "point_search",
+            ["src/CrystalPlan/model/cython_routines/point_search.pyx"],
+            extra_compile_args=['-Xclang','-fopenmp'],
+            extra_link_args=['-Xclang','-fopenmp']
+        ),
     ]
 
-    setup(name=CrystalPlan_version.package_name,
-          version=CrystalPlan_version.version,
-          description=CrystalPlan_version.description,
-          author=CrystalPlan_version.author, author_email=CrystalPlan_version.author_email,
-          url=CrystalPlan_version.url,
+    setup(python_requires='>3.9',
+          name="CrystalPlan",
+          version="1.5",
+          description="CrystalPlan is an experiment planning tool for crystallography. You can choose an instrument and supply your sample's lattice parameters to simulate which reflections will be measured, by which detectors and at what wavelengths.",
+          author="Janik Zikovsky", author_email="zikovskyjl@ornl.gov",
+          url="http://neutronsr.us",
           scripts=scripts,
-          packages=packages,
-          package_dir=package_dir,
+        #   packages=packages,
+        #   package_dir=package_dir,
           data_files=data_files,
           package_data=package_data,
           #include_package_data=True,
           install_requires=install_requires,
-          include_dirs=[numpy.get_include()],
+          include_dirs=['.',numpy.get_include()],
     #test_suite='model.test_all.get_all_tests'
           ext_modules=cythonize(ext_modules, annotate=True, 
           )

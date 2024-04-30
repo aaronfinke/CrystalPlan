@@ -20,4 +20,4 @@ from CrystalPlan import gui
 from CrystalPlan import pyevolve
 
 #And the stuff in here
-import CrystalPlan.CrystalPlan_version
+import CrystalPlan_version
